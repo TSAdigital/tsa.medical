@@ -3,17 +3,17 @@
 namespace app\models;
 
 use Yii;
-use yii\base\BaseObject;
 
 /**
  * This is the model class for table "action_history".
  *
  * @property int $id
- * @property int $user
  * @property string $icon
- * @property string $category
- * @property int $current_record
+ * @property int $user
  * @property string $action
+ * @property string $url
+ * @property int $current_record
+ * @property string $text
  * @property int $created_at
  *
  * @property User $user0
@@ -34,9 +34,9 @@ class ActionHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user', 'icon', 'category', 'current_record', 'action', 'created_at'], 'required'],
+            [['icon', 'user', 'action', 'url', 'current_record', 'text', 'created_at'], 'required'],
             [['user', 'current_record', 'created_at'], 'integer'],
-            [['icon', 'category', 'action'], 'string', 'max' => 255],
+            [['icon', 'action', 'url', 'text'], 'string', 'max' => 255],
             [['user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user' => 'id']],
         ];
     }
@@ -48,11 +48,12 @@ class ActionHistory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user' => 'User',
             'icon' => 'Icon',
-            'category' => 'Category',
-            'current_record' => 'Current Record',
+            'user' => 'User',
             'action' => 'Action',
+            'url' => 'Url',
+            'current_record' => 'Current Record',
+            'text' => 'Text',
             'created_at' => 'Created At',
         ];
     }
@@ -67,12 +68,13 @@ class ActionHistory extends \yii\db\ActiveRecord
         return $this->hasOne(User::className(), ['id' => 'user']);
     }
 
-    public function ActionHistory($action, $category, $current_record, $icon) {
+    public function ActionHistory($icon, $action, $url, $current_record, $text) {
         $this->user = Yii::$app->user->identity->id;
-        $this->action = $action;
-        $this->category = $category;
-        $this->current_record = $current_record;
         $this->icon = $icon;
+        $this->action = $action;
+        $this->url = $url;
+        $this->current_record = $current_record;
+        $this->text = $text;
         $this->created_at = time();
         if($this->validate()){
             $this->save();
