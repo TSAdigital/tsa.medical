@@ -80,7 +80,7 @@ class DepartmentsController extends Controller
         $model = new Department();
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('добавил(а) подразделение', 'department', $model->getId(),'fas fa-building bg-green');
+            $action_history->ActionHistory('fas fa-building bg-green', 'добавил(а) подразделение', 'departments/view', $model->getId(), $model->name);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -100,8 +100,9 @@ class DepartmentsController extends Controller
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
+        $old = $model->name;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('отредактировал(а) подразделение', 'department', $model->getId(),'fas fa-building bg-blue');
+            $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old . ' <i class="fas fa-angle-right"></i> ' .$model->name);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -131,7 +132,7 @@ class DepartmentsController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('аннулировал(а) подразделение', 'department', $model->getId(),'fas fa-building bg-red');
+            $action_history->ActionHistory('fas fa-building bg-red', 'аннулировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Подразделение аннулировано',
@@ -163,7 +164,7 @@ class DepartmentsController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('активировал(а) подразделение', 'department', $model->getId(),'fas fa-building bg-info');
+            $action_history->ActionHistory('fas fa-building bg-info', 'активировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Подразделение активировано',
