@@ -22,3 +22,6 @@ a.asc:after {
 a.desc:after {
     content: "\f160";
 }
+.timeline>div>.timeline-item>.timeline-header>a {
+    font-weight: 500;
+}
