@@ -102,7 +102,7 @@ class DepartmentsController extends Controller
         $action_history = new ActionHistory();
         $old = $model->name;
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old . ' <i class="fas fa-angle-right"></i> ' .$model->name);
+            $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old . ' <i class="fas fa-code"></i> ' .$model->name);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

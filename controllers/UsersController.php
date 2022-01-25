@@ -139,7 +139,7 @@ class UsersController extends Controller
             $model->generateAuthKey();
             $model->save();
             if ($model->save()){
-                $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-angle-right"></i> ' . $model->username : $model->username);
+                $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code"></i> ' . $model->username : $model->username);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Изменения сохранены',
