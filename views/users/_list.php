@@ -7,7 +7,6 @@ use yii\helpers\Html;
 <?php
 $months = array( 1 => 'января' , 'февраля' , 'марта' , 'апреля' , 'мая' , 'июня' , 'июля' , 'августа' , 'сентября' , 'октября' , 'ноября' , 'декабря' );
 $date = date('d ', $model->created_at) . date($months[date('n', $model->created_at)] . date(' Y', $model->created_at));
-$users = User::findOne($model->user);
 ?>
 <?php if($printDate): ?>
     <div class="time-label">
@@ -21,7 +20,7 @@ $users = User::findOne($model->user);
         <span class="time"><i class="fas fa-clock"></i> <?= date('H:m:s', $model->created_at) ?></span>
         <h3 class="timeline-header no-border">
             <?= $model->action ?>
-            <?= Html::a($users->username , ['users/profile', 'id' => $model->current_record]) ?>
+            <?= Html::a($model->text, [$model->url, 'id' => $model->current_record]) ?>
         </h3>
     </div>
 </div>
