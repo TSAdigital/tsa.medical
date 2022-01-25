@@ -20,11 +20,12 @@ class m220124_143112_create_action_history_table extends Migration
 
         $this->createTable('{{%action_history}}', [
             'id' => $this->primaryKey(),
-            'user' => $this->integer()->notNull(),
             'icon' => $this->string()->notNull(),
-            'category' => $this->string()->notNull(),
-            'current_record' => $this->integer()->notNull(),
+            'user' => $this->integer()->notNull(),
             'action' => $this->string()->notNull(),
+            'url' => $this->string()->notNull(),
+            'current_record' => $this->integer()->notNull(),
+            'text' => $this->string()->notNull(),
             'created_at' => $this->integer()->notNull(),
         ]);
 
