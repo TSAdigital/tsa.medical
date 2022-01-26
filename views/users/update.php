@@ -3,10 +3,15 @@
 /* @var $this yii\web\View */
 /* @var $model app\models\User */
 
+use yii\helpers\Html;
+
 $this->title = 'Редактирование: ' . $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->username, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
+$this->params['buttons'] = [
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])
+];
 ?>
 
 <div class="container-fluid">
