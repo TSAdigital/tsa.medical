@@ -10,18 +10,13 @@ use yii\widgets\Pjax;
 
 $this->title = 'Подразделения';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app mb-0'])];
 ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
-                    <div class="row mb-2">
-                        <div class="col-md-12">
-                            <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
-                        </div>
-                    </div>
-
+                <div class="card-body pb-0">
 
                     <?php Pjax::begin(); ?>
                     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
