@@ -8,6 +8,9 @@ use yii\helpers\Html;
 $this->title = 'Новое Подразделение';
 $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['buttons'] = [
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['departments/index'], ['class' => 'btn btn-app'])
+];
 ?>
 
 <div class="container-fluid">
