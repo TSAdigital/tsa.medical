@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,7 +15,7 @@ use yii\helpers\ArrayHelper;
  * @property int $created_at
  * @property int $updated_at
  */
-class Department extends \yii\db\ActiveRecord
+class Department extends ActiveRecord
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
@@ -70,8 +70,8 @@ class Department extends \yii\db\ActiveRecord
             'id' => 'Идентификатор',
             'name' => 'Наименование',
             'status' => 'Статус',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'created_at' => 'Создано',
+            'updated_at' => 'Изменено',
         ];
     }
 
