@@ -25,7 +25,8 @@ $this->params['buttons'] = [
             'method' => 'post',
         ],
     ]) : '',
-    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app'])
+    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app']),
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['users/index'], ['class' => 'btn btn-app'])
 ];
 ?>
 
