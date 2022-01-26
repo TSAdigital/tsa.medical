@@ -26,7 +26,7 @@ class DepartmentsController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'department-blocked', 'department-active'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -35,8 +35,8 @@ class DepartmentsController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'department-blocked' => ['POST'],
-                    'department-active' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
@@ -125,7 +125,7 @@ class DepartmentsController extends Controller
         return $this->redirect(['index']);
     }
 
-    public function actionDepartmentBlocked($id)
+    public function actionBlocked($id)
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
@@ -157,7 +157,7 @@ class DepartmentsController extends Controller
         return $this->refresh();
     }
 
-    public function actionDepartmentActive($id)
+    public function actionActive($id)
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
