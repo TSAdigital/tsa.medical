@@ -11,14 +11,14 @@ $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url'
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     'update' => Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']),
-    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['department-blocked', 'id' => $model->id], [
+    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Аннулировать подразделение?',
             'method' => 'post',
         ],
     ]) : '',
-    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['department-active', 'id' => $model->id], [
+    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Активировать подразделение?',
@@ -27,8 +27,6 @@ $this->params['buttons'] = [
     ]) : '',
     'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['update', 'id' => $model->id], ['class' => 'btn btn-app'])
 ];
-
-\yii\web\YiiAsset::register($this);
 ?>
 
 <div class="container-fluid">
