@@ -33,7 +33,7 @@ class UsersController extends Controller
                         'roles' => ['user'],
                     ],
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -264,6 +264,22 @@ class UsersController extends Controller
             ],
         ]);
         return $this->render('profile', [
+            'model' => $this->findModel($id),
+            'actionsHistory' => $dataProvider,
+        ]);
+    }
+
+    public function actionHistory($id)
+    {
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'users/profile' ,'current_record' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('history', [
             'model' => $this->findModel($id),
             'actionsHistory' => $dataProvider,
         ]);
