@@ -1,6 +1,8 @@
 <?php
 
-use app\models\User;
+/* @var $model app\models\ActionHistory */
+/* @var $printDate */
+
 use yii\helpers\Html;
 
 ?>
