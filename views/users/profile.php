@@ -1,24 +1,19 @@
 <?php
 
-use app\models\User;
-use yii\helpers\Html;
-use yii\grid\GridView;
 use yii\widgets\ListView;
-use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\UserSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/* @var $actionsHistory yii\data\ActiveDataProvider */
+/* @var $model app\models\User */
 
 $this->title = 'Профиль';
 $this->params['breadcrumbs'][] = 'Профиль пользователя';
 ?>
 
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
-
-            <!-- Profile Image -->
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -29,17 +24,14 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                     <p class="text-muted text-center"><?= $model->getRolesName() ?></p>
                     <a href="mailto:<?= $model->email?>" class="btn btn-primary btn-block"><b>Отправить сообщение</b></a>
                 </div>
-                <!-- /.card-body -->
             </div>
-            <!-- /.card -->
         </div>
-        <!-- /.col -->
         <div class="col-md-9">
             <div class="card">
                 <div class="card-header p-2">
                     <h3 class="card-title">Последняя активность</h3>
                 </div><!-- /.card-header -->
-                <div class="card-body">
+                <div class="card-body pb-0">
                     <div class="tab-content">
                         <div class="tab-pane active" id="timeline">
 
@@ -62,7 +54,7 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                                 'itemOptions' => [
                                     'tag' => false,
                                 ],
-                                'itemView' => function ($model, $key, $index, $widget)
+                                'itemView' => function ($model)
                                 {
                                     static $prevDate = null;
                                     $result = $this->render('_list',
@@ -76,14 +68,9 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                             ]); ?>
 
                         </div>
-                        <!-- /.tab-pane -->
                     </div>
-                    <!-- /.tab-content -->
-                </div><!-- /.card-body -->
+                </div>
             </div>
-            <!-- /.nav-tabs-custom -->
         </div>
-        <!-- /.col -->
     </div>
-    <!-- /.row -->
 </div>
