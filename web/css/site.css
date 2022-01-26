@@ -25,3 +25,19 @@ a.desc:after {
 .timeline>div>.timeline-item>.timeline-header>a {
     font-weight: 500;
 }
+.btn-app {
+    border-radius: 3px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    color: #6c757d;
+    font-size: 12px;
+    height: 60px;
+    margin: 0 0 10px 0;
+    min-width: 80px;
+    padding: 15px 5px;
+    position: relative;
+    text-align: center;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f4f6f9;
+}
