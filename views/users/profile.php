@@ -4,7 +4,7 @@ use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $actionsHistory yii\data\ActiveDataProvider */
-/* @var $model app\models\User */
+/* @var $model app\models\ActionHistory */
 
 $this->title = 'Профиль';
 $this->params['breadcrumbs'][] = 'Профиль пользователя';
