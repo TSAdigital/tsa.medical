@@ -17,7 +17,7 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'password')->passwordInput(['autocomplete' => 'new-password']) ?>
     <?= $form->field($model, 'roles')->dropdownList($model->getRolesDropdown(), ['prompt' => 'Выберите роль']) ?>
 
-    <div class="form-group">
+    <div class="form-group mb-0">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 

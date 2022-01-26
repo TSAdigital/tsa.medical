@@ -18,9 +18,9 @@ $this->params['buttons'] = [
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 mb-0 pb-0">
+        <div class="col-md-12">
             <div class="card">
-                <div class="card-body mb-0 pb-0">
+                <div class="card-body">
 
                     <?php
                     $tempalte = "

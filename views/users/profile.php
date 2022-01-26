@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                 <div class="card-header p-2">
                     <h3 class="card-title">Последняя активность</h3>
                 </div><!-- /.card-header -->
-                <div class="card-body pb-0">
+                <div class="card-body">
                     <div class="tab-content">
                         <div class="tab-pane active" id="timeline">
 
