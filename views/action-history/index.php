@@ -2,6 +2,11 @@
 
 use yii\widgets\ListView;
 
+/* @var $this yii\web\View */
+/* @var $actionsHistory yii\data\ActiveDataProvider */
+/* @var $model app\models\User */
+
+
 $this->title = 'Последняя активность';
 $this->params['breadcrumbs'] = [['label' => $this->title]];
 ?>
@@ -13,7 +18,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                     <?php
                         $tempalte = "
                             {summary}       
-                            <div class='timeline mt-3 pb-2'>
+                            <div class='timeline mt-3'>
                                 {items}
                                 <div>
                                     <i class='fas fa-clock bg-gray'></i>
@@ -29,7 +34,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                         'itemOptions' => [
                             'tag' => false,
                         ],
-                        'itemView' => function ($model, $key, $index, $widget)
+                        'itemView' => function ($model)
                         {
                             static $prevDate = null;
                             $result = $this->render('_list',
