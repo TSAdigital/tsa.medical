@@ -26,14 +26,20 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                         'filterModel' => $searchModel,
                         'options' => ['class' => 'table-responsive'],
                         'tableOptions' => ['class' => 'table table-striped'],
+
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
 
                             //'id',
                             [
-                                'attribute' => 'name',
+                                'attribute'=>'name',
                                 'options' => ['width'=>'80%'],
-                                'value' => 'name',
+                                'format'=>'raw',
+                                'value' => function($data)
+                                {
+                                    return
+                                        Html::a($data->name, ['departments/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                }
                             ],
                             [
                                 'filter' => Department::getStatusesArray(),
@@ -63,8 +69,6 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                             ],
                             //'created_at',
                             //'updated_at',
-
-                            ['class' => 'hail812\adminlte3\yii\grid\ActionColumn', 'template'=>'{view}'],
                         ],
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
