@@ -25,7 +25,7 @@ $this->params['buttons'] = [
             'method' => 'post',
         ],
     ]) : '',
-    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['update', 'id' => $model->id], ['class' => 'btn btn-app'])
+    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app'])
 ];
 ?>
 
