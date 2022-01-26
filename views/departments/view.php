@@ -46,8 +46,8 @@ $this->params['buttons'] = [
                                 'attribute' => 'status',
                                 'value' => $model->getStatusName(),
                             ],
-                            //'created_at',
-                            //'updated_at',
+                            'created_at:datetime',
+                            'updated_at:datetime',
                         ],
                     ]) ?>
                 </div>
