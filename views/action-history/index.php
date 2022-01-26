@@ -15,6 +15,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body pb-0">
+
                     <?php
                         $tempalte = "
                             {summary}       
@@ -46,6 +47,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
                             'class' => 'yii\bootstrap4\LinkPager',
                         ],
                     ]); ?>
+
                 </div>
             </div>
         </div>

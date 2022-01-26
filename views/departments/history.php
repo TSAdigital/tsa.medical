@@ -17,10 +17,10 @@ $this->params['buttons'] = [
 ?>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body mb-0 pb-0">
-            <div class="row">
-                <div class="col-sm-12 col-md-12 mb-0 pb-0">
+    <div class="row">
+        <div class="col-md-12 mb-0 pb-0">
+            <div class="card">
+                <div class="card-body mb-0 pb-0">
 
                     <?php
                     $tempalte = "
@@ -34,6 +34,7 @@ $this->params['buttons'] = [
                                 {pager}
                             ";
                     ?>
+
                     <?= ListView::widget([
                         'dataProvider' => $actionsHistory,
                         'layout' => $tempalte,
