@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Department;
 
 /**
  * DepartmentSearcha represents the model behind the search form of `app\models\Department`.
@@ -46,6 +45,9 @@ class DepartmentSearcha extends Department
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
