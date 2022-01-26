@@ -24,7 +24,7 @@ use yii\helpers\Html;
                     echo Breadcrumbs::widget([
                         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                         'options' => [
-                            'class' => 'breadcrumb mb-1 pb-0'
+                            'class' => 'breadcrumb mb-2 pb-0'
                         ]
                     ]);
                     ?>
