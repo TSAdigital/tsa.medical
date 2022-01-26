@@ -9,7 +9,7 @@ $this->params['breadcrumbs'] = [['label' => $this->title]];
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body pb-0">
                     <?php
                         $tempalte = "
                             {summary}       
