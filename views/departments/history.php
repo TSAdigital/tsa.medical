@@ -7,11 +7,12 @@ use yii\widgets\ListView;
 /* @var $model app\models\Department */
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 
-$this->title = $model->name;
+$this->title = 'История: ' . $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'История';
 $this->params['buttons'] = [
-    'history' => Html::a('<i class="fas fa-undo text-info"></i>Назад', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])
 ];
 ?>
 
