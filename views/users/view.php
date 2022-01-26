@@ -9,7 +9,24 @@ use yii\widgets\DetailView;
 $this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+$this->params['buttons'] = [
+    'update' => Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']),
+    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Заблокировать', ['blocked', 'id' => $model->id], [
+        'class' => 'btn btn-app',
+        'data' => [
+            'confirm' => 'Заблокировать пользователя?',
+            'method' => 'post',
+        ],
+    ]) : '',
+    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Разблокировать', ['active', 'id' => $model->id], [
+        'class' => 'btn btn-app',
+        'data' => [
+            'confirm' => 'Разблокировать пользователя?',
+            'method' => 'post',
+        ],
+    ]) : '',
+    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['update', 'id' => $model->id], ['class' => 'btn btn-app'])
+];
 ?>
 
 
@@ -18,24 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    <p>
-                        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                        <?= $model->status == 9 ? Html::a('Разблокировать', ['user-active', 'id' => $model->id], [
-                            'class' => 'btn btn-success',
-                            'data' => [
-                                'confirm' => 'Активировать пользователя?',
-                                'method' => 'post',
-                            ],
-                        ]): '' ?>
-                        <?= $model->status == 10 ? Html::a('Заблокировать', ['user-blocked', 'id' => $model->id], [
-                            'class' => 'btn btn-danger',
-                            'data' => [
-                                'confirm' => 'Заблокировать пользователя?',
-                                'method' => 'post',
-                            ],
-                        ]) : '' ?>
-                    </p>
-                    <?= DetailView::widget([
+
+                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
                             [
@@ -56,6 +57,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'updated_at:datetime',
                         ],
                     ]) ?>
+
                 </div>
             </div>
         </div>
