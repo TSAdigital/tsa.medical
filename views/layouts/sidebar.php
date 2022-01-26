@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link text-center">
-        <i class="fas fa-syringe"></i>
+        <i class="fas fa-user-md"></i>
         <span class="brand-text font-weight-light"><b>TSA</b><sup><em><small>Medical</small></em></sup></span>
     </a>
 

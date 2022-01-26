@@ -5,10 +5,13 @@
 
 use app\assets\AppAsset;
 use dominus77\sweetalert2\Alert;
+use hail812\adminlte3\assets\AdminLteAsset;
+use hail812\adminlte3\assets\FontAwesomeAsset;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
-\hail812\adminlte3\assets\FontAwesomeAsset::register($this);
-\hail812\adminlte3\assets\AdminLteAsset::register($this);
+FontAwesomeAsset::register($this);
+AdminLteAsset::register($this);
 $this->registerCssFile('https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback');
 AppAsset::register($this);
 $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
@@ -20,6 +23,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <meta charset="<?= Yii::$app->charset ?>">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => Url::to(['/favicon.svg'])]); ?>
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>

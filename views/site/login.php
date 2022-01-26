@@ -4,6 +4,7 @@
 /* @var $form yii\bootstrap4\ActiveForm */
 /* @var $model app\models\LoginForm */
 
+use yii\bootstrap4\ActiveForm;
 use yii\bootstrap4\Html;
 
 $this->title = 'Вход';
@@ -11,14 +12,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="login-box">
     <div class="login-logo">
-        <i class="fas fa-syringe"></i>
+        <i class="fas fa-user-md"></i>
         <a href="<?=Yii::$app->homeUrl?>"><b>TSA</b><em><sup><small>Medical</small></sup></em></a>
     </div>
     <div class="card">
         <div class="card-body login-card-body">
             <p class="login-box-msg">Войдите в систему</p>
 
-            <?php $form = \yii\bootstrap4\ActiveForm::begin(['id' => 'login-form']) ?>
+            <?php $form = ActiveForm::begin(['id' => 'login-form']) ?>
 
             <?= $form->field($model,'email', [
                 'options' => ['class' => 'form-group has-feedback'],
@@ -53,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
 
-            <?php \yii\bootstrap4\ActiveForm::end(); ?>
+            <?php ActiveForm::end(); ?>
         </div>
     </div>
 </div>
