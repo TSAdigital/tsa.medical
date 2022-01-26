@@ -31,7 +31,7 @@ use yii\helpers\Inflector;
                     ?>
                 </div><!-- /.col -->
                 <div class="col-sm-12 col-md-6 pb-0">
-                    <p class="text-md-right mb-0">
+                    <p class="text-md-right mb-0" style="margin-right:-5px">
                         <?php
                         if(isset($this->params['buttons'])){
                             foreach ($this->params['buttons'] as $button){
