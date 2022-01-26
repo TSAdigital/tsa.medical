@@ -6,6 +6,7 @@ use app\models\ActionHistory;
 use Yii;
 use app\models\Department;
 use app\models\DepartmentSearcha;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -26,7 +27,7 @@ class DepartmentsController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -187,6 +188,22 @@ class DepartmentsController extends Controller
             ]
         ]);
         return $this->refresh();
+    }
+
+    public function actionHistory($id)
+    {
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'departments/view', 'current_record' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('history', [
+            'model' => $this->findModel($id),
+            'actionsHistory' => $dataProvider,
+        ]);
     }
 
     /**
