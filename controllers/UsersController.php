@@ -33,7 +33,7 @@ class UsersController extends Controller
                         'roles' => ['user'],
                     ],
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'user-blocked', 'user-active'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -42,8 +42,8 @@ class UsersController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'user-blocked' => ['POST'],
-                    'user-active' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
@@ -167,7 +167,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function actionUserBlocked($id)
+    public function actionBlocked($id)
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
@@ -199,7 +199,7 @@ class UsersController extends Controller
         return $this->refresh();
     }
 
-    public function actionUserActive($id)
+    public function actionActive($id)
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
