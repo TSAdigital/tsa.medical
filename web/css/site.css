@@ -41,3 +41,6 @@ a.desc:after {
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f4f6f9;
 }
+.card-body .empty{
+    padding-bottom: 15px;
+}
