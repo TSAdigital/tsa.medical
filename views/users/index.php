@@ -97,6 +97,9 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 },
                             ],
                         ],
+                        'pager' => [
+                            'class' => 'yii\bootstrap4\LinkPager',
+                        ]
                     ]); ?>
 
                     <?php Pjax::end(); ?>
