@@ -9,31 +9,33 @@ use yii\widgets\DetailView;
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['buttons'] = [
+    'update' => Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app mb-0']),
+    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['department-blocked', 'id' => $model->id], [
+        'class' => 'btn btn-app mb-0',
+        'data' => [
+            'confirm' => 'Аннулировать подразделение?',
+            'method' => 'post',
+        ],
+    ]) : '',
+    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['department-active', 'id' => $model->id], [
+        'class' => 'btn btn-app mb-0',
+        'data' => [
+            'confirm' => 'Активировать подразделение?',
+            'method' => 'post',
+        ],
+    ]) : '',
+    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['update', 'id' => $model->id], ['class' => 'btn btn-app mb-0'])
+];
+
 \yii\web\YiiAsset::register($this);
 ?>
 
-<div class="container-fluid">
+<div class="container-fluid mt-1">
     <div class="card">
-        <div class="card-body">
+        <div class="card-body mb-0 pb-0">
             <div class="row">
-                <div class="col-md-12">
-                    <p>
-                        <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
-                        <?= $model->status == 9 ? Html::a('Активировать', ['department-active', 'id' => $model->id], [
-                            'class' => 'btn btn-success',
-                            'data' => [
-                                'confirm' => 'Активировать подразделение?',
-                                'method' => 'post',
-                            ],
-                        ]): '' ?>
-                        <?= $model->status == 10 ? Html::a('Аннулировать', ['department-blocked', 'id' => $model->id], [
-                            'class' => 'btn btn-danger',
-                            'data' => [
-                                'confirm' => 'Аннулировать подразделение?',
-                                'method' => 'post',
-                            ],
-                        ]) : '' ?>
-                    </p>
+                <div class="col-sm-12 col-md-12 mb-0 pb-0">
                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
@@ -51,11 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]) ?>
                 </div>
-                <!--.col-md-12-->
             </div>
-            <!--.row-->
         </div>
-        <!--.card-body-->
     </div>
-    <!--.card-->
 </div>
