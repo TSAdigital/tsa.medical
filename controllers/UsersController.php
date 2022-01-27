@@ -227,7 +227,7 @@ class UsersController extends Controller
             $action_history->ActionHistory('fas fa-user bg-info', 'разблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Пользователь активирован',
+                    'title' => 'Пользователь разблокирован',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -239,7 +239,7 @@ class UsersController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать пользователя',
+                'title' => 'Не удалось разблокировать пользователя',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
