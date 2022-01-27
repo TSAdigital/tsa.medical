@@ -82,6 +82,15 @@ class DepartmentsController extends Controller
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $action_history->ActionHistory('fas fa-building bg-green', 'добавил(а) подразделение', 'departments/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Подразделение добавлено',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -182,7 +191,7 @@ class DepartmentsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось заблокировать пользователя',
+                'title' => 'Не удалось аннулировать подразделение',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -214,7 +223,7 @@ class DepartmentsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать пользователя',
+                'title' => 'Не удалось активировать подразделение',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,

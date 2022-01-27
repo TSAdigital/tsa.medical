@@ -166,7 +166,7 @@ class UsersController extends Controller
         }else{
             Yii::$app->session->setFlash('warning', [
                 'options' => [
-                    'title' => 'Нельзя редактировать не активную запись',
+                    'title' => 'Нельзя редактировать заблокированного пользователя',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
