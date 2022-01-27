@@ -44,6 +44,12 @@ $this->params['buttons'] = [
                                 'captionOptions' => ['width' => '250px'],
                             ],
                             'name',
+                            'index',
+                            'country',
+                            'region',
+                            'city',
+                            'street',
+                            'building',
                             [
                                 'attribute' => 'status',
                                 'value' => $model->getStatusName(),
