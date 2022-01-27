@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -8,27 +7,29 @@ use yii\bootstrap4\ActiveForm;
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
 
-<div class="department-form">
 
-    <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <div class="row">
-        <div class="col-md-4"><?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"><?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"><?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?></div>
-    </div>
-    <div class="row">
-        <div class="col-md-4"><?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"><?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?></div>
-        <div class="col-md-4"><?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?></div>
-    </div>
-
-    <div class="form-group mb-0">
-        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
-    </div>
-
+<div class="card-header p-2">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a class="nav-link active error-validate" href="#base" data-toggle="tab">Основное</a></li>
+        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
+    </ul>
+</div><!-- /.card-header -->
+<div class="card-body">
+    <?php $form = ActiveForm::begin(['id' => 'department']); ?>
+    <div class="tab-content">
+        <div class="active tab-pane" id="base">
+            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        </div>
+        <div class="tab-pane" id="address">
+            <?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
+        </div>
+      </div>
     <?php ActiveForm::end(); ?>
-
 </div>
+
+
