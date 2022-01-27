@@ -25,7 +25,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => Url::to(['/favicon.svg'])]); ?>
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Yii::$app->name ?> - <?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body class="hold-transition sidebar-mini">
