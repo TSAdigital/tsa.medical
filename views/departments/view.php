@@ -72,7 +72,7 @@ $this->params['buttons'] = [
                                 'attributes' => [
                                     [
                                         'attribute' => 'index',
-                                        'captionOptions' => ['width' => '150px'],
+                                        'captionOptions' => ['width' => '200px'],
                                     ],
                                     'country',
                                     'region',
