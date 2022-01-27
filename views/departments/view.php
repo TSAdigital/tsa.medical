@@ -10,21 +10,21 @@ $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
-    'update' => Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']),
+    'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : false,
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Аннулировать подразделение?',
             'method' => 'post',
         ],
-    ]) : '',
+    ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Активировать подразделение?',
             'method' => 'post',
         ],
-    ]) : '',
+    ]) : false,
     'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app']),
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['departments/index'], ['class' => 'btn btn-app'])
 ];

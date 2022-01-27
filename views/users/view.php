@@ -10,7 +10,7 @@ $this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
-    'update' => Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']),
+    'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : false,
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Заблокировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [

@@ -134,32 +134,46 @@ class UsersController extends Controller
         $action_history = new ActionHistory();
         $old = $model->username;
 
-        if ($model->load(Yii::$app->request->post())) {
-            $model->setPassword($model->password);
-            $model->generateAuthKey();
-            $model->save();
-            if ($model->save()){
-                $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
-                Yii::$app->session->setFlash('success', [
+        if($model->status === 10){
+            if ($model->load(Yii::$app->request->post())) {
+                $model->setPassword($model->password);
+                $model->generateAuthKey();
+                $model->save();
+                if ($model->save()){
+                    $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Изменения сохранены',
+                        'title' => 'Не удалось сохранить изменения',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
                         'showConfirmButton' => false
                     ]
                 ]);
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->refresh();
             }
-            Yii::$app->session->setFlash('error', [
+        }else{
+            Yii::$app->session->setFlash('warning', [
                 'options' => [
-                    'title' => 'Не удалось сохранить изменения',
+                    'title' => 'Нельзя редактировать не активную запись',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
                     'showConfirmButton' => false
                 ]
             ]);
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [

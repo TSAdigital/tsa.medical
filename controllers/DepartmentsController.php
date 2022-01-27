@@ -102,8 +102,42 @@ class DepartmentsController extends Controller
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
         $old = $model->name;
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+        if($model->status === 10){
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось сохранить изменения',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->refresh();
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
