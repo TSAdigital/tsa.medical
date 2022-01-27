@@ -18,7 +18,7 @@ PluginAsset::register($this)->add(['fontawesome', 'icheck-bootstrap']);
     <head>
         <meta charset="<?= Yii::$app->charset ?>">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title><?= Yii::$app->name ?> | <?= $this->title ?></title>
+        <title><?= Yii::$app->name ?> - <?= $this->title ?></title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <?= $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/svg+xml', 'href' => Url::to(['/favicon.svg'])]); ?>
         <?php $this->registerCsrfMetaTags() ?>
