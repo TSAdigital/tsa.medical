@@ -92,7 +92,7 @@ class Department extends ActiveRecord
             'region' => 'Регион',
             'city' => 'Город',
             'street' => 'Улица',
-            'building' => 'Здание',
+            'building' => 'Строение',
             'status' => 'Статус',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
