@@ -57,7 +57,11 @@ class UsersController extends Controller
     public function actionIndex()
     {
         $searchModel = new UserSearch();
-        $dataProvider = $searchModel->search($this->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        if (!isset($params['UserSearch'])) {
+            $params['UserSearch']['status'] = 10;
+        }
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

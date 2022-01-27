@@ -5,7 +5,7 @@ namespace app\controllers;
 use app\models\ActionHistory;
 use Yii;
 use app\models\Department;
-use app\models\DepartmentSearcha;
+use app\models\DepartmentSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -49,9 +49,12 @@ class DepartmentsController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new DepartmentSearcha();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
+        $searchModel = new DepartmentSearch();
+        $params = Yii::$app->request->queryParams;
+        if (!isset($params['DepartmentSearch'])) {
+            $params['DepartmentSearch']['status'] = 10;
+        }
+        $dataProvider = $searchModel->search($params);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
