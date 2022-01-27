@@ -6,9 +6,9 @@ use yii\base\Model;
 use yii\data\ActiveDataProvider;
 
 /**
- * DepartmentSearcha represents the model behind the search form of `app\models\Department`.
+ * DepartmentSearch represents the model behind the search form of `app\models\Department`.
  */
-class DepartmentSearcha extends Department
+class DepartmentSearch extends Department
 {
     /**
      * {@inheritdoc}
