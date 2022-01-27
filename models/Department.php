@@ -11,6 +11,12 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property string $name
+ * @property int $index
+ * @property string $country
+ * @property string $region
+ * @property string $city
+ * @property string $street
+ * @property string $building
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -56,6 +62,18 @@ class Department extends ActiveRecord
             [['name'], 'unique'],
             [['name'], 'required'],
 
+            [['index'], 'integer'],
+
+            [['country'], 'string', 'max' => 255],
+
+            [['region'], 'string', 'max' => 255],
+
+            [['city'], 'string', 'max' => 255],
+
+            [['street'], 'string', 'max' => 255],
+
+            [['building'], 'string', 'max' => 255],
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
@@ -69,6 +87,12 @@ class Department extends ActiveRecord
         return [
             'id' => 'Идентификатор',
             'name' => 'Наименование',
+            'index' => 'Индекс',
+            'country' => 'Страна',
+            'region' => 'Регион',
+            'city' => 'Город',
+            'street' => 'Улица',
+            'building' => 'Здание',
             'status' => 'Статус',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
