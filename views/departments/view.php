@@ -35,7 +35,7 @@ $this->params['buttons'] = [
             <div class="card">
                 <div class="card-header">
                     <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active error-validate" href="#base"
+                        <li class="nav-item"><a class="nav-link active" href="#base"
                                                 data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
                     </ul>
@@ -50,10 +50,9 @@ $this->params['buttons'] = [
                                 ],
                                 'attributes' => [
                                     [
-                                        'attribute' => 'id',
+                                        'attribute' => 'name',
                                         'captionOptions' => ['width' => '200px'],
                                     ],
-                                    'name',
                                     [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),
@@ -76,9 +75,14 @@ $this->params['buttons'] = [
                                     ],
                                     'country',
                                     'region',
+                                    'district',
                                     'city',
+                                    'locality',
                                     'street',
+                                    'house',
+                                    'body',
                                     'building',
+                                    'office',
                                 ],
                             ]) ?>
                         </div>
