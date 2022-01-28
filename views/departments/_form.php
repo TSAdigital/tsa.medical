@@ -10,23 +10,30 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="card-header p-2">
     <ul class="nav nav-pills">
-        <li class="nav-item"><a class="nav-link active error-validate" href="#base" data-toggle="tab">Основное</a></li>
-        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
+        <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
+        <li class="nav-item"><a class="nav-link address" href="#tab2" data-toggle="tab">Адрес <span class="tab-2"></span></a></li>
     </ul>
 </div><!-- /.card-header -->
 <div class="card-body">
     <?php $form = ActiveForm::begin(['id' => 'department']); ?>
     <div class="tab-content">
-        <div class="active tab-pane" id="base">
-            <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+        <div class="active tab-pane" id="tab1">
+            <?= $form->field($model, 'name')->textInput([
+                'maxlength' => true,
+                ]) ?>
         </div>
-        <div class="tab-pane" id="address">
+        <div class="tab-pane" id="tab2">
             <?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'district')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'locality')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'house')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?>
         </div>
       </div>
     <?php ActiveForm::end(); ?>
