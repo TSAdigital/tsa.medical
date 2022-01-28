@@ -14,9 +14,14 @@ use yii\helpers\ArrayHelper;
  * @property int $index
  * @property string $country
  * @property string $region
+ * @property string $district
  * @property string $city
+ * @property string $locality
  * @property string $street
+ * @property string $house
+ * @property string $body
  * @property string $building
+ * @property string $office
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -68,11 +73,21 @@ class Department extends ActiveRecord
 
             [['region'], 'string', 'max' => 255],
 
+            [['district'], 'string', 'max' => 255],
+
             [['city'], 'string', 'max' => 255],
+
+            [['locality'], 'string', 'max' => 255],
 
             [['street'], 'string', 'max' => 255],
 
+            [['house'], 'string', 'max' => 255],
+
+            [['body'], 'string', 'max' => 255],
+
             [['building'], 'string', 'max' => 255],
+
+            [['office'], 'string', 'max' => 255],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
@@ -90,9 +105,14 @@ class Department extends ActiveRecord
             'index' => 'Индекс',
             'country' => 'Страна',
             'region' => 'Регион',
+            'district' => 'Район',
             'city' => 'Город',
+            'locality' => 'Населенный пункт',
             'street' => 'Улица',
+            'house' => 'Дом',
+            'body' => 'Корпус',
             'building' => 'Строение',
+            'office' => 'Офис',
             'status' => 'Статус',
             'created_at' => 'Создано',
             'updated_at' => 'Изменено',
