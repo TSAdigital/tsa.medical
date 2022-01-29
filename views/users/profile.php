@@ -6,6 +6,8 @@ use yii\widgets\ListView;
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 /* @var $model app\models\ActionHistory */
 
+use \yii\helpers\HtmlPurifier;
+
 $this->title = 'Профиль';
 $this->params['breadcrumbs'][] = 'Профиль пользователя';
 ?>
@@ -19,9 +21,9 @@ $this->params['breadcrumbs'][] = 'Профиль пользователя';
                         <i class="far fa-user" style="font-size: 24px;"></i>
                     </div>
 
-                    <h3 class="profile-username text-center"><?= $model->username?></h3>
-                    <p class="text-muted text-center"><?= $model->getRolesName() ?></p>
-                    <a href="mailto:<?= $model->email?>" class="btn btn-primary btn-block"><b>Отправить сообщение</b></a>
+                    <h3 class="profile-username text-center"><?= HtmlPurifier::process($model->username) ?></h3>
+                    <p class="text-muted text-center"><?= HtmlPurifier::process($model->getRolesName()) ?></p>
+                    <a href="mailto:<?= HtmlPurifier::process($model->email) ?>" class="btn btn-primary btn-block"><b>Отправить сообщение</b></a>
                 </div>
             </div>
         </div>
