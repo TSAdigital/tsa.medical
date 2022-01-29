@@ -67,6 +67,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['username', 'trim'],
             ['username', 'required'],
             ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['email', 'trim'],
             ['email', 'required'],

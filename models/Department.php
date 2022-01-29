@@ -63,31 +63,55 @@ class Department extends ActiveRecord
     {
         return [
 
-            [['name'], 'string', 'max' => 255],
-            [['name'], 'unique'],
-            [['name'], 'required'],
+            ['name', 'string', 'max' => 255],
+            ['name', 'unique'],
+            ['name', 'required'],
+            ['name', 'trim'],
+            ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['index'], 'integer'],
+            ['index', 'integer'],
+            ['index', 'trim'],
+            ['index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['country'], 'string', 'max' => 255],
+            ['country', 'string', 'max' => 255],
+            ['country', 'trim'],
+            ['country', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['region'], 'string', 'max' => 255],
+            ['region', 'string', 'max' => 255],
+            ['region', 'trim'],
+            ['region', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['district'], 'string', 'max' => 255],
+            ['district', 'string', 'max' => 255],
+            ['district', 'trim'],
+            ['district', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['city'], 'string', 'max' => 255],
+            ['city', 'string', 'max' => 255],
+            ['city', 'trim'],
+            ['city', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['locality'], 'string', 'max' => 255],
+            ['locality', 'string', 'max' => 255],
+            ['locality', 'trim'],
+            ['locality', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['street'], 'string', 'max' => 255],
+            ['street', 'string', 'max' => 255],
+            ['street', 'trim'],
+            ['street', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['house'], 'string', 'max' => 255],
+            ['house', 'string', 'max' => 255],
+            ['house', 'trim'],
+            ['house', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['body'], 'string', 'max' => 255],
+            ['body', 'string', 'max' => 255],
+            ['body', 'trim'],
+            ['body', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['building'], 'string', 'max' => 255],
+            ['building', 'string', 'max' => 255],
+            ['building', 'trim'],
+            ['building', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            [['office'], 'string', 'max' => 255],
+            ['office', 'string', 'max' => 255],
+            ['office', 'trim'],
+            ['office', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],

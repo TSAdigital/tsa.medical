@@ -59,12 +59,15 @@ class Position extends ActiveRecord
             [['name'], 'required'],
             [['name'], 'unique'],
             [['name'], 'string', 'max' => 255],
+            [['name'], 'trim'],
+            [['name'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
             [['name_i', 'name_r', 'name_d', 'name_v', 'name_t', 'name_p'], 'string', 'max' => 255],
-
+            [['name_i', 'name_r', 'name_d', 'name_v', 'name_t', 'name_p'], 'trim'],
+            [['name_i', 'name_r', 'name_d', 'name_v', 'name_t', 'name_p'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
         ];
     }
 
