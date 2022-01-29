@@ -15,6 +15,12 @@ $this->params['buttons'] = [
 ];
 ?>
 
-<div class="card">
-    <?= $this->render('_form', ['model' => $model]) ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <?= $this->render('_form', ['model' => $model]) ?>
+            </div>
+        </div>
+    </div>
 </div>
