@@ -158,20 +158,6 @@ class DepartmentsController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Department model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
     public function actionBlocked($id)
     {
         $model = $this->findModel($id);
