@@ -13,7 +13,7 @@ use yii\bootstrap4\ActiveForm;
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
         <li class="nav-item"><a class="nav-link address" href="#tab2" data-toggle="tab">Адрес <span class="tab-2"></span></a></li>
     </ul>
-</div><!-- /.card-header -->
+</div>
 <div class="card-body">
     <?php $form = ActiveForm::begin(['id' => 'department']); ?>
     <div class="tab-content">
