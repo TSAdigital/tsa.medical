@@ -80,11 +80,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                     <?php Pjax::end(); ?>
 
                 </div>
-                <!--.card-body-->
             </div>
-            <!--.card-->
         </div>
-        <!--.col-md-12-->
     </div>
-    <!--.row-->
 </div>
