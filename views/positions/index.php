@@ -24,11 +24,12 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                     <?= GridView::widget([
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
-                        'columns' => [
-                            ['class' => 'yii\grid\SerialColumn'],
+                        'options' => ['class' => 'table-responsive'],
+                        'tableOptions' => ['class' => 'table table-striped'],
 
-                            //'id',
-                            [
+                        'columns' => [
+                                ['class' => 'yii\grid\SerialColumn'],
+                                [
                                 'attribute'=>'name',
                                 'options' => ['width'=>'80%'],
                                 'format'=>'raw',
@@ -38,12 +39,6 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                         Html::a($data->name, ['positions/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
                             ],
-                            //'name_i',
-                            //'name_r',
-                            //'name_d',
-                            //'name_v',
-                            //'name_t',
-                            //'name_p',
                             [
                                 'filter' => Position::getStatusesArray(),
                                 'attribute' => 'status',
@@ -70,8 +65,6 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 },
 
                             ],
-                            //'created_at',
-                            //'updated_at',
                         ],
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
