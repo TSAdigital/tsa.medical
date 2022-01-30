@@ -12,7 +12,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="login-box">
     <div class="login-logo">
-        <i class="fas fa-user-md"></i>
+        <i class="fab fa-buffer"></i>
         <a href="<?=Yii::$app->homeUrl?>"><b>TSA</b><em><sup><small>Medical</small></sup></em></a>
     </div>
     <div class="card">
