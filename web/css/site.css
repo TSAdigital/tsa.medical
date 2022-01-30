@@ -41,3 +41,8 @@ a.desc:after {
 .table-striped tbody tr:nth-of-type(odd) {
     background-color: #f4f6f9;
 }
+
+div.required label:after {
+ content: " *";
+ color: red;
+}
