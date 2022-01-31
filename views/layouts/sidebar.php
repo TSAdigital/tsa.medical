@@ -14,6 +14,7 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
+                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card'],
                     ['label' => 'Последняя активность', 'url' => ['action-history/index'], 'icon' => 'history'],
                     ['label' => 'СПРАВОЧНИКИ', 'header' => true],
                     ['label' => 'Подразделения', 'url' => ['departments/index'], 'icon' => 'building'],
