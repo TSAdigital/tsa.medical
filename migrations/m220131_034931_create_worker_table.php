@@ -22,6 +22,33 @@ class m220131_034931_create_worker_table extends Migration
             'gender' => $this->integer()->notNull(),
             'snils' => $this->bigInteger()->unique()->notNull(),
             'inn' => $this->bigInteger(),
+
+            'passport_serial' => $this->integer(),
+            'passport_number' => $this->integer(),
+            'passport_date' => $this->date(),
+            'passport_issued' => $this->string(),
+            'passport_department_code' => $this->integer(),
+            'passport_birthplace' => $this->string(),
+
+            'address_index' => $this->integer(),
+            'address_country' => $this->string(),
+            'address_region' => $this->string(),
+            'address_district' => $this->string(),
+            'address_city' => $this->string(),
+            'address_locality' => $this->string(),
+            'address_street' => $this->string(),
+            'address_house' => $this->string(),
+            'address_body' => $this->string(),
+            'address_building' => $this->string(),
+            'address_apartment' => $this->string(),
+
+            'work_position' => $this->integer(),
+            'work_document' => $this->string(),
+            'work_document_number' => $this->string(),
+            'work_document_date' => $this->date(),
+            'work_start' => $this->date(),
+            'work_end' => $this->date(),
+
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
@@ -41,6 +68,21 @@ class m220131_034931_create_worker_table extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->createIndex(
+            'idx-work-position-id',
+            'worker',
+            'work_position'
+        );
+
+        $this->addForeignKey(
+            'fk-work-position-id',
+            'worker',
+            'work_position',
+            'position',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -55,6 +97,16 @@ class m220131_034931_create_worker_table extends Migration
 
         $this->dropIndex(
             'idx-department-id',
+            'worker'
+        );
+
+        $this->dropForeignKey(
+            'fk-work-position-id',
+            'worker'
+        );
+
+        $this->dropIndex(
+            'idx-work-position-id',
             'worker'
         );
 

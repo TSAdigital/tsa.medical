@@ -38,6 +38,9 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#passport" data-toggle="tab">Паспорт</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
                         <li class="nav-item"><a class="nav-link" href="#case" data-toggle="tab">Склонение</a></li>
                     </ul>
                 </div>
@@ -74,7 +77,7 @@ $this->params['buttons'] = [
                                 ],
                             ]) ?>
                         </div>
-                        <div class="tab-pane" id="case">
+                        <div class="tab-pane" id="passport">
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'options' => [
@@ -82,9 +85,14 @@ $this->params['buttons'] = [
                                 ],
                                 'attributes' => [
                                     [
-                                        'attribute' => 'name',
+                                        'attribute' => 'passport_serial',
                                         'captionOptions' => ['width' => '200px'],
                                     ],
+                                    'passport_number',
+                                    'passport_date',
+                                    'passport_issued',
+                                    'passport_department_code',
+                                    'passport_birthplace',
                                 ],
                             ]) ?>
                         </div>
