@@ -5,6 +5,7 @@ use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
@@ -14,9 +15,9 @@ use yii\helpers\ArrayHelper;
 <div class="card-header p-2">
     <ul class="nav nav-pills">
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
-        <li class="nav-item"><a class="nav-link address" href="#tab2" data-toggle="tab">Паспорт <span class="tab-2"></span></a></li>
-        <li class="nav-item"><a class="nav-link address" href="#tab3" data-toggle="tab">Адрес <span class="tab-2"></span></a></li>
-        <li class="nav-item"><a class="nav-link address" href="#tab4" data-toggle="tab">Деятельность <span class="tab-2"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Паспорт <span class="tab-2"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab3" data-toggle="tab">Адрес <span class="tab-3"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab4" data-toggle="tab">Деятельность <span class="tab-4"></span></a></li>
     </ul>
 </div>
 <div class="card-body">
@@ -33,10 +34,66 @@ use yii\helpers\ArrayHelper;
                     ],
                 ]);
             ?>
-            <?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'firs_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'middle_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'birthdate') ->widget(DatePicker::classname(), [
+            <div class="row">
+                <div class="col-md-3"><?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'firs_name')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'middle_name')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3">
+                    <?= $form->field($model, 'birthdate')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ввод даты ...'],
+                        'value'=> 'dd.mm.yyyy',
+                        'pluginOptions' => [
+                            'format' => 'dd.mm.yyyy',
+                            'autoclose'=>true,
+                            'todayBtn'=>true,
+                            'todayHighlight' => true,
+                            'endDate' => "0d"
+                        ]
+                    ]); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <?= $form->field($model, 'gender')->widget(Select2::classname(),
+                        [
+                            'data' => $model->getGenderArray(),
+                            'options' => ['placeholder' => 'Выберите пол...'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]); ?>
+                </div>
+                <div class="col-md-4"><?= $form->field($model, 'snils')->widget(MaskedInput::class, [
+                        'mask' => '999-999-999 99',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+                </div>
+                <div class="col-md-4"><?= $form->field($model, 'inn')->widget(MaskedInput::class, [
+                        'mask' => '999999999999',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane" id="tab2">
+
+            <?= $form->field($model, 'passport_serial')->widget(MaskedInput::class, [
+                'mask' => '99 99',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'passport_number')->widget(MaskedInput::class, [
+                'mask' => '999999',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'passport_date')->widget(DatePicker::classname(), [
                 'options' => ['placeholder' => 'Ввод даты ...'],
                 'value'=> 'dd.mm.yyyy',
                 'pluginOptions' => [
@@ -47,25 +104,13 @@ use yii\helpers\ArrayHelper;
                     'endDate' => "0d"
                 ]
             ]); ?>
-            <?= $form->field($model, 'gender')->widget(Select2::classname(),
-                [
-                    'data' => $model->getGenderArray(),
-                    'options' => ['placeholder' => 'Выберите пол...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]); ?>
-            <?= $form->field($model, 'snils')->textInput() ?>
-            <?= $form->field($model, 'inn')->textInput() ?>
-
-        </div>
-        <div class="tab-pane" id="tab2">
-
-            <?= $form->field($model, 'passport_serial')->textInput() ?>
-            <?= $form->field($model, 'passport_number')->textInput() ?>
-            <?= $form->field($model, 'passport_date')->textInput() ?>
             <?= $form->field($model, 'passport_issued')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'passport_department_code')->textInput() ?>
+            <?= $form->field($model, 'passport_department_code')->widget(MaskedInput::class, [
+                'mask' => '999-999',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
             <?= $form->field($model, 'passport_birthplace')->textInput(['maxlength' => true]) ?>
 
         </div>

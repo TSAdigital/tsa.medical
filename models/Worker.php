@@ -85,18 +85,53 @@ class Worker extends ActiveRecord
     public function rules()
     {
         return [
-            [['department', 'last_name', 'firs_name', 'birthdate', 'gender', 'snils',], 'required'],
-            [['department', 'gender', 'snils', 'inn', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['birthdate'], 'safe'],
-            [['last_name', 'firs_name', 'middle_name'], 'string', 'max' => 255],
-            [['snils'], 'unique'],
-            [['department'], 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department' => 'id']],
+            [['gender'], 'required'],
+            [['gender', 'status'], 'integer'],
 
-            ['passport_serial', 'integer'],
-            ['passport_number', 'integer'],
+            ['department', 'required'],
+            ['department', 'integer'],
+            ['department', 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department' => 'id']],
+
+            ['last_name', 'required'],
+            ['last_name', 'string', 'max' => 35],
+            ['last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['last_name', 'trim'],
+
+            ['firs_name', 'required'],
+            ['firs_name', 'string', 'max' => 35],
+            ['firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['firs_name', 'trim'],
+
+            ['middle_name', 'string', 'max' => 35],
+            ['middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['middle_name', 'trim'],
+
+            ['birthdate', 'date'],
+            ['birthdate', 'required'],
+
+            ['snils', 'required'],
+            ['snils', 'string', 'length' => 11, 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['snils', 'unique'],
+            ['snils', 'trim'],
+
+            ['inn', 'string', 'length' => 12, 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
+            ['inn', 'trim'],
+
+            ['passport_serial', 'string'],
+            ['passport_serial', 'string', 'length' => 4],
+            ['passport_serial', 'trim'],
+
+            ['passport_number', 'string'],
+            ['passport_number', 'string', 'length' => 6, 'message' => 'Значение «Номер» должно содержать 6 символов.'],
+            ['passport_number', 'trim'],
+
             ['passport_date', 'string'],
             ['passport_issued', 'string'],
+
             ['passport_department_code', 'integer'],
+            ['passport_department_code', 'string', 'length' => 6, 'message' => 'Значение «Номер» должно содержать 6 символов.'],
+            ['passport_department_code', 'trim'],
+
             ['passport_birthplace', 'string'],
 
             ['address_index', 'integer'],
