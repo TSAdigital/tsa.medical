@@ -81,36 +81,56 @@ use yii\widgets\MaskedInput;
         </div>
         <div class="tab-pane" id="tab2">
 
-            <?= $form->field($model, 'passport_serial')->widget(MaskedInput::class, [
-                'mask' => '99 99',
-                'clientOptions' => [
-                    'removeMaskOnSubmit' => true,
-                ],
-            ]) ?>
-            <?= $form->field($model, 'passport_number')->widget(MaskedInput::class, [
-                'mask' => '999999',
-                'clientOptions' => [
-                    'removeMaskOnSubmit' => true,
-                ],
-            ]) ?>
-            <?= $form->field($model, 'passport_date')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => 'Ввод даты ...'],
-                'value'=> 'dd.mm.yyyy',
-                'pluginOptions' => [
-                    'format' => 'dd.mm.yyyy',
-                    'autoclose'=>true,
-                    'todayBtn'=>true,
-                    'todayHighlight' => true,
-                    'endDate' => "0d"
-                ]
-            ]); ?>
             <?= $form->field($model, 'passport_issued')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'passport_department_code')->widget(MaskedInput::class, [
-                'mask' => '999-999',
-                'clientOptions' => [
-                    'removeMaskOnSubmit' => true,
-                ],
-            ]) ?>
+
+            <div class="row">
+                <div class="col-md-3">
+
+                    <?= $form->field($model, 'passport_serial')->widget(MaskedInput::class, [
+                        'mask' => '99 99',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+
+                </div>
+                <div class="col-md-3">
+
+                    <?= $form->field($model, 'passport_number')->widget(MaskedInput::class, [
+                        'mask' => '999999',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+
+                </div>
+                <div class="col-md-3">
+
+                    <?= $form->field($model, 'passport_department_code')->widget(MaskedInput::class, [
+                        'mask' => '999-999',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+
+                </div>
+                <div class="col-md-3">
+
+                    <?= $form->field($model, 'passport_date')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ввод даты ...'],
+                        'value'=> 'dd.mm.yyyy',
+                        'pluginOptions' => [
+                            'format' => 'dd.mm.yyyy',
+                            'autoclose'=>true,
+                            'todayBtn'=>true,
+                            'todayHighlight' => true,
+                            'endDate' => "0d"
+                        ]
+                    ]); ?>
+
+                </div>
+            </div>
+
             <?= $form->field($model, 'passport_birthplace')->textInput(['maxlength' => true]) ?>
 
         </div>

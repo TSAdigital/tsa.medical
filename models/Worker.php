@@ -113,26 +113,31 @@ class Worker extends ActiveRecord
             ['snils', 'string', 'length' => 11, 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
             ['snils', 'unique'],
             ['snils', 'trim'],
+            ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['inn', 'string', 'length' => 12, 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
             ['inn', 'trim'],
+            ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_serial', 'string'],
-            ['passport_serial', 'string', 'length' => 4],
+            ['passport_serial', 'string', 'min' => 4],
             ['passport_serial', 'trim'],
+            ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_number', 'string'],
-            ['passport_number', 'string', 'length' => 6, 'message' => 'Значение «Номер» должно содержать 6 символов.'],
+            ['passport_number', 'string', 'min' => 6, 'tooShort' => 'Значение «Номер» должно содержать 6 символов.'],
             ['passport_number', 'trim'],
+            ['passport_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_date', 'string'],
+            ['passport_date', 'date'],
+
             ['passport_issued', 'string'],
+            ['passport_issued', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_department_code', 'integer'],
-            ['passport_department_code', 'string', 'length' => 6, 'message' => 'Значение «Номер» должно содержать 6 символов.'],
+            ['passport_department_code', 'string', 'min' => 6, 'message' => 'Значение «Код подразделения» должно содержать 6 символов.'],
             ['passport_department_code', 'trim'],
+            ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['passport_birthplace', 'string'],
+            ['passport_birthplace', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['address_index', 'integer'],
             ['address_index', 'trim'],
