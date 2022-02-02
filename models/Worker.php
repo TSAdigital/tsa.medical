@@ -85,8 +85,11 @@ class Worker extends ActiveRecord
     public function rules()
     {
         return [
-            [['gender'], 'required'],
-            [['gender', 'status'], 'integer'],
+            ['gender', 'integer'],
+            ['gender', 'in', 'range' => [self::GENDER_FEMALE, self::GENDER_MALE]],
+
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
             ['department', 'required'],
             ['department', 'integer'],
@@ -110,12 +113,12 @@ class Worker extends ActiveRecord
             ['birthdate', 'required'],
 
             ['snils', 'required'],
-            ['snils', 'string', 'length' => 11, 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['snils', 'string', 'min' => 11, 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
             ['snils', 'unique'],
             ['snils', 'trim'],
             ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['inn', 'string', 'length' => 12, 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
+            ['inn', 'string', 'min' => 12, 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
             ['inn', 'trim'],
             ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
@@ -136,7 +139,8 @@ class Worker extends ActiveRecord
             ['passport_department_code', 'trim'],
             ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_birthplace', 'string'],
+            ['passport_birthplace', 'string', 'max' => 255],
+            ['address_country', 'trim'],
             ['passport_birthplace', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['address_index', 'integer'],
@@ -193,11 +197,11 @@ class Worker extends ActiveRecord
             ['work_document_number', 'trim'],
             ['work_document_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['work_document_date', 'integer'],
+            ['work_document_date', 'date'],
 
-            ['work_start', 'integer'],
+            ['work_start', 'date'],
 
-            ['work_end', 'integer'],
+            ['work_end', 'date'],
 
 
         ];
@@ -223,7 +227,7 @@ class Worker extends ActiveRecord
             'passport_serial' => 'Серия',
             'passport_number' => 'Номер',
             'passport_date' => 'Дата выдачи',
-            'passport_issued' => 'Паспорт выдан',
+            'passport_issued' => 'Выдан',
             'passport_department_code' => 'Код подразделения',
             'passport_birthplace' => 'Место рождения',
 
@@ -240,11 +244,11 @@ class Worker extends ActiveRecord
             'address_apartment' => 'Квартира',
 
             'work_position' => 'Должность',
-            'work_document' => 'Документ',
+            'work_document' => 'Основание',
             'work_document_number' => 'Номер документа',
             'work_document_date' => 'Дата документа',
-            'work_start' => 'Начало работы',
-            'work_end' => 'Конец работы',
+            'work_start' => 'Дата выхода на работу',
+            'work_end' => 'Дата окончания работы',
 
             'status' => 'Статус',
             'created_at' => 'Запись создана',

@@ -1,6 +1,7 @@
 <?php
 
 use app\models\Department;
+use app\models\Position;
 use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
@@ -135,28 +136,79 @@ use yii\widgets\MaskedInput;
 
         </div>
         <div class="tab-pane" id="tab3">
-
-            <?= $form->field($model, 'address_index')->textInput() ?>
-            <?= $form->field($model, 'address_country')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_region')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_district')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_city')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_street')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_house')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_body')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_building')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'address_apartment')->textInput(['maxlength' => true]) ?>
-
+            <div class="row">
+                <div class="col-md-2"><?= $form->field($model, 'address_index')->textInput() ?></div>
+                <div class="col-md-2"><?= $form->field($model, 'address_country')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'address_region')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'address_district')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-5"><?= $form->field($model, 'address_city')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-7"><?= $form->field($model, 'address_street')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><?= $form->field($model, 'address_house')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'address_body')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'address_building')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'address_apartment')->textInput(['maxlength' => true]) ?></div>
+            </div>
         </div>
         <div class="tab-pane" id="tab4">
 
-            <?= $form->field($model, 'work_position')->textInput() ?>
-            <?= $form->field($model, 'work_document')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'work_document_number')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'work_document_date')->textInput() ?>
-            <?= $form->field($model, 'work_start')->textInput() ?>
-            <?= $form->field($model, 'work_end')->textInput() ?>
-
+            <?= $form->field($model, 'work_position')->widget(Select2::classname(),
+                [
+                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(),'id','name'),
+                    'options' => ['placeholder' => 'Выберите должность...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+            ?>
+            <div class="row">
+                <div class="col-md-4"><?= $form->field($model, 'work_document')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'work_document_number')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4">
+                    <?= $form->field($model, 'work_document_date')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ввод даты ...'],
+                        'value'=> 'dd.mm.yyyy',
+                        'pluginOptions' => [
+                            'format' => 'dd.mm.yyyy',
+                            'autoclose'=>true,
+                            'todayBtn'=>true,
+                            'todayHighlight' => true,
+                            'endDate' => "0d"
+                        ]
+                    ]); ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'work_start')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ввод даты ...'],
+                        'value'=> 'dd.mm.yyyy',
+                        'pluginOptions' => [
+                            'format' => 'dd.mm.yyyy',
+                            'autoclose'=>true,
+                            'todayBtn'=>true,
+                            'todayHighlight' => true,
+                            'endDate' => "0d"
+                        ]
+                    ]); ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'work_end')->widget(DatePicker::classname(), [
+                        'options' => ['placeholder' => 'Ввод даты ...'],
+                        'value'=> 'dd.mm.yyyy',
+                        'pluginOptions' => [
+                            'format' => 'dd.mm.yyyy',
+                            'autoclose'=>true,
+                            'todayBtn'=>true,
+                            'todayHighlight' => true,
+                            'endDate' => "0d"
+                        ]
+                    ]); ?>
+                </div>
+            </div>
         </div>
     </div>
     <?php ActiveForm::end(); ?>
