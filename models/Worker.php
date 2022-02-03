@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property int $department
+ * @property int $division
  * @property string $last_name
  * @property string $firs_name
  * @property string $middle_name
@@ -24,6 +25,7 @@ use yii\helpers\ArrayHelper;
  * @property int $updated_at
  *
  * @property Department $department0
+ * @property Division $division0
  *
  * @property integer $passport_serial
  * @property integer $passport_number
@@ -85,6 +87,7 @@ class Worker extends ActiveRecord
     public function rules()
     {
         return [
+            ['gender', 'required'],
             ['gender', 'integer'],
             ['gender', 'in', 'range' => [self::GENDER_FEMALE, self::GENDER_MALE]],
 
@@ -94,6 +97,9 @@ class Worker extends ActiveRecord
             ['department', 'required'],
             ['department', 'integer'],
             ['department', 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department' => 'id']],
+
+            ['division', 'integer'],
+            ['division', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division' => 'id']],
 
             ['last_name', 'required'],
             ['last_name', 'string', 'max' => 35],
@@ -188,6 +194,7 @@ class Worker extends ActiveRecord
             ['address_apartment', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['work_position', 'integer'],
+            ['work_position', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['work_position' => 'id']],
 
             ['work_document', 'string', 'max' => 255],
             ['work_document', 'trim'],
@@ -216,6 +223,8 @@ class Worker extends ActiveRecord
             'id' => 'ID',
             'department' => 'Подразделение',
             'department_name' => 'Подразделение',
+            'division' => 'Отделение',
+            'division_name' => 'Отделение',
             'last_name' => 'Фамилия',
             'firs_name' => 'Имя',
             'middle_name' => 'Отчество',
@@ -244,6 +253,7 @@ class Worker extends ActiveRecord
             'address_apartment' => 'Квартира',
 
             'work_position' => 'Должность',
+            'position_name' => 'Должность',
             'work_document' => 'Основание',
             'work_document_number' => 'Номер документа',
             'work_document_date' => 'Дата документа',
@@ -269,6 +279,26 @@ class Worker extends ActiveRecord
     public function getDepartment_name()
     {
         return $this->department0->name;
+    }
+
+    public function getDivision0()
+    {
+        return $this->hasOne(Division::className(), ['id' => 'division']);
+    }
+
+    public function getDivision_name()
+    {
+        return $this->division0->name;
+    }
+
+    public function getPosition0()
+    {
+        return $this->hasOne(Position::className(), ['id' => 'work_position']);
+    }
+
+    public function getPosition_name()
+    {
+        return $this->position0->name;
     }
 
     public static function getStatusesArray()

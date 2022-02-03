@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Division;
 use Yii;
 use app\models\Worker;
 use app\models\WorkerSearch;
@@ -107,6 +108,20 @@ class WorkersController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionSubcat() {
+        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $out = [];
+        if (isset($_POST['depdrop_parents'])) {
+            $parents = $_POST['depdrop_parents'];
+            if ($parents != null) {
+                $cat_id = $parents[0];
+                $out = Division::find()->where(['department'=>$cat_id, 'status' => 10])->select(['id', 'name'])->asArray()->all();
+                return ['output'=>$out, 'selected'=>''];
+            }
+        }
+        return ['output'=>'', 'selected'=>''];
     }
 
     /**

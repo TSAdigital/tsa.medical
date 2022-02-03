@@ -3,9 +3,11 @@
 use app\models\Department;
 use app\models\Position;
 use kartik\date\DatePicker;
+use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
 use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
@@ -25,16 +27,32 @@ use yii\widgets\MaskedInput;
     <?php $form = ActiveForm::begin(['id' => 'position']); ?>
     <div class="tab-content">
         <div class="active tab-pane" id="tab1">
-
-            <?= $form->field($model, 'department')->widget(Select2::classname(),
-                [
-                    'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(),'id','name'),
-                    'options' => ['placeholder' => 'Выберите подразделение...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-            ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'department')->widget(Select2::classname(),
+                        [
+                            'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(),'id','name'),
+                            'options' => ['placeholder' => 'Выберите подразделение...'],
+                            'pluginOptions' => [
+                                'allowClear' => true
+                            ],
+                        ]);
+                    ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'division')->widget(DepDrop::classname(), [
+                        'type' => DepDrop::TYPE_SELECT2,
+                        'options' => ['placeholder' => 'Выберите отделение ...'],
+                        'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+                        'pluginOptions'=>[
+                            'depends'=>['worker-department'],
+                            'initialize' => true,
+                            'url'=>Url::to(['/workers/subcat'])
+                        ]
+                    ]);
+                    ?>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3"><?= $form->field($model, 'last_name')->textInput(['maxlength' => true]) ?></div>
                 <div class="col-md-3"><?= $form->field($model, 'firs_name')->textInput(['maxlength' => true]) ?></div>

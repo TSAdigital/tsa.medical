@@ -56,6 +56,7 @@ $this->params['buttons'] = [
                                         'attribute' => 'department_name',
                                         'captionOptions' => ['width' => '200px'],
                                     ],
+                                    'division_name',
                                     'last_name',
                                     'firs_name',
                                     'middle_name',
@@ -127,7 +128,7 @@ $this->params['buttons'] = [
                                 ],
                                 'attributes' => [
                                     [
-                                        'attribute' => 'work_position',
+                                        'attribute' => 'position_name',
                                         'captionOptions' => ['width' => '210px'],
                                     ],
                                     'work_document',
