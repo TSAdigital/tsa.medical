@@ -61,6 +61,7 @@ class Division extends ActiveRecord
 
             ['name', 'required'],
             ['name', 'string', 'max' => 255],
+            ['name', 'unique', 'targetClass' => Division::className(), 'targetAttribute' => ['name', 'department'], 'message' => 'Значение «{value}» уже существует в выбранном подразделении.'],
             ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['name', 'trim'],
 
