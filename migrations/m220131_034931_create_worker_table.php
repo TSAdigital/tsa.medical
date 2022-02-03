@@ -15,6 +15,7 @@ class m220131_034931_create_worker_table extends Migration
         $this->createTable('{{%worker}}', [
             'id' => $this->primaryKey(),
             'department' => $this->integer()->notNull(),
+            'division' => $this->integer(),
             'last_name' => $this->string()->notNull(),
             'firs_name' => $this->string()->notNull(),
             'middle_name' => $this->string(),
@@ -83,6 +84,21 @@ class m220131_034931_create_worker_table extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->createIndex(
+            'idx-division-id',
+            'worker',
+            'division'
+        );
+
+        $this->addForeignKey(
+            'fk-division-id',
+            'worker',
+            'division',
+            'division',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -107,6 +123,16 @@ class m220131_034931_create_worker_table extends Migration
 
         $this->dropIndex(
             'idx-work-position-id',
+            'worker'
+        );
+
+        $this->dropForeignKey(
+            'fk-division-id',
+            'worker'
+        );
+
+        $this->dropIndex(
+            'idx-division-id',
             'worker'
         );
 
