@@ -6,6 +6,7 @@ use app\models\Division;
 use Yii;
 use app\models\Worker;
 use app\models\WorkerSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,6 +22,16 @@ class WorkersController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat'],
+                        'allow' => true,
+                        'roles' => ['user'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
