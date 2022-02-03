@@ -86,7 +86,7 @@ class DivisionsController extends Controller
 
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-boxes bg-green', 'добавил(а) отделение', 'divisions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-project-diagram bg-green', 'добавил(а) отделение', 'divisions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Отделение добавлено',
@@ -120,7 +120,7 @@ class DivisionsController extends Controller
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-boxes bg-blue', 'отредактировал(а) отделение', 'divisions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+                    $action_history->ActionHistory('fas fa-project-diagram bg-blue', 'отредактировал(а) отделение', 'divisions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Изменения сохранены',
@@ -198,7 +198,7 @@ class DivisionsController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-boxes bg-red', 'аннулировал(а) отделение', 'divisions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-project-diagram bg-red', 'аннулировал(а) отделение', 'divisions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Отделение аннулировано',
@@ -230,7 +230,7 @@ class DivisionsController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-boxes bg-info', 'активировал(а) отделение', 'divisions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-project-diagram bg-info', 'активировал(а) отделение', 'divisions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Отделение активировано',
