@@ -36,7 +36,8 @@ class PositionsController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
