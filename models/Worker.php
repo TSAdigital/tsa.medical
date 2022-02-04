@@ -339,6 +339,11 @@ class Worker extends ActiveRecord
     public function beforeSave($insert)
     {
         $this->birthdate = date('Y-m-d', strtotime($this->birthdate));
+        $this->passport_date = !empty($this->passport_date) ? date('Y-m-d', strtotime($this->passport_date)) : null;
+        $this->work_document_date= !empty($this->work_document_date) ? date('Y-m-d', strtotime($this->work_document_date)) : null;
+        $this->work_start = !empty($this->work_start) ? date('Y-m-d', strtotime($this->work_start)) : null;
+        $this->work_end = !empty($this->work_end) ? date('Y-m-d', strtotime($this->work_end)) : null;
+
         return parent::beforeSave($insert);
     }
 
@@ -346,5 +351,9 @@ class Worker extends ActiveRecord
     {
         parent::afterFind ();
         $this->birthdate = Yii::$app->formatter->asDate($this->birthdate);
+        $this->passport_date = !empty($this->passport_date) ? Yii::$app->formatter->asDate($this->passport_date) : null;
+        $this->work_document_date= !empty($this->work_document_date) ? Yii::$app->formatter->asDate($this->work_document_date) : null;
+        $this->work_start = !empty($this->work_start) ? Yii::$app->formatter->asDate($this->work_start) : null;
+        $this->work_end = !empty($this->work_end) ? Yii::$app->formatter->asDate($this->work_end) : null;
    }
 }
