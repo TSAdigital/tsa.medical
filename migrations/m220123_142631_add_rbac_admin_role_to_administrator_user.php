@@ -23,6 +23,6 @@ class m220123_142631_add_rbac_admin_role_to_administrator_user extends Migration
     public function safeDown()
     {
         $auth = Yii::$app->authManager;
-        $auth->removeAssignments();
+        $auth->removeAllAssignments();
     }
 }
