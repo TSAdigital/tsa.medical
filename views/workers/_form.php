@@ -46,9 +46,10 @@ use yii\widgets\MaskedInput;
                         'select2Options' => ['pluginOptions' => ['allowClear' => true]],
                         'pluginOptions'=>[
                             'depends'=>['worker-department'],
-                            'initialize' => true,
+                            'initialize' => (bool)$model->department,
+                            'loadingText' => 'загрузка',
                             'url'=>Url::to(['/workers/subcat'])
-                        ]
+                        ],
                     ]);
                     ?>
                 </div>
@@ -155,14 +156,22 @@ use yii\widgets\MaskedInput;
         </div>
         <div class="tab-pane" id="tab3">
             <div class="row">
-                <div class="col-md-2"><?= $form->field($model, 'address_index')->textInput() ?></div>
+                <div class="col-md-2">
+                    <?= $form->field($model, 'address_index')->widget(MaskedInput::class, [
+                        'mask' => '999999',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+                </div>
                 <div class="col-md-2"><?= $form->field($model, 'address_country')->textInput(['maxlength' => true]) ?></div>
                 <div class="col-md-4"><?= $form->field($model, 'address_region')->textInput(['maxlength' => true]) ?></div>
                 <div class="col-md-4"><?= $form->field($model, 'address_district')->textInput(['maxlength' => true]) ?></div>
             </div>
             <div class="row">
-                <div class="col-md-5"><?= $form->field($model, 'address_city')->textInput(['maxlength' => true]) ?></div>
-                <div class="col-md-7"><?= $form->field($model, 'address_street')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'address_city')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'address_locality')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'address_street')->textInput(['maxlength' => true]) ?></div>
             </div>
             <div class="row">
                 <div class="col-md-3"><?= $form->field($model, 'address_house')->textInput(['maxlength' => true]) ?></div>

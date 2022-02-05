@@ -69,7 +69,7 @@ class Department extends ActiveRecord
             ['name', 'trim'],
             ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['index', 'integer'],
+            ['index', 'string', 'min' => 6, 'tooShort' => 'Значение «Индекс» должно содержать 6 символов.'],
             ['index', 'trim'],
             ['index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 

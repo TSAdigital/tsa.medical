@@ -66,7 +66,7 @@ $this->params['buttons'] = [
                                         'captionOptions' => ['width' => '200px'],
                                         'value' => $model->getGender(),
                                     ],
-                                    'snils',
+                                    'snils:snils',
                                     'inn',
                                     [
                                         'attribute' => 'status',
@@ -84,14 +84,15 @@ $this->params['buttons'] = [
                                     'class' => 'table table-bordered table-striped',
                                 ],
                                 'attributes' => [
+                                    'passport_serial:passportSerial',
                                     [
-                                        'attribute' => 'passport_serial',
+                                        'attribute' => 'passport_number',
                                         'captionOptions' => ['width' => '200px'],
+
                                     ],
-                                    'passport_number',
                                     'passport_date:date',
                                     'passport_issued',
-                                    'passport_department_code',
+                                    'passport_department_code:passportDepartmentCode',
                                     'passport_birthplace',
                                 ],
                             ]) ?>

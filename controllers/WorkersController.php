@@ -10,6 +10,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * WorkersController implements the CRUD actions for Worker model.
@@ -122,8 +123,8 @@ class WorkersController extends Controller
     }
 
     public function actionSubcat() {
-        Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        $out = [];
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         if (isset($_POST['depdrop_parents'])) {
             $parents = $_POST['depdrop_parents'];
             if ($parents != null) {
@@ -148,6 +149,6 @@ class WorkersController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
 }

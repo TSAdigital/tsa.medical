@@ -15,7 +15,7 @@ class m220125_131858_create_department_table extends Migration
         $this->createTable('{{%department}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull()->unique(),
-            'index' => $this->integer(),
+            'index' => $this->string(),
             'country' => $this->string(),
             'region' => $this->string(),
             'district' => $this->string(),

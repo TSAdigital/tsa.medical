@@ -18,5 +18,7 @@ $(window).on('load', function (){
         "use strict"
         table(1);
         table(2);
+        table(3);
+        table(4);
     });
 });

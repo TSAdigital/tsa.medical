@@ -102,16 +102,16 @@ class Worker extends ActiveRecord
             ['division', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division' => 'id']],
 
             ['last_name', 'required'],
-            ['last_name', 'string', 'max' => 35],
+            ['last_name', 'string', 'max' => 40],
             ['last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['last_name', 'trim'],
 
             ['firs_name', 'required'],
-            ['firs_name', 'string', 'max' => 35],
+            ['firs_name', 'string', 'max' => 40],
             ['firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['firs_name', 'trim'],
 
-            ['middle_name', 'string', 'max' => 35],
+            ['middle_name', 'string', 'max' => 40],
             ['middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['middle_name', 'trim'],
 
@@ -119,16 +119,16 @@ class Worker extends ActiveRecord
             ['birthdate', 'required'],
 
             ['snils', 'required'],
-            ['snils', 'string', 'min' => 11, 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['snils', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
             ['snils', 'unique'],
             ['snils', 'trim'],
             ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['inn', 'string', 'min' => 12, 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
+            ['inn', 'string', 'min' => 12, 'tooShort' => 'Значение «ИНН» должно содержать 12 символов.'],
             ['inn', 'trim'],
             ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_serial', 'string', 'min' => 4],
+            ['passport_serial', 'string', 'min' => 4, 'tooShort' => 'Значение «Серия» должно содержать 4 символа.'],
             ['passport_serial', 'trim'],
             ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
@@ -141,7 +141,7 @@ class Worker extends ActiveRecord
             ['passport_issued', 'string'],
             ['passport_issued', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['passport_department_code', 'string', 'min' => 6, 'message' => 'Значение «Код подразделения» должно содержать 6 символов.'],
+            ['passport_department_code', 'string', 'min' => 6, 'tooShort' => 'Значение «Код подразделения» должно содержать 6 символов.'],
             ['passport_department_code', 'trim'],
             ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
@@ -149,7 +149,7 @@ class Worker extends ActiveRecord
             ['address_country', 'trim'],
             ['passport_birthplace', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['address_index', 'integer'],
+            ['address_index', 'string', 'min' => 6, 'tooShort' => 'Значение «Индекс» должно содержать 6 символов.'],
             ['address_index', 'trim'],
             ['address_index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
@@ -209,8 +209,6 @@ class Worker extends ActiveRecord
             ['work_start', 'date'],
 
             ['work_end', 'date'],
-
-
         ];
     }
 
