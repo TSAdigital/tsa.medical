@@ -2,10 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\ActionHistory;
 use app\models\Division;
 use Yii;
 use app\models\Worker;
 use app\models\WorkerSearch;
+use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -36,7 +38,8 @@ class WorkersController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
@@ -79,7 +82,18 @@ class WorkersController extends Controller
     {
         $model = new Worker();
 
+        $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $action_history->ActionHistory('fas fa-id-card-alt bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Сотрудник добавлен',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -99,27 +113,51 @@ class WorkersController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $action_history = new ActionHistory();
+        $old = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+        if($model->status === 10){
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $worker = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+                    $action_history->ActionHistory('fas fa-id-card bg-blue', 'отредактировал(а) сотрудника', 'workers/view', $model->getId(), $old != $worker ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $worker : $worker);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось сохранить изменения',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->refresh();
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('update', [
             'model' => $model,
         ]);
-    }
-
-    /**
-     * Deletes an existing Worker model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     public function actionSubcat() {
@@ -134,6 +172,86 @@ class WorkersController extends Controller
             }
         }
         return ['output'=>'', 'selected'=>''];
+    }
+
+    public function actionBlocked($id)
+    {
+        $model = $this->findModel($id);
+        $action_history = new ActionHistory();
+        $model->setStatus('STATUS_INACTIVE');
+
+        if ($model->setStatus('STATUS_INACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-id-card bg-red', 'аннулировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Сотрудник аннулирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать сотрудника',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
+    }
+
+    public function actionActive($id)
+    {
+        $model = $this->findModel($id);
+        $action_history = new ActionHistory();
+        $model->setStatus('STATUS_ACTIVE');
+
+        if ($model->setStatus('STATUS_ACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-id-card bg-info', 'активировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Сотрудник активирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать сотрудника',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
+    }
+
+    public function actionHistory($id)
+    {
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'workers/view', 'current_record' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('history', [
+            'model' => $this->findModel($id),
+            'actionsHistory' => $dataProvider,
+        ]);
     }
 
     /**

@@ -14,14 +14,14 @@ $this->params['buttons'] = [
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать должность?',
+            'confirm' => 'Аннулировать сотрудника?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать должность?',
+            'confirm' => 'Активировать сотрудника?',
             'method' => 'post',
         ],
     ]) : false,
