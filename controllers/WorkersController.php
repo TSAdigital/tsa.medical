@@ -52,8 +52,12 @@ class WorkersController extends Controller
     public function actionIndex()
     {
         $searchModel = new WorkerSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $params = Yii::$app->request->queryParams;
+        if (!isset($params['WorkerSearch'])) {
+            $params['WorkerSearch']['status'] = 10;
+        }
+        $dataProvider = $searchModel->search($params);
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
