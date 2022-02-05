@@ -20,5 +20,6 @@ $(window).on('load', function (){
         table(2);
         table(3);
         table(4);
+        table(5);
     });
 });
