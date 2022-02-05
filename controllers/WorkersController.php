@@ -88,7 +88,7 @@ class WorkersController extends Controller
 
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-id-card-alt bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-id-card bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Сотрудник добавлен',
