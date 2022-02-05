@@ -41,6 +41,7 @@ $this->params['buttons'] = [
                         <li class="nav-item"><a class="nav-link" href="#passport" data-toggle="tab">Паспорт</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
                         <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -137,6 +138,29 @@ $this->params['buttons'] = [
                                     'work_document_date:date',
                                     'work_start:date',
                                     'work_end:date',
+                                ],
+                            ]) ?>
+                        </div>
+                        <div class="tab-pane" id="contact">
+                            <?= DetailView::widget([
+                                'model' => $model,
+                                'options' => [
+                                    'class' => 'table table-bordered table-striped',
+                                ],
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'phone',
+                                        'format' => 'raw',
+                                        'captionOptions' => ['width' => '250px'],
+                                        'value' => Yii::$app->formatter->asPhone($model->phone)
+                                    ],
+                                    [
+                                        'attribute' => 'phone_work',
+                                        'format' => 'raw',
+                                        'value' => Yii::$app->formatter->asPhone($model->phone)
+                                    ],
+                                    'phone_work_extension',
+                                    'email:email',
                                 ],
                             ]) ?>
                         </div>

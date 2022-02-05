@@ -23,6 +23,10 @@ class m220131_034931_create_worker_table extends Migration
             'gender' => $this->integer()->notNull(),
             'snils' => $this->string()->unique()->notNull(),
             'inn' => $this->string(),
+            'phone' => $this->string(),
+            'phone_work' => $this->string(),
+            'phone_work_extension' => $this->string(),
+            'email' => $this->string(),
 
             'passport_serial' => $this->string(),
             'passport_number' => $this->string(),

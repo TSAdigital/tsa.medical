@@ -17,6 +17,10 @@ use yii\helpers\ArrayHelper;
  * @property string $firs_name
  * @property string $middle_name
  * @property string $birthdate
+ * @property string $phone
+ * @property string $phone_work
+ * @property string $phone_work_extension
+ * @property string $email
  * @property int $gender
  * @property int $snils
  * @property int|null $inn
@@ -128,6 +132,22 @@ class Worker extends ActiveRecord
             ['inn', 'trim'],
             ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
+            ['phone', 'string', 'min' => 11, 'tooShort' => 'Значение «Номер телефона» должно содержать 11 символов.'],
+            ['phone', 'trim'],
+            ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['phone_work', 'string', 'min' => 11, 'tooShort' => 'Значение «Номер телефона» должно содержать 11 символов.'],
+            ['phone_work', 'trim'],
+            ['phone_work', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['phone_work_extension', 'string', 'max' => 10],
+            ['phone_work_extension', 'trim'],
+            ['phone_work_extension', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['email', 'email'],
+            ['email', 'trim'],
+            ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
             ['passport_serial', 'string', 'min' => 4, 'tooShort' => 'Значение «Серия» должно содержать 4 символа.'],
             ['passport_serial', 'trim'],
             ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -230,6 +250,10 @@ class Worker extends ActiveRecord
             'gender' => 'Пол',
             'snils' => 'СНИЛС',
             'inn' => 'ИНН',
+            'phone' => 'Номер телефона',
+            'phone_work' => 'Рабочий номер телефона',
+            'phone_work_extension' => 'Внутренний номер телефона',
+            'email' => 'Электронная почта',
 
             'passport_serial' => 'Серия',
             'passport_number' => 'Номер',

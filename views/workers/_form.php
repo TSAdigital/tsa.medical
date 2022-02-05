@@ -21,6 +21,7 @@ use yii\widgets\MaskedInput;
         <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Паспорт <span class="tab-2"></span></a></li>
         <li class="nav-item"><a class="nav-link" href="#tab3" data-toggle="tab">Адрес <span class="tab-3"></span></a></li>
         <li class="nav-item"><a class="nav-link" href="#tab4" data-toggle="tab">Деятельность <span class="tab-4"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab5" data-toggle="tab">Контакты <span class="tab-5"></span></a></li>
     </ul>
 </div>
 <div class="card-body">
@@ -31,7 +32,7 @@ use yii\widgets\MaskedInput;
                 <div class="col-md-6">
                     <?= $form->field($model, 'department')->widget(Select2::classname(),
                         [
-                            'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(),'id','name'),
+                            'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(), 'id', 'name'),
                             'options' => ['placeholder' => 'Выберите подразделение...'],
                             'pluginOptions' => [
                                 'allowClear' => true
@@ -44,11 +45,11 @@ use yii\widgets\MaskedInput;
                         'type' => DepDrop::TYPE_SELECT2,
                         'options' => ['placeholder' => 'Выберите отделение ...'],
                         'select2Options' => ['pluginOptions' => ['allowClear' => true]],
-                        'pluginOptions'=>[
-                            'depends'=>['worker-department'],
+                        'pluginOptions' => [
+                            'depends' => ['worker-department'],
                             'initialize' => (bool)$model->department,
                             'loadingText' => 'загрузка',
-                            'url'=>Url::to(['/workers/subcat'])
+                            'url' => Url::to(['/workers/subcat'])
                         ],
                     ]);
                     ?>
@@ -61,11 +62,11 @@ use yii\widgets\MaskedInput;
                 <div class="col-md-3">
                     <?= $form->field($model, 'birthdate')->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ввод даты ...'],
-                        'value'=> 'dd.mm.yyyy',
+                        'value' => 'dd.mm.yyyy',
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
-                            'autoclose'=>true,
-                            'todayBtn'=>true,
+                            'autoclose' => true,
+                            'todayBtn' => true,
                             'todayHighlight' => true,
                             'endDate' => "0d"
                         ]
@@ -138,11 +139,11 @@ use yii\widgets\MaskedInput;
 
                     <?= $form->field($model, 'passport_date')->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ввод даты ...'],
-                        'value'=> 'dd.mm.yyyy',
+                        'value' => 'dd.mm.yyyy',
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
-                            'autoclose'=>true,
-                            'todayBtn'=>true,
+                            'autoclose' => true,
+                            'todayBtn' => true,
                             'todayHighlight' => true,
                             'endDate' => "0d"
                         ]
@@ -184,7 +185,7 @@ use yii\widgets\MaskedInput;
 
             <?= $form->field($model, 'work_position')->widget(Select2::classname(),
                 [
-                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(),'id','name'),
+                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(), 'id', 'name'),
                     'options' => ['placeholder' => 'Выберите должность...'],
                     'pluginOptions' => [
                         'allowClear' => true
@@ -197,11 +198,11 @@ use yii\widgets\MaskedInput;
                 <div class="col-md-4">
                     <?= $form->field($model, 'work_document_date')->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ввод даты ...'],
-                        'value'=> 'dd.mm.yyyy',
+                        'value' => 'dd.mm.yyyy',
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
-                            'autoclose'=>true,
-                            'todayBtn'=>true,
+                            'autoclose' => true,
+                            'todayBtn' => true,
                             'todayHighlight' => true,
                             'endDate' => "0d"
                         ]
@@ -212,11 +213,11 @@ use yii\widgets\MaskedInput;
                 <div class="col-md-6">
                     <?= $form->field($model, 'work_start')->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ввод даты ...'],
-                        'value'=> 'dd.mm.yyyy',
+                        'value' => 'dd.mm.yyyy',
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
-                            'autoclose'=>true,
-                            'todayBtn'=>true,
+                            'autoclose' => true,
+                            'todayBtn' => true,
                             'todayHighlight' => true,
                             'endDate' => "0d"
                         ]
@@ -225,11 +226,11 @@ use yii\widgets\MaskedInput;
                 <div class="col-md-6">
                     <?= $form->field($model, 'work_end')->widget(DatePicker::classname(), [
                         'options' => ['placeholder' => 'Ввод даты ...'],
-                        'value'=> 'dd.mm.yyyy',
+                        'value' => 'dd.mm.yyyy',
                         'pluginOptions' => [
                             'format' => 'dd.mm.yyyy',
-                            'autoclose'=>true,
-                            'todayBtn'=>true,
+                            'autoclose' => true,
+                            'todayBtn' => true,
                             'todayHighlight' => true,
                             'endDate' => "0d"
                         ]
@@ -237,6 +238,31 @@ use yii\widgets\MaskedInput;
                 </div>
             </div>
         </div>
+        <div class="tab-pane" id="tab5">
+            <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
+                'mask' => '9(999)999 99 99',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'phone_work')->widget(MaskedInput::class, [
+                        'mask' => '9(999)999 99 99',
+                        'clientOptions' => [
+                            'removeMaskOnSubmit' => true,
+                        ],
+                    ]) ?>
+                </div>
+                <div class="col-md-6"><?= $form->field($model, 'phone_work_extension')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <?= $form->field($model, 'email')->widget(MaskedInput::class, [
+                'clientOptions' => [
+                    'alias' => 'email'
+                ],
+            ]) ?>
+        </div>
     </div>
     <?php ActiveForm::end(); ?>
 </div>
+
