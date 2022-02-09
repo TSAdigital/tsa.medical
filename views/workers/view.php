@@ -157,7 +157,7 @@ $this->params['buttons'] = [
                                     [
                                         'attribute' => 'phone_work',
                                         'format' => 'raw',
-                                        'value' => Yii::$app->formatter->asPhone($model->phone)
+                                        'value' => Yii::$app->formatter->asPhone($model->phone_work)
                                     ],
                                     'phone_work_extension',
                                     'email:email',
