@@ -18,6 +18,7 @@ use yii\bootstrap4\ActiveForm;
     <?php $form = ActiveForm::begin(['id' => 'counterparty']); ?>
     <div class="tab-content">
         <div class="active tab-pane" id="tab1">
+
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
@@ -31,8 +32,10 @@ use yii\bootstrap4\ActiveForm;
             <?= $form->field($model, 'web_site')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'created_at')->textInput() ?>
             <?= $form->field($model, 'updated_at')->textInput() ?>
+
         </div>
         <div class="tab-pane" id="tab2">
+
             <?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
@@ -44,12 +47,15 @@ use yii\bootstrap4\ActiveForm;
             <?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?>
+
         </div>
         <div class="tab-pane" id="tab3">
+
             <?= $form->field($model, 'contact_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'contact_position')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'contact_email')->textInput(['maxlength' => true]) ?>
+
         </div>
     </div>
     <?php ActiveForm::end(); ?>

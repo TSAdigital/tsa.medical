@@ -44,33 +44,36 @@ $this->params['buttons'] = [
                 <div class="card-body pb-1">
                     <div class="tab-content">
                         <div class="active tab-pane" id="base">
-                    <?= DetailView::widget([
-                        'model' => $model,
-                        'attributes' => [
-                            [
-                                'attribute' => 'name',
-                                'captionOptions' => ['width' => '200px'],
-                            ],
-                            'full_name',
-                            'inn',
-                            'kpp',
-                            'ogrn',
-                            'okpo',
-                            'director',
-                            'director_document',
-                            'phone:phone',
-                            'email:email',
-                            'web_site',
-                            [
-                                'attribute' => 'status',
-                                'value' => $model->getStatusName(),
-                            ],
-                            'created_at:datetime',
-                            'updated_at:datetime',
-                        ],
-                    ]) ?>
+
+                            <?= DetailView::widget([
+                                'model' => $model,
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'name',
+                                        'captionOptions' => ['width' => '200px'],
+                                    ],
+                                    'full_name',
+                                    'inn',
+                                    'kpp',
+                                    'ogrn',
+                                    'okpo',
+                                    'director',
+                                    'director_document',
+                                    'phone:phone',
+                                    'email:email',
+                                    'web_site',
+                                    [
+                                        'attribute' => 'status',
+                                        'value' => $model->getStatusName(),
+                                    ],
+                                    'created_at:datetime',
+                                    'updated_at:datetime',
+                                ],
+                            ]) ?>
+
                         </div>
                         <div class="tab-pane" id="address">
+
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'attributes' => [
@@ -90,8 +93,10 @@ $this->params['buttons'] = [
                                     'office',
                                 ],
                             ]) ?>
+
                         </div>
                         <div class="tab-pane" id="contact">
+
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'attributes' => [
@@ -104,6 +109,7 @@ $this->params['buttons'] = [
                                     'contact_email:email',
                                 ],
                             ]) ?>
+
                         </div>
                     </div>
                 </div>
