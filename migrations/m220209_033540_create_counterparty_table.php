@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%counterpartie}}`.
+ * Handles the creation of table `{{%counterparty}}`.
  */
 class m220209_033540_create_counterparty_table extends Migration
 {
@@ -12,7 +12,7 @@ class m220209_033540_create_counterparty_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%counterpartie}}', [
+        $this->createTable('{{%counterparty}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->notNull(),
             'full_name' => $this->string(),
@@ -54,6 +54,6 @@ class m220209_033540_create_counterparty_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%counterpartie}}');
+        $this->dropTable('{{%counterparty}}');
     }
 }

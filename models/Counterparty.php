@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -40,7 +40,7 @@ use yii\helpers\ArrayHelper;
  * @property int $created_at
  * @property int $updated_at
  */
-class Counterparty extends \yii\db\ActiveRecord
+class Counterparty extends ActiveRecord
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
@@ -68,7 +68,7 @@ class Counterparty extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'counterpartie';
+        return 'counterparty';
     }
 
     /**

@@ -21,33 +21,40 @@ use yii\bootstrap4\ActiveForm;
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'kpp')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'okpo')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'director')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'director_document')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'web_site')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'created_at')->textInput() ?>
-            <?= $form->field($model, 'updated_at')->textInput() ?>
-
+            <div class="row">
+                <div class="col-md-3"><?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'kpp')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'okpo')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6"><?= $form->field($model, 'director')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-6"><?= $form->field($model, 'director_document')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'web_site')->textInput(['maxlength' => true]) ?></div>
+            </div>
         </div>
         <div class="tab-pane" id="tab2">
-
-            <?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'district')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'locality')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'house')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?>
-
+            <div class="row">
+                <div class="col-md-3"><?= $form->field($model, 'index')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'district')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-4"><?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'locality')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-4"><?= $form->field($model, 'street')->textInput(['maxlength' => true]) ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"><?= $form->field($model, 'house')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'body')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'building')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-3"><?= $form->field($model, 'office')->textInput(['maxlength' => true]) ?></div>
+            </div>
         </div>
         <div class="tab-pane" id="tab3">
 
