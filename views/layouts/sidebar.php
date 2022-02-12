@@ -15,11 +15,24 @@
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
                     ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card'],
-                    ['label' => 'Контрагенты', 'url' => ['counterparties/index'], 'icon' => 'handshake'],
                     ['label' => 'Последняя активность', 'url' => ['action-history/index'], 'icon' => 'history'],
                     ['label' => 'СПРАВОЧНИКИ', 'header' => true],
-                    ['label' => 'Подразделения', 'url' => ['departments/index'], 'icon' => 'building'],
-                    ['label' => 'Отделения', 'url' => ['divisions/index'], 'icon' => 'project-diagram'],
+                    [
+                        'label' => 'Структура',
+                        'icon' => 'building',
+                        'items' => [
+                            ['label' => 'Подразделения', 'url' => ['departments/index'], 'active'=> $this->context->getUniqueId() == 'departments', 'icon' => ''],
+                            ['label' => 'Отделения', 'url' => ['divisions/index'], 'active'=> $this->context->getUniqueId() == 'divisions', 'icon' => ''],
+                        ]
+                    ],
+                    [
+                        'label' => 'Контрагенты',
+                        'icon' => 'handshake',
+                        'items' => [
+                            ['label' => 'Юридические лица', 'url' => ['counterparties/index'], 'active'=> $this->context->getUniqueId() == 'counterparties', 'icon' => ''],
+                            ['label' => 'Физические лица', 'url' => ['counterparties-fl/index'], 'active'=> $this->context->getUniqueId() == 'counterparties-fl', 'icon' => ''],
+                        ]
+                    ],
                     ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card-alt'],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('viewAdminOnly')],
                     ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('viewAdminOnly')],
