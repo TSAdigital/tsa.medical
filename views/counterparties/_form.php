@@ -60,7 +60,10 @@ use yii\bootstrap4\ActiveForm;
 
             <?= $form->field($model, 'contact_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'contact_position')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'contact_phone')->textInput(['maxlength' => true]) ?>
+            <div class="row">
+                <div class="col-md-7"><?= $form->field($model, 'contact_phone')->textInput(['maxlength' => true]) ?></div>
+                <div class="col-md-5"><?= $form->field($model, 'contact_phone_extension')->textInput(['maxlength' => true]) ?></div>
+            </div>
             <?= $form->field($model, 'contact_email')->textInput(['maxlength' => true]) ?>
 
         </div>

@@ -35,6 +35,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $contact_name
  * @property string|null $contact_position
  * @property string|null $contact_phone
+ * @property string|null $contact_phone_extension
  * @property string|null $contact_email
  * @property int $status
  * @property int $created_at
@@ -79,7 +80,7 @@ class Counterparty extends ActiveRecord
         return [
             [['name', 'inn'], 'required'],
 
-            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'director', 'director_document', 'phone', 'email', 'web_site', 'index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office', 'contact_name', 'contact_position', 'contact_phone', 'contact_email'], 'string', 'max' => 255],
+            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'director', 'director_document', 'phone', 'email', 'web_site', 'index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office', 'contact_name', 'contact_position', 'contact_phone', 'contact_phone_extension', 'contact_email'], 'string', 'max' => 255],
             [['inn'], 'unique'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
@@ -114,11 +115,12 @@ class Counterparty extends ActiveRecord
             'street' => 'Улица',
             'house' => 'Дом',
             'body' => 'Корпус',
-            'building' => 'Здание',
+            'building' => 'Строение',
             'office' => 'Офис',
             'contact_name' => 'Имя',
             'contact_position' => 'Должность',
             'contact_phone' => 'Номер телефона',
+            'contact_phone_extension' => 'Внутренний номер телефона',
             'contact_email' => 'Электронная почта',
             'status' => 'Статус',
             'created_at' => 'Запись создана',

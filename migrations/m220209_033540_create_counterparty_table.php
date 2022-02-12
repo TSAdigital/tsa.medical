@@ -41,6 +41,7 @@ class m220209_033540_create_counterparty_table extends Migration
             'contact_name' => $this->string(),
             'contact_position' => $this->string(),
             'contact_phone' => $this->string(),
+            'contact_phone_extension' => $this->string(),
             'contact_email' => $this->string(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),

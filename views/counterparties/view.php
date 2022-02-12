@@ -50,7 +50,7 @@ $this->params['buttons'] = [
                                 'attributes' => [
                                     [
                                         'attribute' => 'name',
-                                        'captionOptions' => ['width' => '200px'],
+                                        'captionOptions' => ['width' => '250px'],
                                     ],
                                     'full_name',
                                     'inn',
@@ -61,7 +61,7 @@ $this->params['buttons'] = [
                                     'director_document',
                                     'phone:phone',
                                     'email:email',
-                                    'web_site',
+                                    'web_site:url',
                                     [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),
@@ -79,7 +79,7 @@ $this->params['buttons'] = [
                                 'attributes' => [
                                     [
                                         'attribute' => 'index',
-                                        'captionOptions' => ['width' => '200px'],
+                                        'captionOptions' => ['width' => '250px'],
                                     ],
                                     'country',
                                     'region',
@@ -102,10 +102,11 @@ $this->params['buttons'] = [
                                 'attributes' => [
                                     [
                                         'attribute' => 'contact_name',
-                                        'captionOptions' => ['width' => '200px'],
+                                        'captionOptions' => ['width' => '250px'],
                                     ],
                                     'contact_position',
                                     'contact_phone:phone',
+                                    'contact_phone_extension',
                                     'contact_email:email',
                                 ],
                             ]) ?>
