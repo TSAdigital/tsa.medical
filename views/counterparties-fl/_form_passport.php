@@ -1,6 +1,5 @@
 <?php
 
-use yii\helpers\Html;
 use yii\bootstrap4\ActiveForm;
 
 /* @var $this yii\web\View */
@@ -10,7 +9,7 @@ use yii\bootstrap4\ActiveForm;
 
 <div class="counterparty-fl-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'passport']); ?>
 
     <?= $form->field($model, 'passport_serial')->textInput(['maxlength' => true]) ?>
 
@@ -23,10 +22,6 @@ use yii\bootstrap4\ActiveForm;
     <?= $form->field($model, 'passport_department_code')->textInput() ?>
 
     <?= $form->field($model, 'passport_birthplace')->textInput(['maxlength' => true]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-    </div>
 
     <?php ActiveForm::end(); ?>
 

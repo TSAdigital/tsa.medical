@@ -74,44 +74,47 @@ $this->params['buttons'] = [
                             ]) ?>
                         </div>
                         <div class="tab-pane" id="passport">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <?php
+                                        $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="text-center align-middle">Серия</th>
+                                                    <th scope="col" class="text-center align-middle">Номер</th>
+                                                    <th scope="col" class="text-center align-middle">Дата выдачи</th>
+                                                    <th scope="col" class="text-center align-middle">Код подразделения</th>
+                                                    <th scope="col" class="align-middle">Кто выдал</th>
+                                                    <th scope="col" class="align-middle">Место рождения</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) .'
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                                    ?>
 
+                                    <?= ListView::widget([
+                                        'dataProvider' => $passport,
+                                        'layout' => $tempalte,
 
-                            <?php
-                                $tempalte = '
-                                    <table class="table table-striped table-bordered">
-                                        <thead>
-                                         <tr>
-                                            <th scope="col" class="text-center">Серия</th>
-                                            <th scope="col" class="text-center">Номер</th>
-                                            <th scope="col" class="text-center">Дата выдачи</th>
-                                            <th scope="col" class="text-center">Код подразделения</th>
-                                            <th scope="col">Кто выдал</th>
-                                            <th scope="col">Место рождения</th>
-                                            <th scope="col" class="text-center">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) .'
-                                        </tr>      
-                                        </thead>
-                                        <tbody>
-                                            {items}
-                                        </tbody>
-                                    </table>
-                                ';
-                            ?>
-
-                            <?= ListView::widget([
-                                'dataProvider' => $passport,
-                                'layout' => $tempalte,
-
-                                'emptyText' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-passport', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']),
-                                'itemOptions' => [
-                                    'tag' => false,
-                                ],
-                                'viewParams'=> ['counterparty' => $model],
-                                'itemView' => '_list_passport',
-                                'pager' => [
-                                    'class' => 'yii\bootstrap4\LinkPager',
-                                ],
-                            ]); ?>
-
+                                        'emptyText' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-passport', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']),
+                                        'itemOptions' => [
+                                            'tag' => false,
+                                        ],
+                                        'viewParams'=> ['counterparty' => $model],
+                                        'itemView' => '_list_passport',
+                                        'pager' => [
+                                            'class' => 'yii\bootstrap4\LinkPager',
+                                        ],
+                                    ]); ?>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="address">
 

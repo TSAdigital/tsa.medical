@@ -50,3 +50,7 @@ div.required label:after {
     float: right;
     font-size: 1.6rem;
 }
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: none;
+}

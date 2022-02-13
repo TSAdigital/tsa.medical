@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ActionHistory;
 use app\models\Passport;
 use Yii;
 use app\models\CounterpartyFl;
@@ -25,7 +26,10 @@ class CounterpartiesFlController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'actions' => [
+                        'blocked-passport' => ['POST'],
+                        'active-passport' => ['POST'],
+                    ],
                 ],
             ],
         ];
@@ -57,6 +61,9 @@ class CounterpartiesFlController extends Controller
         $query = Passport::find()->where(['counterparty' => $id]);
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
         ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -91,6 +98,72 @@ class CounterpartiesFlController extends Controller
             'model' => $model,
             'counterparty' =>  $counterparty,
         ]);
+    }
+
+    public function actionActivePassport($id, $passport)
+    {
+        $model = $this->findModel($id);
+        $passport = Passport::findOne($passport);
+        $action_history = new ActionHistory();
+        $passport->setStatus('STATUS_ACTIVE');
+
+        if ($passport->setStatus('STATUS_ACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-passport bg-info', 'активировал(а) паспорт', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name . ' (' . $passport->passport_serial . ' ' . $passport->passport_number . ')');
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Паспорт активирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать паспорт',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
+    }
+
+    public function actionBlockedPassport($id, $passport)
+    {
+        $model = $this->findModel($id);
+        $passport = Passport::findOne($passport);
+        $action_history = new ActionHistory();
+        $passport->setStatus('STATUS_INACTIVE');
+
+        if ($passport->setStatus('STATUS_INACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-passport bg-red', 'аннулировал(а) паспорт', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name . ' (' . $passport->passport_serial . ' ' . $passport->passport_number . ')');
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Паспорт аннулирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать подразделение',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
     }
 
     /**

@@ -4,6 +4,7 @@ namespace app\models;
 
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "passport".
@@ -72,15 +73,38 @@ class Passport extends ActiveRecord
         return [
             'id' => 'ID',
             'counterparty' => 'Counterparty',
-            'passport_serial' => 'Passport Serial',
-            'passport_number' => 'Passport Number',
-            'passport_date' => 'Passport Date',
-            'passport_issued' => 'Passport Issued',
-            'passport_department_code' => 'Passport Department Code',
-            'passport_birthplace' => 'Passport Birthplace',
-            'status' => 'Status',
+            'passport_serial' => 'Серия',
+            'passport_number' => 'Номер',
+            'passport_date' => 'Дата выдачи',
+            'passport_issued' => 'Кто выдал',
+            'passport_department_code' => 'Код подразделения',
+            'passport_birthplace' => 'Место рождения',
+            'status' => 'Статус',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
     }
+
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активнен',
+            self::STATUS_INACTIVE => 'Аннулирован',
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
+    }
+
 }
