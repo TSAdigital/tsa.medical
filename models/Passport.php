@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -55,13 +56,38 @@ class Passport extends ActiveRecord
     public function rules()
     {
         return [
-            [['counterparty', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['passport_date'], 'safe'],
+            [['counterparty'], 'integer'],
+
+            ['passport_serial', 'string', 'min' => 4, 'tooShort' => 'Значение «Серия» должно содержать 4 символа.'],
+            ['passport_serial', 'trim'],
+            ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['passport_serial', 'required'],
+
+            ['passport_number', 'string', 'min' => 6, 'tooShort' => 'Значение «Номер» должно содержать 6 символов.'],
+            ['passport_number', 'trim'],
+            ['passport_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['passport_number', 'required'],
+
+            ['passport_date', 'date'],
+            ['passport_date', 'required'],
+
+            ['passport_issued', 'string'],
+            ['passport_issued', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['passport_issued', 'required'],
+
+            ['passport_department_code', 'string', 'min' => 6, 'tooShort' => 'Значение «Код подразделения» должно содержать 6 символов.'],
+            ['passport_department_code', 'trim'],
+            ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['passport_department_code', 'required'],
+
+            ['passport_birthplace', 'string', 'max' => 255],
+            ['passport_birthplace', 'trim'],
+            ['passport_birthplace', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['passport_birthplace', 'required'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
-            [['passport_serial', 'passport_number', 'passport_issued', 'passport_department_code', 'passport_birthplace'], 'string', 'max' => 255],
         ];
     }
 
@@ -105,6 +131,19 @@ class Passport extends ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->passport_date = date('Y-m-d', strtotime($this->passport_date));
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind ();
+        $this->passport_date = Yii::$app->formatter->asDate($this->passport_date);
     }
 
 }

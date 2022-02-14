@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -71,11 +72,33 @@ class CounterpartyFl extends ActiveRecord
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
-            [['last_name', 'firs_name', 'birthdate', 'gender', 'snils'], 'required'],
-            [['birthdate'], 'safe'],
-            [['created_at', 'updated_at'], 'integer'],
-            [['last_name', 'firs_name', 'middle_name', 'snils', 'inn'], 'string', 'max' => 255],
-            [['snils'], 'unique'],
+            ['birthdate', 'date'],
+            ['birthdate', 'required'],
+
+            ['snils', 'required'],
+            ['snils', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['snils', 'unique'],
+            ['snils', 'trim'],
+            ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['inn', 'string', 'min' => 12, 'tooShort' => 'Значение «ИНН» должно содержать 12 символов.'],
+            ['inn', 'trim'],
+            ['inn', 'unique'],
+            ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['last_name', 'required'],
+            ['last_name', 'string', 'max' => 40],
+            ['last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['last_name', 'trim'],
+
+            ['firs_name', 'required'],
+            ['firs_name', 'string', 'max' => 40],
+            ['firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['firs_name', 'trim'],
+
+            ['middle_name', 'string', 'max' => 40],
+            ['middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['middle_name', 'trim'],
         ];
     }
 
@@ -123,5 +146,18 @@ class CounterpartyFl extends ActiveRecord
     public function getStatusName()
     {
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->birthdate = date('Y-m-d', strtotime($this->birthdate));
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind ();
+        $this->birthdate = Yii::$app->formatter->asDate($this->birthdate);
     }
 }

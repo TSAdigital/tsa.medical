@@ -19,10 +19,10 @@ $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i
 ]);
 ?>
 <tr>
-        <td class="text-center align-middle"><?= $model->passport_serial ?></td>
+        <td class="text-center align-middle"><?= Yii::$app->formatter->asPassportSerial($model->passport_serial) ?></td>
         <td class="text-center align-middle"><?= $model->passport_number ?></td>
         <td class="text-center align-middle"><?= $model->passport_date ?></td>
-        <td class="text-center align-middle"><?= $model->passport_department_code ?></td>
+        <td class="text-center align-middle"><?= Yii::$app->formatter->asPassportDepartmentCode($model->passport_department_code) ?></td>
         <td class="align-middle"><?= $model->passport_issued ?></td>
         <td class="align-middle"><?= $model->passport_birthplace ?></td>
         <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>

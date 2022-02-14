@@ -20,7 +20,7 @@ class m220212_102456_create_counterparty_fl_table extends Migration
             'birthdate' => $this->date()->notNull(),
             'gender' => $this->integer()->notNull(),
             'snils' => $this->string()->unique()->notNull(),
-            'inn' => $this->string(),
+            'inn' => $this->string()->unique(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
