@@ -3,10 +3,16 @@
 /* @var $this yii\web\View */
 /* @var $model app\models\CounterpartyFl */
 
-$this->title = 'Update Counterparty Fl: ' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Counterparty Fls', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = 'Update';
+use yii\bootstrap\Html;
+
+$this->title = 'Редактирование: ' . $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+$this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = 'Редактирование';
+$this->params['buttons'] = [
+    'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"counterparty-fl"]),
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])
+];
 ?>
 
 <div class="container-fluid">

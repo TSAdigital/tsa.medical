@@ -56,13 +56,17 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
-                                    return
-                                        Html::a($data->middle_name, ['counterparties-fl/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                    return Html::a($data->middle_name, ['counterparties-fl/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
                             ],
                             [
-                                'attribute'=>'snils',
+                                'attribute'=>'birthdate',
                                 'options' => ['width'=>'20%'],
+                                'value' => function($data)
+                                {
+                                    return Yii::$app->formatter->asDate($data->birthdate);
+                                }
+
                             ],
                             //'snils',
                             //'inn',
