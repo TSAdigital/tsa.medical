@@ -17,6 +17,8 @@ use yii\helpers\ArrayHelper;
  * @property string $birthdate
  * @property int $gender
  * @property string $snils
+ * @property string $phone
+ * @property string $email
  * @property string|null $inn
  * @property int $status
  * @property int $created_at
@@ -81,6 +83,16 @@ class CounterpartyFl extends ActiveRecord
             ['snils', 'trim'],
             ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
+            ['phone', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['phone', 'unique'],
+            ['phone', 'trim'],
+            ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['email', 'email'],
+            ['email', 'unique'],
+            ['email', 'trim'],
+            ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
             ['inn', 'string', 'min' => 12, 'tooShort' => 'Значение «ИНН» должно содержать 12 символов.'],
             ['inn', 'trim'],
             ['inn', 'unique'],
@@ -117,6 +129,8 @@ class CounterpartyFl extends ActiveRecord
             'snils' => 'СНИЛС',
             'inn' => 'ИНН',
             'status' => 'Статус',
+            'phone' => 'Номер телефона',
+            'email' => 'Адрес электронной почты',
             'created_at' => 'Запись создана',
             'updated_at' => 'Запись изменена',
         ];

@@ -21,6 +21,8 @@ class m220212_102456_create_counterparty_fl_table extends Migration
             'gender' => $this->integer()->notNull(),
             'snils' => $this->string()->unique()->notNull(),
             'inn' => $this->string()->unique(),
+            'phone' => $this->string(),
+            'email' => $this->string(),
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),

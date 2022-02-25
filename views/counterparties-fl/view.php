@@ -7,6 +7,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $model app\models\CounterpartyFl */
 /* @var $passport app\models\Passport */
+/* @var $address app\models\AddressFl */
 
 $this->title = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
@@ -37,7 +38,7 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#passport" data-toggle="tab">Паспорт</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
@@ -117,10 +118,67 @@ $this->params['buttons'] = [
                             </div>
                         </div>
                         <div class="tab-pane" id="address">
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <?php
+                                    $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="text-center align-middle">Тип</th>
+                                                    <th scope="col" class="text-center align-middle">Индекс</th>
+                                                    <th scope="col" class="text-center align-middle">Страна</th>
+                                                    <th scope="col" class="text-center align-middle">Регион</th>
+                                                    <th scope="col" class="align-middle">Район</th>
+                                                    <th scope="col" class="align-middle">Город</th>
+                                                    <th scope="col" class="align-middle">Населенный пункт</th>
+                                                    <th scope="col" class="align-middle">Улица</th>
+                                                    <th scope="col" class="align-middle">Дом</th>
+                                                    <th scope="col" class="align-middle">Корпус</th>
+                                                    <th scope="col" class="align-middle">Строение</th>
+                                                    <th scope="col" class="align-middle">Квартира</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) .'
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                                    ?>
 
+                                    <?= ListView::widget([
+                                        'dataProvider' => $address,
+                                        'layout' => $tempalte,
+
+                                        'emptyText' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-address', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']),
+                                        'itemOptions' => [
+                                            'tag' => false,
+                                        ],
+                                        'viewParams'=> ['counterparty' => $model],
+                                        'itemView' => '_list_address',
+                                        'pager' => [
+                                            'class' => 'yii\bootstrap4\LinkPager',
+                                        ],
+                                    ]); ?>
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="contact">
-
+                            <?= DetailView::widget([
+                                'model' => $model,
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'phone',
+                                        'captionOptions' => ['width' => '250px'],
+                                        'format' => 'raw',
+                                        'value' => Yii::$app->formatter->asPhone($model->phone)
+                                    ],
+                                    'email:email',
+                                ],
+                            ]) ?>
                         </div>
                     </div>
                 </div>
