@@ -1,6 +1,6 @@
 <?php
 
-use kartik\date\DatePicker;
+use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\widgets\MaskedInput;
 
@@ -13,6 +13,15 @@ use yii\widgets\MaskedInput;
 
     <?php $form = ActiveForm::begin(['id' => 'address']); ?>
 
+        <?= $form->field($model, 'type')->widget(Select2::classname(),
+            [
+                'data' => $model->getAddressesArray(),
+                'options' => ['placeholder' => 'Выберите тип...'],
+                'pluginOptions' => [
+                    'allowClear' => true
+                ],
+            ]);
+        ?>
         <?= $form->field($model, 'index')->widget(MaskedInput::class, [
             'mask' => '999999',
             'clientOptions' => [

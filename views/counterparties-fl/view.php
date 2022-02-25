@@ -89,7 +89,7 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="align-middle">Кто выдал</th>
                                                     <th scope="col" class="align-middle">Место рождения</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
-                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) .'
+                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) .'</th>
                                                 </tr>      
                                                 </thead>
                                                 <tbody>
@@ -138,7 +138,7 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="align-middle">Строение</th>
                                                     <th scope="col" class="align-middle">Квартира</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
-                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) .'
+                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) .'</th>
                                                 </tr>      
                                                 </thead>
                                                 <tbody>

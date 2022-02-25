@@ -2,8 +2,8 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -27,11 +27,14 @@ use yii\helpers\ArrayHelper;
  * @property int $created_at
  * @property int $updated_at
  */
-class AddressFl extends \yii\db\ActiveRecord
+class AddressFl extends ActiveRecord
 {
 
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+
+    const ADDRESS_REGISTRATION = 9;
+    const ADDRESS_RESIDENTIAL = 10;
 
     /**
      * {@inheritdoc}
@@ -78,7 +81,7 @@ class AddressFl extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'counterparty' => 'Counterparty',
-            'type' => 'Type',
+            'type' => 'Тип',
             'index' => 'Индекс',
             'country' => 'Страна',
             'region' => 'Регион',
@@ -117,5 +120,18 @@ class AddressFl extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public static function getAddressesArray()
+    {
+        return [
+            self::ADDRESS_REGISTRATION=> 'Регистрации',
+            self::ADDRESS_RESIDENTIAL => 'Проживания',
+        ];
+    }
+
+    public function getAddressName()
+    {
+        return ArrayHelper::getValue(self::getAddressesArray(), $this->status);
     }
 }

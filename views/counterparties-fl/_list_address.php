@@ -19,7 +19,7 @@ $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i
 ]);
 ?>
 <tr>
-    <td class="text-center align-middle"><?= $model->type ?></td>
+    <td class="text-center align-middle"><?= $model->getAddressName() ?></td>
     <td class="text-center align-middle"><?= $model->index ?></td>
     <td class="text-center align-middle"><?= $model->country ?></td>
     <td class="text-center align-middle"><?= $model->region ?></td>
