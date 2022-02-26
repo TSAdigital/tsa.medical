@@ -14,10 +14,10 @@ class m220225_040453_create_address_fl_table extends Migration
     {
         $this->createTable('{{%address_fl}}', [
             'id' => $this->primaryKey(),
-            'counterparty' => $this->integer(),
-            'type' => $this->integer(),
-            'index' => $this->string(),
-            'country' => $this->string(),
+            'counterparty' => $this->integer()->notNull(),
+            'type' => $this->integer()->notNull(),
+            'index' => $this->string()->notNull(),
+            'country' => $this->string()->notNull(),
             'region' => $this->string(),
             'district' => $this->string(),
             'city' => $this->string(),

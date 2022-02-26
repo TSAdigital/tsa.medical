@@ -17,14 +17,14 @@ $this->params['buttons'] = [
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать сотрудника?',
+            'confirm' => 'Аннулировать контрагента ФЛ?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать сотрудника?',
+            'confirm' => 'Активировать контрагента ФЛ?',
             'method' => 'post',
         ],
     ]) : false,
@@ -78,6 +78,7 @@ $this->params['buttons'] = [
                             <div class="row">
                                 <div class="table-responsive">
                                     <?php
+                                        $button_add_passport =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) : null;
                                         $tempalte = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
@@ -89,7 +90,7 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="align-middle">Кто выдал</th>
                                                     <th scope="col" class="align-middle">Место рождения</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
-                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-passport', 'id' => $model->id]) .'</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_passport .'</th>
                                                 </tr>      
                                                 </thead>
                                                 <tbody>
@@ -104,7 +105,7 @@ $this->params['buttons'] = [
                                         'dataProvider' => $passport,
                                         'layout' => $tempalte,
 
-                                        'emptyText' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-passport', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']),
+                                        'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-passport', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
                                         'itemOptions' => [
                                             'tag' => false,
                                         ],
@@ -121,6 +122,7 @@ $this->params['buttons'] = [
                             <div class="row">
                                 <div class="table-responsive">
                                     <?php
+                                    $button_add_address = $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) : null;
                                     $tempalte = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
@@ -138,7 +140,7 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="align-middle">Строение</th>
                                                     <th scope="col" class="align-middle">Квартира</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
-                                                    <th scope="col" class="text-center align-middle">'. Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) .'</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_address .'</th>
                                                 </tr>      
                                                 </thead>
                                                 <tbody>
@@ -153,7 +155,7 @@ $this->params['buttons'] = [
                                         'dataProvider' => $address,
                                         'layout' => $tempalte,
 
-                                        'emptyText' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-address', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']),
+                                        'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-address', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
                                         'itemOptions' => [
                                             'tag' => false,
                                         ],

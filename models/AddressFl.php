@@ -132,6 +132,6 @@ class AddressFl extends ActiveRecord
 
     public function getAddressName()
     {
-        return ArrayHelper::getValue(self::getAddressesArray(), $this->status);
+        return ArrayHelper::getValue(self::getAddressesArray(), $this->type);
     }
 }

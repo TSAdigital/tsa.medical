@@ -152,6 +152,15 @@ class CounterpartyFl extends ActiveRecord
         ];
     }
 
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
+    }
+
     public function getGender()
     {
         return ArrayHelper::getValue(self::getGenderArray(), $this->gender);
