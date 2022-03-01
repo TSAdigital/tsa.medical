@@ -83,7 +83,7 @@ class CounterpartyFl extends ActiveRecord
             ['snils', 'trim'],
             ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(?\d{3}\)?)(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
+            ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
             ['phone', 'unique'],
             ['phone', 'trim'],
             ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -93,7 +93,7 @@ class CounterpartyFl extends ActiveRecord
             ['email', 'trim'],
             ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['inn', 'string', 'min' => 12, 'tooShort' => 'Значение «ИНН» должно содержать 12 символов.'],
+            ['inn', 'match', 'pattern' => '#^(\d{12})$#', 'message' => 'Значение «ИНН» должно содержать 12 символов.'],
             ['inn', 'trim'],
             ['inn', 'unique'],
             ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],

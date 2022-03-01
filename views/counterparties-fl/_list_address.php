@@ -23,13 +23,13 @@ $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i
     <td class="text-center align-middle"><?= $model->index ?></td>
     <td class="text-center align-middle"><?= $model->country ?></td>
     <td class="align-middle"><?= $model->region ?></td>
-    <td class="align-middle"><?= $model->district ?></td>
+    <td class="align-middle d-none"><?= $model->district ?></td>
     <td class="align-middle"><?= $model->city ?></td>
-    <td class="align-middle"><?= $model->locality ?></td>
+    <td class="align-middle d-none"><?= $model->locality ?></td>
     <td class="align-middle"><?= $model->street ?></td>
     <td class="text-center align-middle"><?= $model->house ?></td>
     <td class="text-center align-middle"><?= $model->body ?></td>
-    <td class="text-center align-middle"><?= $model->building ?></td>
+    <td class="text-center align-middle d-none"><?= $model->building ?></td>
     <td class="text-center align-middle"><?= $model->apartment ?></td>
     <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
     <td class="text-center align-middle">
