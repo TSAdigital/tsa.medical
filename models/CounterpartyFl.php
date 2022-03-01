@@ -78,12 +78,12 @@ class CounterpartyFl extends ActiveRecord
             ['birthdate', 'required'],
 
             ['snils', 'required'],
-            ['snils', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['snils', 'match', 'pattern' => '#^(\d{3})(\d{3})(\d{3})(\d{2})|(\d{3})-(\d{3})-(\d{3})\s+(\d{2})$#', 'message' => 'Значение «СНИЛС» должно содержать 11 символов.'],
             ['snils', 'unique'],
             ['snils', 'trim'],
             ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['phone', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
+            ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(?\d{3}\)?)(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
             ['phone', 'unique'],
             ['phone', 'trim'],
             ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],

@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "passport".
  *
  * @property int $id
- * @property int|null $counterparty
+ * @property int|null $counterparty_id
  * @property string|null $passport_serial
  * @property string|null $passport_number
  * @property string|null $passport_date
@@ -56,14 +56,15 @@ class Passport extends ActiveRecord
     public function rules()
     {
         return [
-            [['counterparty'], 'integer'],
+            [['counterparty_id'], 'integer'],
+            [['counterparty_id'], 'required'],
 
-            ['passport_serial', 'match', 'pattern' => '#^(\d{2})(\d{2})$#', 'message' => 'Значение «Серия» должно содержать 4 цифры.'],
+            ['passport_serial', 'match', 'pattern' => '#^(\d{2})(\d{2})|(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Серия» должно содержать 4 символова.'],
             ['passport_serial', 'trim'],
             ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['passport_serial', 'required'],
 
-            ['passport_number', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Номер» должно содержать 6 цифр.'],
+            ['passport_number', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Номер» должно содержать 6 символов.'],
             ['passport_number', 'trim'],
             ['passport_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['passport_number', 'required'],
@@ -75,7 +76,7 @@ class Passport extends ActiveRecord
             ['passport_issued', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['passport_issued', 'required'],
 
-            ['passport_department_code', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Код подразделения» должно содержать 6 цифр.'],
+            ['passport_department_code', 'match', 'pattern' => '#^(\d{3})(\d{3})|(\d{3})-(\d{3})$#', 'message' => 'Значение «Код подразделения» должно содержать 6 символов.'],
             ['passport_department_code', 'trim'],
             ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['passport_department_code', 'required'],
@@ -87,7 +88,6 @@ class Passport extends ActiveRecord
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
-
         ];
     }
 
@@ -98,7 +98,7 @@ class Passport extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'counterparty' => 'Counterparty',
+            'counterparty_id' => 'Counterparty',
             'passport_serial' => 'Серия',
             'passport_number' => 'Номер',
             'passport_date' => 'Дата выдачи',
@@ -142,7 +142,7 @@ class Passport extends ActiveRecord
 
     public function afterFind()
     {
-        parent::afterFind ();
+        parent::afterFind();
         $this->passport_date = Yii::$app->formatter->asDate($this->passport_date);
     }
 

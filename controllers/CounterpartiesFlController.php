@@ -61,14 +61,14 @@ class CounterpartiesFlController extends Controller
      */
     public function actionView($id)
     {
-        $passport= Passport::find()->where(['counterparty' => $id]);
+        $passport= Passport::find()->where(['counterparty_id' => $id]);
         $passport = new ActiveDataProvider([
             'query' => $passport,
             'pagination' => [
                 'pageSize' => 8,
             ],
         ]);
-        $address = AddressFl::find()->where(['counterparty' => $id]);
+        $address = AddressFl::find()->where(['counterparty_id' => $id]);
         $address = new ActiveDataProvider([
             'query' => $address,
             'pagination' => [
@@ -85,9 +85,8 @@ class CounterpartiesFlController extends Controller
     public function actionCreatePassport($id)
     {
         $model = new Passport();
-        $model->counterparty = $id;
+        $model->counterparty_id = $id;
         $counterparty = $this->findModel($id);
-        $model->counterparty = $id;
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $action_history->ActionHistory('fas fa-passport bg-green', 'добавил(а) паспорт', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
@@ -112,7 +111,7 @@ class CounterpartiesFlController extends Controller
     {
         $counterparty = $this->findModel($id);
         $model = Passport::findOne($passport);
-        $model->counterparty = $id;
+        $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
         if($model->status === 10) {
@@ -228,7 +227,7 @@ class CounterpartiesFlController extends Controller
     {
         $model = new AddressFl();
         $counterparty = $this->findModel($id);
-        $model->counterparty = $id;
+        $model->counterparty_id = $id;
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             $action_history->ActionHistory('fas fa-map-marked-alt bg-green', 'добавил(а) адрес', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name. ' ' . $counterparty->middle_name);
@@ -246,7 +245,7 @@ class CounterpartiesFlController extends Controller
 
         return $this->render('create-address', [
             'model' => $model,
-            'counterparty' =>  $this->findModel($id),
+            'counterparty' =>  $counterparty,
         ]);
     }
 
@@ -254,13 +253,13 @@ class CounterpartiesFlController extends Controller
     {
         $counterparty = $this->findModel($id);
         $model = AddressFl::findOne($address);
-        $model->counterparty = $id;
+        $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
         if($model->status === 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-info', 'отредактировал(а) адрес', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', 'отредактировал(а) адрес', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Изменения сохранены',

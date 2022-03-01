@@ -130,15 +130,15 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="text-center align-middle">Тип</th>
                                                     <th scope="col" class="text-center align-middle">Индекс</th>
                                                     <th scope="col" class="text-center align-middle">Страна</th>
-                                                    <th scope="col" class="text-center align-middle">Регион</th>
+                                                    <th scope="col" class="align-middle">Регион</th>
                                                     <th scope="col" class="align-middle">Район</th>
                                                     <th scope="col" class="align-middle">Город</th>
                                                     <th scope="col" class="align-middle">Населенный пункт</th>
                                                     <th scope="col" class="align-middle">Улица</th>
-                                                    <th scope="col" class="align-middle">Дом</th>
-                                                    <th scope="col" class="align-middle">Корпус</th>
-                                                    <th scope="col" class="align-middle">Строение</th>
-                                                    <th scope="col" class="align-middle">Квартира</th>
+                                                    <th scope="col" class="text-center align-middle">Дом</th>
+                                                    <th scope="col" class="text-center align-middle">Корпус</th>
+                                                    <th scope="col" class="text-center align-middle">Строение</th>
+                                                    <th scope="col" class="text-center align-middle">Квартира</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
                                                     <th scope="col" class="text-center align-middle">'. $button_add_address .'</th>
                                                 </tr>      

@@ -14,10 +14,10 @@ class m220225_040453_create_address_fl_table extends Migration
     {
         $this->createTable('{{%address_fl}}', [
             'id' => $this->primaryKey(),
-            'counterparty' => $this->integer()->notNull(),
+            'counterparty_id' => $this->integer()->notNull(),
             'type' => $this->integer()->notNull(),
-            'index' => $this->string()->notNull(),
-            'country' => $this->string()->notNull(),
+            'index' => $this->string(),
+            'country' => $this->string(),
             'region' => $this->string(),
             'district' => $this->string(),
             'city' => $this->string(),
@@ -32,6 +32,21 @@ class m220225_040453_create_address_fl_table extends Migration
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);
+
+        $this->createIndex(
+            'idx-address_fl-counterparty-id',
+            'address_fl',
+            'counterparty_id'
+        );
+
+        $this->addForeignKey(
+            'fk-address_fl-counterparty-id',
+            'address_fl',
+            'counterparty_id',
+            'counterparty_fl',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -39,6 +54,16 @@ class m220225_040453_create_address_fl_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey(
+            'fk-address_fl-counterparty-id',
+            'address_fl'
+        );
+
+        $this->dropIndex(
+            'idx-address_fl-counterparty-id',
+            'address_fl'
+        );
+
         $this->dropTable('{{%address_fl}}');
     }
 }
