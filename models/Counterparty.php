@@ -16,27 +16,16 @@ use yii\helpers\ArrayHelper;
  * @property string|null $kpp
  * @property string|null $ogrn
  * @property string|null $okpo
- * @property string|null $director
- * @property string|null $director_document
  * @property string|null $phone
  * @property string|null $email
  * @property string|null $web_site
- * @property string|null $index
- * @property string|null $country
- * @property string|null $region
- * @property string|null $district
- * @property string|null $city
- * @property string|null $locality
- * @property string|null $street
- * @property string|null $house
- * @property string|null $body
- * @property string|null $building
- * @property string|null $office
- * @property string|null $contact_name
- * @property string|null $contact_position
- * @property string|null $contact_phone
- * @property string|null $contact_phone_extension
- * @property string|null $contact_email
+ *
+ * @property string|null $director_last_name
+ * @property string|null $director_firs_name
+ * @property string|null $director_middle_name
+ * @property string|null $director_position
+ * @property string|null $director_document
+ *
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -80,7 +69,7 @@ class Counterparty extends ActiveRecord
         return [
             [['name', 'inn'], 'required'],
 
-            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'director', 'director_document', 'phone', 'email', 'web_site', 'index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office', 'contact_name', 'contact_position', 'contact_phone', 'contact_phone_extension', 'contact_email'], 'string', 'max' => 255],
+            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'phone', 'email', 'web_site', 'director_last_name', 'director_firs_name', 'director_middle_name', 'director_position', 'director_document'], 'string', 'max' => 255],
             [['inn'], 'unique'],
 
             ['status', 'default', 'value' => self::STATUS_ACTIVE],

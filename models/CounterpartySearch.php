@@ -18,7 +18,7 @@ class CounterpartySearch extends Counterparty
     {
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'director', 'director_document', 'phone', 'email', 'web_site', 'index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office', 'contact_name', 'contact_position', 'contact_phone', 'contact_email'], 'safe'],
+            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'phone', 'email', 'web_site', 'director_last_name', 'director_firs_name', 'director_middle_name', 'director_position', 'director_document'], 'safe'],
         ];
     }
 
@@ -70,27 +70,9 @@ class CounterpartySearch extends Counterparty
             ->andFilterWhere(['like', 'kpp', $this->kpp])
             ->andFilterWhere(['like', 'ogrn', $this->ogrn])
             ->andFilterWhere(['like', 'okpo', $this->okpo])
-            ->andFilterWhere(['like', 'director', $this->director])
-            ->andFilterWhere(['like', 'director_document', $this->director_document])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'web_site', $this->web_site])
-            ->andFilterWhere(['like', 'index', $this->index])
-            ->andFilterWhere(['like', 'country', $this->country])
-            ->andFilterWhere(['like', 'region', $this->region])
-            ->andFilterWhere(['like', 'district', $this->district])
-            ->andFilterWhere(['like', 'city', $this->city])
-            ->andFilterWhere(['like', 'locality', $this->locality])
-            ->andFilterWhere(['like', 'street', $this->street])
-            ->andFilterWhere(['like', 'house', $this->house])
-            ->andFilterWhere(['like', 'body', $this->body])
-            ->andFilterWhere(['like', 'building', $this->building])
-            ->andFilterWhere(['like', 'office', $this->office])
-            ->andFilterWhere(['like', 'contact_name', $this->contact_name])
-            ->andFilterWhere(['like', 'contact_position', $this->contact_position])
-            ->andFilterWhere(['like', 'contact_phone', $this->contact_phone])
-            ->andFilterWhere(['like', 'contact_email', $this->contact_email]);
-
+            ->andFilterWhere(['like', 'web_site', $this->web_site]);
         return $dataProvider;
     }
 }

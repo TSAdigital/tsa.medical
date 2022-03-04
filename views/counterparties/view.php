@@ -57,8 +57,6 @@ $this->params['buttons'] = [
                                     'kpp',
                                     'ogrn',
                                     'okpo',
-                                    'director',
-                                    'director_document',
                                     'phone:phone',
                                     'email:email',
                                     'web_site:url',
@@ -74,42 +72,11 @@ $this->params['buttons'] = [
                         </div>
                         <div class="tab-pane" id="address">
 
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'index',
-                                        'captionOptions' => ['width' => '250px'],
-                                    ],
-                                    'country',
-                                    'region',
-                                    'district',
-                                    'city',
-                                    'locality',
-                                    'street',
-                                    'house',
-                                    'body',
-                                    'building',
-                                    'office',
-                                ],
-                            ]) ?>
+
 
                         </div>
                         <div class="tab-pane" id="contact">
 
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'contact_name',
-                                        'captionOptions' => ['width' => '250px'],
-                                    ],
-                                    'contact_position',
-                                    'contact_phone:phone',
-                                    'contact_phone_extension',
-                                    'contact_email:email',
-                                ],
-                            ]) ?>
 
                         </div>
                     </div>
