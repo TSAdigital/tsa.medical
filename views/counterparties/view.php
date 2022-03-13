@@ -37,6 +37,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#director" data-toggle="tab">Руководитель</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
@@ -66,6 +67,27 @@ $this->params['buttons'] = [
                                     ],
                                     'created_at:datetime',
                                     'updated_at:datetime',
+                                ],
+                            ]) ?>
+
+                        </div>
+                        <div class="tab-pane" id="director">
+
+                            <?= DetailView::widget([
+                                'model' => $model,
+
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'director_last_name',
+                                        'captionOptions' => ['width' => '250px'],
+                                    ],
+                                    'director_firs_name',
+                                    'director_middle_name',
+                                    [
+                                        'attribute' => 'director_position',
+                                        'value' => $model->getPositionName(),
+                                    ],
+                                    'director_document',
                                 ],
                             ]) ?>
 

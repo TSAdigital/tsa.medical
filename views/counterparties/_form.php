@@ -1,6 +1,10 @@
 <?php
 
+use app\models\Position;
+use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Counterparty */
@@ -22,13 +26,46 @@ use yii\bootstrap4\ActiveForm;
 
             <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'inn')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'kpp')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'ogrn')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'okpo')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'web_site')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'inn')->widget(MaskedInput::class, [
+                'mask' => '9{10,12}',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'kpp')->widget(MaskedInput::class, [
+                'mask' => '999999999',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'ogrn')->widget(MaskedInput::class, [
+                'mask' => '9999999999999',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'okpo')->widget(MaskedInput::class, [
+                'mask' => '9{8,10}',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
+                'mask' => '9(999)999 99 99',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
+            <?= $form->field($model, 'email')->widget(MaskedInput::class, [
+                'clientOptions' => [
+                    'alias' => 'email'
+                ],
+            ]) ?>
+            <?= $form->field($model, 'web_site')->widget(MaskedInput::class, [
+                'clientOptions' => [
+                    'alias' => 'url',
+                ],
+            ]) ?>
 
         </div>
 
@@ -37,7 +74,15 @@ use yii\bootstrap4\ActiveForm;
             <?= $form->field($model, 'director_last_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'director_firs_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'director_middle_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'director_position')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'director_position')->widget(Select2::classname(),
+                [
+                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(), 'id', 'name'),
+                    'options' => ['placeholder' => 'Выберите должность...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+            ?>
             <?= $form->field($model, 'director_document')->textInput(['maxlength' => true]) ?>
 
         </div>
