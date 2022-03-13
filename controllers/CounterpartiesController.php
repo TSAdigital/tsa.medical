@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\ActionHistory;
 use Yii;
 use app\models\Counterparty;
 use app\models\CounterpartySearch;
@@ -66,8 +67,31 @@ class CounterpartiesController extends Controller
     {
         $model = new Counterparty();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $action_history = new ActionHistory();
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $action_history->ActionHistory('fas fa-user-tie bg-green', 'добавил(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Контрагент добавлен',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить контрагента',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
