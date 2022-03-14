@@ -117,7 +117,7 @@ class CounterpartiesFlController extends Controller
         if($model->status === 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-passport bg-info', 'отредактировал(а) паспорт контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    $action_history->ActionHistory('fas fa-passport bg-blue', 'отредактировал(а) паспорт контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Изменения сохранены',
@@ -376,7 +376,7 @@ class CounterpartiesFlController extends Controller
 
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-user bg-green', 'добавил(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-handshake bg-green', 'добавил(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Контрагент добавлен',
@@ -409,7 +409,7 @@ class CounterpartiesFlController extends Controller
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) контрагента', 'counterparties-fl/view', $model->getId(),  $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+                    $action_history->ActionHistory('fas fa-handshake bg-blue', 'отредактировал(а) контрагента', 'counterparties-fl/view', $model->getId(),  $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Изменения сохранены',
@@ -456,7 +456,7 @@ class CounterpartiesFlController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-user bg-red', 'аннулировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-handshake bg-red', 'аннулировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Контрагент аннулирован',
@@ -488,7 +488,7 @@ class CounterpartiesFlController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-user bg-info', 'активировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-handshake bg-info', 'активировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Контрагент активирован',

@@ -6,6 +6,7 @@ use app\models\ActionHistory;
 use Yii;
 use app\models\Counterparty;
 use app\models\CounterpartySearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,7 +71,7 @@ class CounterpartiesController extends Controller
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                $action_history->ActionHistory('fas fa-user-tie bg-green', 'добавил(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+                $action_history->ActionHistory('fas fa-handshake bg-green', 'добавил(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Контрагент добавлен',
@@ -119,18 +120,20 @@ class CounterpartiesController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Counterparty model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
+    public function actionHistory($id)
     {
-        $this->findModel($id)->delete();
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'counterparties/view', 'current_record' => $id]);
 
-        return $this->redirect(['index']);
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('history', [
+            'model' => $this->findModel($id),
+            'actionsHistory' => $dataProvider,
+        ]);
     }
 
     /**
