@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ActionHistory;
+use app\models\Address;
 use Yii;
 use app\models\Counterparty;
 use app\models\CounterpartySearch;
@@ -54,8 +55,16 @@ class CounterpartiesController extends Controller
      */
     public function actionView($id)
     {
+        $address = Address::find()->where(['counterparty_id' => $id]);
+        $address = new ActiveDataProvider([
+            'query' => $address,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'address' => $address,
         ]);
     }
 
@@ -134,6 +143,148 @@ class CounterpartiesController extends Controller
             'model' => $this->findModel($id),
             'actionsHistory' => $dataProvider,
         ]);
+    }
+
+    public function actionCreateAddress($id)
+    {
+        $model = new Address();
+        $counterparty = $this->findModel($id);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-green', 'добавил(а) адрес контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Адрес добавлен',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $id]);
+        }
+
+        return $this->render('create-address', [
+            'model' => $model,
+            'counterparty' =>  $counterparty,
+        ]);
+    }
+
+    public function actionUpdateAddress($id, $address)
+    {
+        $counterparty = $this->findModel($id);
+        $model = Address::findOne($address);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+
+        if($model->status === 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', 'отредактировал(а) адрес контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $counterparty->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось сохранить изменения',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $counterparty->id]);
+        }
+        return $this->render('update-address', [
+            'model' => $model,
+            'counterparty' =>  $counterparty,
+        ]);
+    }
+
+    public function actionActiveAddress($id, $address)
+    {
+        $model = $this->findModel($id);
+        $address = Address::findOne($address);
+        $action_history = new ActionHistory();
+        $address->setStatus('STATUS_ACTIVE');
+
+        if ($address->setStatus('STATUS_ACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', 'активировал(а) адрес контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Адрес активирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать адрес',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionBlockedAddress($id, $address)
+    {
+        $model = $this->findModel($id);
+        $address = Address::findOne($address);
+        $action_history = new ActionHistory();
+        $address->setStatus('STATUS_INACTIVE');
+
+        if ($address->setStatus('STATUS_INACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', 'аннулировал(а) адрес контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Адрес аннулирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать адрес',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
     }
 
     /**

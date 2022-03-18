@@ -2,13 +2,16 @@
 
 namespace app\models;
 
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "address".
  *
  * @property int $id
  * @property int $counterparty_id
+ * @property int|null $type
  * @property string|null $index
  * @property string|null $country
  * @property string|null $region
@@ -28,6 +31,28 @@ use yii\db\ActiveRecord;
  */
 class Address extends ActiveRecord
 {
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+
+    const ADDRESS_POSTAL = 8;
+    const ADDRESS_REGISTRATION = 9;
+    const ADDRESS_ACTUAL = 10;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -42,10 +67,13 @@ class Address extends ActiveRecord
     public function rules()
     {
         return [
-            [['counterparty_id', 'created_at', 'updated_at'], 'required'],
+            [['counterparty_id'], 'required'],
             [['counterparty_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office'], 'string', 'max' => 255],
             [['counterparty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Counterparty::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
+            ['type', 'required'],
+            ['type', 'default', 'value' => self::ADDRESS_ACTUAL],
+            ['type', 'in', 'range' => [self::ADDRESS_REGISTRATION, self::ADDRESS_POSTAL, self::ADDRESS_ACTUAL]],
         ];
     }
 
@@ -82,5 +110,41 @@ class Address extends ActiveRecord
     public function getCounterparty()
     {
         return $this->hasOne(Counterparty::className(), ['id' => 'counterparty_id']);
+    }
+
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активнен',
+            self::STATUS_INACTIVE => 'Аннулирован',
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
+    }
+
+    public static function getAddressesArray()
+    {
+        return [
+            self::ADDRESS_REGISTRATION=> 'Регистрации',
+            self::ADDRESS_ACTUAL => 'Фактический',
+            self::ADDRESS_POSTAL => 'Почтовый',
+        ];
+    }
+
+    public function getAddressName()
+    {
+        return ArrayHelper::getValue(self::getAddressesArray(), $this->type);
     }
 }

@@ -2,9 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Counterparty */
+/* @var $address app\models\Address */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
@@ -94,7 +96,50 @@ $this->params['buttons'] = [
                         </div>
                         <div class="tab-pane" id="address">
 
+                            <?php
+                            $button_add_address = $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) : null;
+                            $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="text-center align-middle">Тип</th>
+                                                    <th scope="col" class="text-center align-middle">Индекс</th>
+                                                    <th scope="col" class="text-center align-middle">Страна</th>
+                                                    <th scope="col" class="align-middle">Регион</th>
+                                                    <th scope="col" class="align-middle d-none">Район</th>
+                                                    <th scope="col" class="align-middle">Город</th>
+                                                    <th scope="col" class="align-middle d-none">Населенный пункт</th>
+                                                    <th scope="col" class="align-middle">Улица</th>
+                                                    <th scope="col" class="text-center align-middle">Дом</th>
+                                                    <th scope="col" class="text-center align-middle d-none">Корпус</th>
+                                                    <th scope="col" class="text-center align-middle d-none">Строение</th>
+                                                    <th scope="col" class="text-center align-middle">Офис</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_address .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
 
+                            <?= ListView::widget([
+                                'dataProvider' => $address,
+                                'layout' => $tempalte,
+
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-address', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['counterparty' => $model],
+                                'itemView' => '_list_address',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
 
                         </div>
                         <div class="tab-pane" id="contact">

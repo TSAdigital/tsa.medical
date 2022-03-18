@@ -15,6 +15,7 @@ class m220303_044719_create_address_table extends Migration
         $this->createTable('{{%address}}', [
             'id' => $this->primaryKey(),
             'counterparty_id' => $this->integer()->notNull(),
+            'type' => $this->integer()->notNull(),
             'index' => $this->string(),
             'country' => $this->string(),
             'region' => $this->string(),
