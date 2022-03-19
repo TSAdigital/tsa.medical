@@ -38,7 +38,7 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#director" data-toggle="tab">Руководитель</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
@@ -100,6 +100,7 @@ $this->params['buttons'] = [
                             <?php
                             $button_add_address = $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-address', 'id' => $model->id]) : null;
                             $tempalte = '
+                                            <div class="table-responsive">
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                  <tr>
@@ -124,6 +125,7 @@ $this->params['buttons'] = [
                                                 </tbody>
                                             </table>
                                             {pager}
+                                            </div>
                                         ';
                             ?>
 
@@ -139,6 +141,8 @@ $this->params['buttons'] = [
                                 'itemView' => '_list_address',
                                 'pager' => [
                                     'class' => 'yii\bootstrap4\LinkPager',
+
+
                                 ],
                             ]); ?>
 
@@ -148,12 +152,13 @@ $this->params['buttons'] = [
                             <?php
                             $button_add_contact = $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-contact', 'id' => $model->id]) : null;
                             $tempalte = '
-                                            <table class="table table-bordered table-striped">
+                                            <div class="table-responsive">
+                                            <table class="table table-bordered table-striped ">
                                                 <thead>
                                                  <tr>
-                                                    <th scope="col" class="text-center align-middle">Имя</th>
-                                                    <th scope="col" class="text-center align-middle">Должность</th>
-                                                    <th scope="col" class="text-center align-middle">Номер телефона</th>
+                                                    <th scope="col" class="align-middle">Имя</th>
+                                                    <th scope="col" class="align-middle">Должность</th>
+                                                    <th scope="col" class="align-middle">Номер телефона</th>
                                                     <th scope="col" class="align-middle">Внутренний номер</th>
                                                     <th scope="col" class="align-middle">Адрес электронной почты</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
@@ -165,6 +170,7 @@ $this->params['buttons'] = [
                                                 </tbody>
                                             </table>
                                             {pager}
+                                            </div>
                                         ';
                             ?>
 

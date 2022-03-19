@@ -19,11 +19,11 @@ $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i
 ]);
 ?>
 <tr>
-        <td class="text-center align-middle"><?= $model->name ?></td>
-        <td class="text-center align-middle"><?= $model->getPositionName() ?></td>
-        <td class="text-center align-middle"><?= $model->phone ?></td>
-        <td class="text-center align-middle"><?= $model->phone_extension ?></td>
-        <td class="align-middle"><?= $model->email ?></td>
+        <td class="align-middle"><?= $model->name ?></td>
+        <td class="align-middle"><?= $model->getPositionName() ?></td>
+        <td class="align-middle"><?= Yii::$app->formatter->asPhone($model->phone) ?></td>
+        <td class="align-middle"><?= $model->phone_extension ?></td>
+        <td class="align-middle"><?= Yii::$app->formatter->asEmail($model->email) ?></td>
         <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
         <td class="text-center align-middle">
             <?= $model->status === 10 ?  Html::a('<i class="fas fa-edit text-primary"></i>', ['update-contact', 'id'=> $counterparty->id, 'contact' => $model->id]) : NULL ?>

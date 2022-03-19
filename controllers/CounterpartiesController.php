@@ -60,6 +60,7 @@ class CounterpartiesController extends Controller
         $address = new ActiveDataProvider([
             'query' => $address,
             'pagination' => [
+                'pageParam' => 'page-address',
                 'pageSize' => 8,
             ],
         ]);
@@ -68,6 +69,7 @@ class CounterpartiesController extends Controller
         $contact = new ActiveDataProvider([
             'query' => $contact,
             'pagination' => [
+                'pageParam' => 'page-contact',
                 'pageSize' => 8,
             ],
         ]);
