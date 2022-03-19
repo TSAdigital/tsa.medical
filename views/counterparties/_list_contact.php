@@ -8,12 +8,12 @@ use yii\helpers\Html;
 $model->status === 10 ? $class = 'success' : $class = 'danger';
 $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i>', ['blocked-contact', 'id'=> $counterparty->id, 'contact' => $model->id], [
     'data' => [
-        'confirm' => 'Аннулировать контакт?',
+        'confirm' => 'Аннулировать запись?',
         'method' => 'post',
     ],
 ]) : Html::a('<i class="far fa-check-circle text-success"></i>', ['active-contact', 'id'=> $counterparty->id, 'contact' => $model->id], [
     'data' => [
-        'confirm' => 'Активировать контакт?',
+        'confirm' => 'Активировать запись?',
         'method' => 'post',
     ],
 ]);

@@ -188,4 +188,13 @@ class Counterparty extends ActiveRecord
     {
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
     }
+
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
+    }
 }

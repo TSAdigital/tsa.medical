@@ -17,14 +17,14 @@ $this->params['buttons'] = [
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать должность?',
+            'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать должность?',
+            'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : false,
@@ -104,18 +104,18 @@ $this->params['buttons'] = [
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                  <tr>
-                                                    <th scope="col" class="text-center align-middle">Тип</th>
-                                                    <th scope="col" class="text-center align-middle">Индекс</th>
-                                                    <th scope="col" class="text-center align-middle">Страна</th>
+                                                    <th scope="col" class="align-middle">Тип</th>
+                                                    <th scope="col" class="align-middle">Индекс</th>
+                                                    <th scope="col" class="align-middle">Страна</th>
                                                     <th scope="col" class="align-middle">Регион</th>
                                                     <th scope="col" class="align-middle d-none">Район</th>
                                                     <th scope="col" class="align-middle">Город</th>
                                                     <th scope="col" class="align-middle d-none">Населенный пункт</th>
                                                     <th scope="col" class="align-middle">Улица</th>
-                                                    <th scope="col" class="text-center align-middle">Дом</th>
-                                                    <th scope="col" class="text-center align-middle d-none">Корпус</th>
-                                                    <th scope="col" class="text-center align-middle d-none">Строение</th>
-                                                    <th scope="col" class="text-center align-middle">Офис</th>
+                                                    <th scope="col" class="align-middle">Дом</th>
+                                                    <th scope="col" class="align-middle d-none">Корпус</th>
+                                                    <th scope="col" class="align-middle d-none">Строение</th>
+                                                    <th scope="col" class="align-middle">Офис</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
                                                     <th scope="col" class="text-center align-middle">'. $button_add_address .'</th>
                                                 </tr>      

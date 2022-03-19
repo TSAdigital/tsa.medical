@@ -56,10 +56,33 @@ class Contact extends ActiveRecord
     public function rules()
     {
         return [
-            [['counterparty_id'], 'required'],
-            [['counterparty_id', 'position_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'phone', 'phone_extension', 'email'], 'string', 'max' => 255],
+            ['name', 'string', 'max' => 255],
+            ['name', 'trim'],
+            ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['name', 'required'],
+
+            ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
+            ['phone', 'trim'],
+            ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['phone_extension', 'integer'],
+            ['phone_extension', 'trim'],
+            ['phone_extension', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['email', 'email'],
+            ['email', 'trim'],
+            ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+
+            ['counterparty_id', 'integer'],
+            ['counterparty_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             [['counterparty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Counterparty::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
+            [['counterparty_id'], 'required'],
+
+            ['position_id', 'integer'],
+            ['position_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             [['position_id'], 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
         ];
     }

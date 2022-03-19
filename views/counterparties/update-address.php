@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 
 $this->title = 'Редактирование: Адреса';
-$this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $counterparty->name, 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Адрес', 'url' => ['view', 'id' => $counterparty->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';

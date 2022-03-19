@@ -54,3 +54,6 @@ div.required label:after {
     vertical-align: bottom;
     border-bottom: none;
 }
+.table-bordered thead td, .table-bordered thead th {
+    border-bottom-width: 1px;
+}

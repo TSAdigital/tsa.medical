@@ -25,7 +25,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                         'dataProvider' => $dataProvider,
                         'filterModel' => $searchModel,
                         'options' => ['class' => 'table-responsive'],
-                        'tableOptions' => ['class' => 'table table-striped'],
+                        'tableOptions' => ['class' => 'table table-striped '],
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
 

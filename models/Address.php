@@ -67,10 +67,22 @@ class Address extends ActiveRecord
     public function rules()
     {
         return [
-            [['counterparty_id'], 'required'],
-            [['counterparty_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['index', 'country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office'], 'string', 'max' => 255],
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office'], 'string', 'max' => 255],
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office'], 'trim'],
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'office'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['index', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Индекс» должно содержать 6 символов.'],
+            ['index', 'trim'],
+            ['index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['counterparty_id', 'integer'],
+            ['counterparty_id', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             [['counterparty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Counterparty::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
+            [['counterparty_id'], 'required'],
+
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+
             ['type', 'required'],
             ['type', 'default', 'value' => self::ADDRESS_ACTUAL],
             ['type', 'in', 'range' => [self::ADDRESS_REGISTRATION, self::ADDRESS_POSTAL, self::ADDRESS_ACTUAL]],
