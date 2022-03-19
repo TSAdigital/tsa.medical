@@ -7,6 +7,7 @@ use yii\widgets\ListView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Counterparty */
 /* @var $address app\models\Address */
+/* @var $contact app\models\Contact */
 
 $this->title = $model->name;
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
@@ -144,6 +145,43 @@ $this->params['buttons'] = [
                         </div>
                         <div class="tab-pane" id="contact">
 
+                            <?php
+                            $button_add_contact = $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-contact', 'id' => $model->id]) : null;
+                            $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="text-center align-middle">Имя</th>
+                                                    <th scope="col" class="text-center align-middle">Должность</th>
+                                                    <th scope="col" class="text-center align-middle">Номер телефона</th>
+                                                    <th scope="col" class="align-middle">Внутренний номер</th>
+                                                    <th scope="col" class="align-middle">Адрес электронной почты</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_contact .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
+
+                            <?= ListView::widget([
+                                'dataProvider' => $contact,
+                                'layout' => $tempalte,
+
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-contact', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['counterparty' => $model],
+                                'itemView' => '_list_contact',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
 
                         </div>
                     </div>

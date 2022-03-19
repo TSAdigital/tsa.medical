@@ -16,7 +16,7 @@ class m220303_044752_create_contact_table extends Migration
             'id' => $this->primaryKey(),
             'counterparty_id' => $this->integer()->notNull(),
             'name' => $this->string(),
-            'position' => $this->integer(),
+            'position_id' => $this->integer(),
             'phone' => $this->string(),
             'phone_extension' => $this->string(),
             'email' => $this->string(),
@@ -40,6 +40,21 @@ class m220303_044752_create_contact_table extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->createIndex(
+            'idx-contact-position-id',
+            'contact',
+            'position_id'
+        );
+
+        $this->addForeignKey(
+            'fk-contact-position-id',
+            'contact',
+            'position_id',
+            'position',
+            'id',
+            'CASCADE'
+        );
     }
 
     /**
@@ -54,6 +69,16 @@ class m220303_044752_create_contact_table extends Migration
 
         $this->dropIndex(
             'idx-contact-counterparty-id',
+            'contact'
+        );
+
+        $this->dropForeignKey(
+            'fk-contact-position-id',
+            'contact'
+        );
+
+        $this->dropIndex(
+            'idx-contact-position-id',
             'contact'
         );
 

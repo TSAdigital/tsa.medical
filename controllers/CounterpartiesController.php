@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use app\models\ActionHistory;
 use app\models\Address;
+use app\models\Contact;
 use Yii;
 use app\models\Counterparty;
 use app\models\CounterpartySearch;
@@ -62,9 +63,18 @@ class CounterpartiesController extends Controller
                 'pageSize' => 8,
             ],
         ]);
+
+        $contact = Contact::find()->where(['counterparty_id' => $id]);
+        $contact = new ActiveDataProvider([
+            'query' => $contact,
+            'pagination' => [
+                'pageSize' => 8,
+            ],
+        ]);
         return $this->render('view', [
             'model' => $this->findModel($id),
             'address' => $address,
+            'contact' => $contact,
         ]);
     }
 
@@ -278,6 +288,147 @@ class CounterpartiesController extends Controller
         Yii::$app->session->setFlash('error', [
             'options' => [
                 'title' => 'Не удалось аннулировать адрес',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionCreateContact($id)
+    {
+        $model = new Contact();
+        $model->counterparty_id = $id;
+        $counterparty = $this->findModel($id);
+        $action_history = new ActionHistory();
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            $action_history->ActionHistory('fas fa-address-book bg-green', 'добавил(а) контакт контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Контакт добавлен',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $id]);
+        }
+        return $this->render('create-contact', [
+            'model' => $model,
+            'counterparty' =>  $this->findModel($id),
+        ]);
+    }
+
+    public function actionUpdateContact($id, $contact)
+    {
+        $counterparty = $this->findModel($id);
+        $model = Contact::findOne($contact);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+
+        if($model->status === 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $action_history->ActionHistory('fas fa-address-book bg-blue', 'отредактировал(а) контакт контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $counterparty->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось сохранить изменения',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $counterparty->id]);
+        }
+        return $this->render('update-contact', [
+            'model' => $model,
+            'counterparty' =>  $counterparty,
+        ]);
+    }
+
+    public function actionActiveContact($id, $contact)
+    {
+        $model = $this->findModel($id);
+        $contact = Contact::findOne($contact);
+        $action_history = new ActionHistory();
+        $contact->setStatus('STATUS_ACTIVE');
+
+        if ($contact->status == 10) {
+            $action_history->ActionHistory('fas fa-address-book bg-info', 'активировал(а) контакт контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Контакт активирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать контакт',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionBlockedContact($id, $contact)
+    {
+        $model = $this->findModel($id);
+        $contact = Contact::findOne($contact);
+        $action_history = new ActionHistory();
+        $contact->setStatus('STATUS_INACTIVE');
+
+        if ($contact->setStatus('STATUS_INACTIVE') === true) {
+            $action_history->ActionHistory('fas fa-address-book bg-red', 'аннулировал(а) контакт контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Контакт аннулирован',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать контакт',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
