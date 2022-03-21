@@ -96,6 +96,7 @@ class Address extends ActiveRecord
     {
         return [
             'id' => 'ID',
+            'type' => 'Тип',
             'counterparty_id' => 'Counterparty ID',
             'index' => 'Индекс',
             'country' => 'Страна',
