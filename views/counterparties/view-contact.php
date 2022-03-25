@@ -6,23 +6,23 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Counterparty */
-/* @var $address app\models\Address */
+/* @var $contact app\models\Contact */
 
 $this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Адреса', 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = $address->getAddressName();
+$this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = $contact->name;
 $this->params['buttons'] = [
-    'update' => $address->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-address', 'id' => $model->id, 'address' => $address->id], ['class' => 'btn btn-app']) : false,
-    'block' => $address->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-address', 'id' => $model->id, 'address' => $address->id], [
+    'update' => $contact->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-contact', 'id' => $model->id, 'contact' => $contact->id], ['class' => 'btn btn-app']) : false,
+    'block' => $contact->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-contact', 'id' => $model->id, 'contact' => $contact->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Аннулировать должность?',
             'method' => 'post',
         ],
     ]) : false,
-    'active' => $address->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-address', 'id' => $model->id, 'address' => $address->id], [
+    'active' => $contact->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-contact', 'id' => $model->id, 'contact' => $contact->id], [
         'class' => 'btn btn-app',
         'data' => [
             'confirm' => 'Активировать должность?',
@@ -40,27 +40,19 @@ $this->params['buttons'] = [
                 <div class="card-body">
 
                     <?= DetailView::widget([
-                        'model' => $address,
+                        'model' => $contact,
                         'attributes' => [
                             [
-                                'attribute' => 'type',
-                                'value' => $address->getAddressName(),
+                                'attribute' => 'name',
                                 'captionOptions' => ['width' => '200px'],
                             ],
-                            'index',
-                            'country',
-                            'region',
-                            'district',
-                            'city',
-                            'locality',
-                            'street',
-                            'house',
-                            'body',
-                            'building',
-                            'office',
+                            'positionName',
+                            'phone',
+                            'phone_extension',
+                            'email',
                             [
                                 'attribute' => 'status',
-                                'value' => $address->getStatusName(),
+                                'value' => $contact->getStatusName(),
                                 'captionOptions' => ['width' => '200px'],
                             ],
                             'created_at:datetime',

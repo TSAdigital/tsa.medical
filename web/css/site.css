@@ -57,3 +57,7 @@ div.required label:after {
 .table-bordered thead td, .table-bordered thead th {
     border-bottom-width: 1px;
 }
+.content-header h1 {
+    font-size: 1.6rem;
+    margin: 0;
+}

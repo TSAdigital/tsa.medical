@@ -150,7 +150,7 @@ class Address extends ActiveRecord
     public static function getAddressesArray()
     {
         return [
-            self::ADDRESS_REGISTRATION=> 'Регистрации',
+            self::ADDRESS_REGISTRATION=> 'Юридический',
             self::ADDRESS_ACTUAL => 'Фактический',
             self::ADDRESS_POSTAL => 'Почтовый',
         ];

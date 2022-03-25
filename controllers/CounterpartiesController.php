@@ -10,6 +10,7 @@ use app\models\Counterparty;
 use app\models\CounterpartySearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -29,7 +30,7 @@ class CounterpartiesController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-contact', 'update-contact', 'blocked-contact', 'active-contact'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'history-address', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-contact', 'view-contact', 'update-contact', 'blocked-contact', 'active-contact'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -219,7 +220,9 @@ class CounterpartiesController extends Controller
         if($counterparty->status == 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-green', 'добавил(а) адрес контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $addressHistory = $model->getAddressName();
+                    $addressHistory = 'добавил(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->id]). ' адрес контрагенту';
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись добавлена',
@@ -280,7 +283,9 @@ class CounterpartiesController extends Controller
         if($model->status === 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', 'отредактировал(а) адрес контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $addressHistory = $model->getAddressName();
+                    $addressHistory = 'отредактировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->id]). ' адрес контрагенту';
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -329,7 +334,9 @@ class CounterpartiesController extends Controller
         $address->setStatus('STATUS_ACTIVE');
 
         if ($address->status == 10) {
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', 'активировал(а) адрес контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            $addressHistory = $address->getAddressName();
+            $addressHistory = 'активировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]). ' адрес контрагенту';
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',
@@ -362,7 +369,9 @@ class CounterpartiesController extends Controller
         $address->setStatus('STATUS_INACTIVE');
 
         if ($address->status == 9) {
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', 'аннулировал(а) адрес контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            $addressHistory = $address->getAddressName();
+            $addressHistory = 'аннулировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]). ' адрес контрагенту';
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -396,7 +405,8 @@ class CounterpartiesController extends Controller
         if($counterparty->status == 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
-                    $action_history->ActionHistory('fas fa-address-book bg-green', 'добавил(а) контакт контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $addressHistory = 'добавил(а) контакт ' . Html::a($model->name, ['counterparties/view-contact', 'id' => $counterparty->id, 'contact' => $model->id]). ' контрагенту';
+                    $action_history->ActionHistory('fas fa-address-book bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись добавлена',
@@ -438,6 +448,16 @@ class CounterpartiesController extends Controller
         ]);
     }
 
+    public function actionViewContact($id, $contact)
+    {
+        $contact = Contact::findOne($contact);
+
+        return $this->render('view-contact', [
+            'model' => $this->findModel($id),
+            'contact' => $contact,
+        ]);
+    }
+
     public function actionUpdateContact($id, $contact)
     {
         $counterparty = $this->findModel($id);
@@ -448,7 +468,8 @@ class CounterpartiesController extends Controller
         if($model->status === 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-address-book bg-blue', 'отредактировал(а) контакт контрагенту', 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $addressHistory = 'отредактировал(а) контакт ' . Html::a($model->name, ['counterparties/view-contact', 'id' => $counterparty->id, 'contact' => $model->id]). ' у контрагента';
+                    $action_history->ActionHistory('fas fa-address-book bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -497,7 +518,8 @@ class CounterpartiesController extends Controller
         $contact->setStatus('STATUS_ACTIVE');
 
         if ($contact->status == 10) {
-            $action_history->ActionHistory('fas fa-address-book bg-info', 'активировал(а) контакт контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            $addressHistory = 'активировал(а) контакт ' . Html::a($contact->name, ['counterparties/view-contact', 'id' => $model->id, 'contact' => $contact->id]). ' у контрагента';
+            $action_history->ActionHistory('fas fa-address-book bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',
@@ -518,7 +540,7 @@ class CounterpartiesController extends Controller
                 ]
             ]);
         }
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->redirect(['view-contact', 'id' => $model->id, 'contact' => $contact->id]);
     }
 
     public function actionBlockedContact($id, $contact)
@@ -529,7 +551,8 @@ class CounterpartiesController extends Controller
         $contact->setStatus('STATUS_INACTIVE');
 
         if ($contact->status == 9) {
-            $action_history->ActionHistory('fas fa-address-book bg-red', 'аннулировал(а) контакт контрагенту', 'counterparties/view', $model->getId(), $model->name);
+            $addressHistory = 'аннулировал(а) контакт ' . Html::a($contact->name, ['counterparties/view-contact', 'id' => $model->id, 'contact' => $contact->id]). ' у контрагента';
+            $action_history->ActionHistory('fas fa-address-book bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -550,7 +573,7 @@ class CounterpartiesController extends Controller
                 ]
             ]);
         }
-        return $this->redirect(['view', 'id' => $model->id]);
+        return $this->redirect(['view-contact', 'id' => $model->id, 'contact' => $contact->id]);
     }
 
     public function actionBlocked($id)

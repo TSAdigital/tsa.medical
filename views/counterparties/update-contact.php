@@ -12,8 +12,8 @@ $this->params['breadcrumbs'][] = ['label' => $counterparty->name, 'url' => ['vie
 $this->params['breadcrumbs'][] = ['label' => 'Контакт', 'url' => ['view', 'id' => $counterparty->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
-    'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"contact"]),
-    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $counterparty->id], ['class' => 'btn btn-app'])
+    'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form' => 'contact']),
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view-contact', 'id' => $counterparty->id, 'contact' => $model->id], ['class' => 'btn btn-app'])
 ];
 ?>
 

@@ -6,17 +6,6 @@
 use yii\helpers\Html;
 
 $model->status === 10 ? $class = 'success' : $class = 'danger';
-$button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i>', ['blocked-contact', 'id'=> $counterparty->id, 'contact' => $model->id], [
-    'data' => [
-        'confirm' => 'Аннулировать запись?',
-        'method' => 'post',
-    ],
-]) : Html::a('<i class="far fa-check-circle text-success"></i>', ['active-contact', 'id'=> $counterparty->id, 'contact' => $model->id], [
-    'data' => [
-        'confirm' => 'Активировать запись?',
-        'method' => 'post',
-    ],
-]);
 ?>
 <tr>
         <td class="align-middle"><?= $model->name ?></td>
@@ -26,7 +15,6 @@ $button = $model->status === 10 ? Html::a('<i class="fas fa-ban text-danger"></i
         <td class="align-middle"><?= Yii::$app->formatter->asEmail($model->email) ?></td>
         <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
         <td class="text-center align-middle">
-            <?= $model->status === 10 ?  Html::a('<i class="fas fa-edit text-primary"></i>', ['update-contact', 'id'=> $counterparty->id, 'contact' => $model->id]) : NULL ?>
-            <?= $button ?>
+            <?= Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-contact', 'id'=> $counterparty->id, 'contact' => $model->id]) ?>
         </td>
 </tr>

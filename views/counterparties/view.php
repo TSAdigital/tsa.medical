@@ -41,7 +41,7 @@ $this->params['buttons'] = [
                     <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#director" data-toggle="tab">Руководитель</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адреса</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
                 </div>
