@@ -1,15 +1,16 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Counterparty */
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 
-$this->title = 'История: ' . $model->name;
+$this->title = 'История: ' . StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 50, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'История';
 $this->params['buttons'] = [
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])

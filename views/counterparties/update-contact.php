@@ -5,10 +5,11 @@
 /* @var $counterparty app\models\Counterparty */
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: Контакт';
+$this->title = 'Редактирование: контакт ' . StringHelper::truncate($model->name, 30, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $counterparty->name, 'url' => ['view', 'id' => $counterparty->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->name, 30, '...'), 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Контакт', 'url' => ['view', 'id' => $counterparty->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [

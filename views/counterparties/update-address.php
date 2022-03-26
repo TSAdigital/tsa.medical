@@ -7,7 +7,7 @@
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: Адреса';
+$this->title = 'Редактирование: ' . $model->getAddressName() . ' адрес';
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->name, 15, '...'), 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Адрес', 'url' => ['view', 'id' => $counterparty->id]];

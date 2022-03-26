@@ -12,20 +12,20 @@ $this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = $contact->name;
+$this->params['breadcrumbs'][] = StringHelper::truncate($contact->name, 20, '...');
 $this->params['buttons'] = [
     'update' => $contact->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-contact', 'id' => $model->id, 'contact' => $contact->id], ['class' => 'btn btn-app']) : false,
     'block' => $contact->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-contact', 'id' => $model->id, 'contact' => $contact->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать должность?',
+            'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $contact->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-contact', 'id' => $model->id, 'contact' => $contact->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать должность?',
+            'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : false,

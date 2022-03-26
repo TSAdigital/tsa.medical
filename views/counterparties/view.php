@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 
@@ -9,9 +10,9 @@ use yii\widgets\ListView;
 /* @var $address app\models\Address */
 /* @var $contact app\models\Contact */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = StringHelper::truncate($model->name, 50, '...');
+$this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = StringHelper::truncate($model->name, 50, '...');
 $this->params['buttons'] = [
     'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : false,
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
@@ -115,7 +116,6 @@ $this->params['buttons'] = [
                                                     <th scope="col" class="align-middle">Дом</th>
                                                     <th scope="col" class="align-middle d-none">Корпус</th>
                                                     <th scope="col" class="align-middle d-none">Строение</th>
-                                                    <th scope="col" class="align-middle">Офис</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
                                                     <th scope="col" class="text-center align-middle">'. $button_add_address .'</th>
                                                 </tr>      

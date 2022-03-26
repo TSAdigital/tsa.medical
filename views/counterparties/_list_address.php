@@ -19,7 +19,6 @@ $model->status === 10 ? $class = 'success' : $class = 'danger';
     <td class="align-middle"><?= $model->house ?></td>
     <td class="align-middle d-none"><?= $model->body ?></td>
     <td class="align-middle d-none"><?= $model->building ?></td>
-    <td class="align-middle"><?= $model->office ?></td>
     <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
     <td class="text-center align-middle">
         <?= Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-address', 'id'=> $counterparty->id, 'address' => $model->id]) ?>

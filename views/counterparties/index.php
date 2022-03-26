@@ -8,7 +8,7 @@ use yii\widgets\Pjax;
 /* @var $searchModel app\models\CounterpartySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Контрагенты';
+$this->title = 'Контрагенты ЮЛ';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app'])];
 ?>

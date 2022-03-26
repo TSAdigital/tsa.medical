@@ -10,7 +10,7 @@ use yii\widgets\DetailView;
 
 $this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Адреса', 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $address->getAddressName();
 $this->params['buttons'] = [
@@ -18,14 +18,14 @@ $this->params['buttons'] = [
     'block' => $address->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-address', 'id' => $model->id, 'address' => $address->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать должность?',
+            'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $address->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-address', 'id' => $model->id, 'address' => $address->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать должность?',
+            'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : false,
