@@ -11,7 +11,8 @@ use yii\widgets\MaskedInput;
 
 <div class="counterparty-fl-form">
 
-    <?php $form = ActiveForm::begin(['id' => 'address']); ?>
+    <?php $form = ActiveForm::begin(['id' => 'address']);
+    ?>
 
         <?= $form->field($model, 'type')->widget(Select2::classname(),
             [
@@ -28,7 +29,7 @@ use yii\widgets\MaskedInput;
                 'removeMaskOnSubmit' => true,
             ],
         ]) ?>
-        <?= $form->field($model, 'country')->textInput(['maxlength' => true]) ?>
+        <?= $form->field($model, 'country')->textInput(['maxlength' => true])->inline(true) ?>
         <?= $form->field($model, 'region')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'district')->textInput(['maxlength' => true]) ?>
         <?= $form->field($model, 'city')->textInput(['maxlength' => true]) ?>

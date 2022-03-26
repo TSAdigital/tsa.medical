@@ -9,6 +9,9 @@ use Yii;
 use app\models\CounterpartyFl;
 use app\models\CounterpartyFlSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
+use yii\helpers\Html;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -24,10 +27,22 @@ class CounterpartiesFlController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-passport', 'view-passport', 'update-passport', 'blocked-passport', 'active-passport'],
+                        'allow' => true,
+                        'roles' => ['user'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'actions' => [
+                        'blocked' => ['POST'],
+                        'active' => ['POST'],
                         'blocked-passport' => ['POST'],
                         'active-passport' => ['POST'],
                         'blocked-address' => ['POST'],
@@ -45,7 +60,13 @@ class CounterpartiesFlController extends Controller
     public function actionIndex()
     {
         $searchModel = new CounterpartyFlSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+
+        if (!isset($params['CounterpartyFlSearch'])) {
+            $params['CounterpartyFlSearch']['status'] = 10;
+        }
+
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -65,14 +86,14 @@ class CounterpartiesFlController extends Controller
         $passport = new ActiveDataProvider([
             'query' => $passport,
             'pagination' => [
-                'pageSize' => 8,
+                'pageSize' => 9,
             ],
         ]);
         $address = AddressFl::find()->where(['counterparty_id' => $id]);
         $address = new ActiveDataProvider([
             'query' => $address,
             'pagination' => [
-                'pageSize' => 8,
+                'pageSize' => 9,
             ],
         ]);
         return $this->render('view', [
@@ -80,289 +101,6 @@ class CounterpartiesFlController extends Controller
             'passport' => $passport,
             'address' => $address,
         ]);
-    }
-
-    public function actionCreatePassport($id)
-    {
-        $model = new Passport();
-        $model->counterparty_id = $id;
-        $counterparty = $this->findModel($id);
-        $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-passport bg-green', 'добавил(а) паспорт контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Паспорт добавлен',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $id]);
-        }
-        return $this->render('create-passport', [
-            'model' => $model,
-            'counterparty' =>  $this->findModel($id),
-        ]);
-    }
-
-    public function actionUpdatePassport($id, $passport)
-    {
-        $counterparty = $this->findModel($id);
-        $model = Passport::findOne($passport);
-        $model->counterparty_id = $id;
-        $action_history = new ActionHistory();
-
-        if($model->status === 10) {
-            if ($model->load(Yii::$app->request->post())) {
-                if($model->save()){
-                    $action_history->ActionHistory('fas fa-passport bg-blue', 'отредактировал(а) паспорт контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
-                    Yii::$app->session->setFlash('success', [
-                        'options' => [
-                            'title' => 'Изменения сохранены',
-                            'toast' => true,
-                            'position' => 'top-end',
-                            'timer' => 5000,
-                            'showConfirmButton' => false
-                        ]
-                    ]);
-                    return $this->redirect(['view', 'id' => $counterparty->id]);
-                }
-                Yii::$app->session->setFlash('error', [
-                    'options' => [
-                        'title' => 'Не удалось сохранить изменения',
-                        'toast' => true,
-                        'position' => 'top-end',
-                        'timer' => 5000,
-                        'showConfirmButton' => false
-                    ]
-                ]);
-            }
-        }else{
-            Yii::$app->session->setFlash('warning', [
-                'options' => [
-                    'title' => 'Нельзя редактировать не активную запись',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $counterparty->id]);
-        }
-        return $this->render('update-passport', [
-            'model' => $model,
-            'counterparty' =>  $counterparty,
-        ]);
-    }
-
-    public function actionActivePassport($id, $passport)
-    {
-        $model = $this->findModel($id);
-        $passport = Passport::findOne($passport);
-        $action_history = new ActionHistory();
-        $passport->setStatus('STATUS_ACTIVE');
-
-        if ($passport->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-passport bg-info', 'активировал(а) паспорт контрагенту', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Паспорт активирован',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', [
-            'options' => [
-                'title' => 'Не удалось активировать паспорт',
-                'toast' => true,
-                'position' => 'top-end',
-                'timer' => 5000,
-                'showConfirmButton' => false
-            ]
-        ]);
-        return $this->redirect(['view', 'id' => $model->id]);
-    }
-
-    public function actionBlockedPassport($id, $passport)
-    {
-        $model = $this->findModel($id);
-        $passport = Passport::findOne($passport);
-        $action_history = new ActionHistory();
-        $passport->setStatus('STATUS_INACTIVE');
-
-        if ($passport->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-passport bg-red', 'аннулировал(а) паспорт контрагенту', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Паспорт аннулирован',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', [
-            'options' => [
-                'title' => 'Не удалось аннулировать подразделение',
-                'toast' => true,
-                'position' => 'top-end',
-                'timer' => 5000,
-                'showConfirmButton' => false
-            ]
-        ]);
-        return $this->redirect(['view', 'id' => $model->id]);
-    }
-
-    public function actionCreateAddress($id)
-    {
-        $model = new AddressFl();
-        $counterparty = $this->findModel($id);
-        $model->counterparty_id = $id;
-        $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-green', 'добавил(а) адрес контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name. ' ' . $counterparty->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Адрес добавлен',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $id]);
-        }
-
-        return $this->render('create-address', [
-            'model' => $model,
-            'counterparty' =>  $counterparty,
-        ]);
-    }
-
-    public function actionUpdateAddress($id, $address)
-    {
-        $counterparty = $this->findModel($id);
-        $model = AddressFl::findOne($address);
-        $model->counterparty_id = $id;
-        $action_history = new ActionHistory();
-
-        if($model->status === 10) {
-            if ($model->load(Yii::$app->request->post())) {
-                if($model->save()){
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', 'отредактировал(а) адрес контрагенту', 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
-                    Yii::$app->session->setFlash('success', [
-                        'options' => [
-                            'title' => 'Изменения сохранены',
-                            'toast' => true,
-                            'position' => 'top-end',
-                            'timer' => 5000,
-                            'showConfirmButton' => false
-                        ]
-                    ]);
-                    return $this->redirect(['view', 'id' => $counterparty->id]);
-                }
-                Yii::$app->session->setFlash('error', [
-                    'options' => [
-                        'title' => 'Не удалось сохранить изменения',
-                        'toast' => true,
-                        'position' => 'top-end',
-                        'timer' => 5000,
-                        'showConfirmButton' => false
-                    ]
-                ]);
-            }
-        }else{
-            Yii::$app->session->setFlash('warning', [
-                'options' => [
-                    'title' => 'Нельзя редактировать не активную запись',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $counterparty->id]);
-        }
-        return $this->render('update-address', [
-            'model' => $model,
-            'counterparty' =>  $counterparty,
-        ]);
-    }
-
-    public function actionActiveAddress($id, $address)
-    {
-        $model = $this->findModel($id);
-        $address = AddressFl::findOne($address);
-        $action_history = new ActionHistory();
-        $address->setStatus('STATUS_ACTIVE');
-
-        if ($address->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', 'активировал(а) адрес контрагенту', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Адрес активирован',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', [
-            'options' => [
-                'title' => 'Не удалось активировать адрес',
-                'toast' => true,
-                'position' => 'top-end',
-                'timer' => 5000,
-                'showConfirmButton' => false
-            ]
-        ]);
-        return $this->redirect(['view', 'id' => $model->id]);
-    }
-
-    public function actionBlockedAddress($id, $address)
-    {
-        $model = $this->findModel($id);
-        $address = AddressFl::findOne($address);
-        $action_history = new ActionHistory();
-        $address->setStatus('STATUS_INACTIVE');
-
-        if ($address->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', 'аннулировал(а) адрес контрагенту', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Адрес аннулирован',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        Yii::$app->session->setFlash('error', [
-            'options' => [
-                'title' => 'Не удалось аннулировать адрес',
-                'toast' => true,
-                'position' => 'top-end',
-                'timer' => 5000,
-                'showConfirmButton' => false
-            ]
-        ]);
-        return $this->redirect(['view', 'id' => $model->id]);
     }
 
     /**
@@ -373,20 +111,32 @@ class CounterpartiesFlController extends Controller
     public function actionCreate()
     {
         $model = new CounterpartyFl();
-
         $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-handshake bg-green', 'добавил(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Контрагент добавлен',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $action_history->ActionHistory('fas fa-handshake bg-green', 'добавил(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Запись добавлена',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -404,15 +154,15 @@ class CounterpartiesFlController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         $action_history = new ActionHistory();
+
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
                     $action_history->ActionHistory('fas fa-handshake bg-blue', 'отредактировал(а) контрагента', 'counterparties-fl/view', $model->getId(),  $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
-                            'title' => 'Изменения сохранены',
+                            'title' => 'Запись обновлена',
                             'toast' => true,
                             'position' => 'top-end',
                             'timer' => 5000,
@@ -423,7 +173,7 @@ class CounterpartiesFlController extends Controller
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Не удалось сохранить изменения',
+                        'title' => 'Не удалось обновить запись',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
@@ -459,7 +209,7 @@ class CounterpartiesFlController extends Controller
             $action_history->ActionHistory('fas fa-handshake bg-red', 'аннулировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Контрагент аннулирован',
+                    'title' => 'Запись аннулирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -471,7 +221,7 @@ class CounterpartiesFlController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось аннулировать контрагента',
+                'title' => 'Не удалось аннулировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -491,7 +241,7 @@ class CounterpartiesFlController extends Controller
             $action_history->ActionHistory('fas fa-handshake bg-info', 'активировал(а) контрагента', 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Контрагент активирован',
+                    'title' => 'Запись активирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -503,7 +253,7 @@ class CounterpartiesFlController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать контрагента',
+                'title' => 'Не удалось активировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -527,6 +277,375 @@ class CounterpartiesFlController extends Controller
             'model' => $this->findModel($id),
             'actionsHistory' => $dataProvider,
         ]);
+    }
+
+    public function actionCreatePassport($id)
+    {
+        $model = new Passport();
+        $model->counterparty_id = $id;
+        $counterparty = $this->findModel($id);
+        $action_history = new ActionHistory();
+
+        if ($counterparty->status == 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $addressHistory = 'добавил(а) ' . Html::a('паспорт', ['counterparties-fl/view-passport', 'id' => $counterparty->id, 'passport' => $model->getId()]) . ' контрагенту';
+                    $action_history->ActionHistory('fas fa-passport bg-green', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-passport', 'id' => $id, 'passport' => $model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить паспорт к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $counterparty->id]);
+        }
+
+        return $this->render('create-passport', [
+            'model' => $model,
+            'counterparty' =>  $this->findModel($id),
+        ]);
+    }
+
+    public function actionViewPassport($id, $passport)
+    {
+        $passport = Passport::findOne($passport);
+
+        return $this->render('view-passport', [
+            'model' => $this->findModel($id),
+            'passport' => $passport,
+        ]);
+    }
+
+    public function actionUpdatePassport($id, $passport)
+    {
+        $counterparty = $this->findModel($id);
+        $model = Passport::findOne($passport);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+
+        if($model->status === 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $addressHistory = 'отредактировал(а) ' . Html::a('паспорт', ['counterparties-fl/view-passport', 'id' => $counterparty->id, 'passport' => $model->getId()]) . ' у контрагента';
+                    $action_history->ActionHistory('fas fa-passport bg-blue', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Изменения сохранены',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-passport', 'id' => $counterparty->id, 'passport' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось сохранить изменения',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-passport', 'id' => $counterparty->id, 'passport' => $model->id]);
+        }
+        return $this->render('update-passport', [
+            'model' => $model,
+            'counterparty' =>  $counterparty,
+        ]);
+    }
+
+    public function actionActivePassport($id, $passport)
+    {
+        $model = $this->findModel($id);
+        $passport = Passport::findOne($passport);
+        $action_history = new ActionHistory();
+        $passport->setStatus('STATUS_ACTIVE');
+
+        if ($passport->setStatus('STATUS_ACTIVE') === true) {
+            $addressHistory = 'активировал(а) ' . Html::a('паспорт', ['counterparties-fl/view-passport', 'id' => $model->id, 'passport' => $passport->getId()]) . ' у контрагента';
+            $action_history->ActionHistory('fas fa-passport bg-info', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-passport', 'id' => $model->id, 'passport' => $passport->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать запись',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionBlockedPassport($id, $passport)
+    {
+        $model = $this->findModel($id);
+        $passport = Passport::findOne($passport);
+        $action_history = new ActionHistory();
+        $passport->setStatus('STATUS_INACTIVE');
+
+        if ($passport->setStatus('STATUS_INACTIVE') === true) {
+            $addressHistory = 'аннулировал(а) ' . Html::a('паспорт', ['counterparties-fl/view-passport', 'id' => $model->id, 'passport' => $passport->getId()]) . ' у контрагента';
+            $action_history->ActionHistory('fas fa-passport bg-red', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name. ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-passport', 'id' => $model->id, 'passport' => $passport->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать запись',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+    public function actionCreateAddress($id)
+    {
+        $model = new AddressFL();
+        $counterparty = $this->findModel($id);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($counterparty->status == 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $addressHistory = $model->getAddressName();
+                    $addressHistory = 'добавил(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' контрагенту';
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-green', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-address', 'id' => $id, 'address' => $model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить адрес к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $counterparty->id]);
+        }
+
+        return $this->render('create-address', [
+            'model' => $model,
+            'counterparty' => $counterparty,
+        ]);
+    }
+
+    public function actionViewAddress($id, $address)
+    {
+        $address = AddressFL::findOne($address);
+
+        return $this->render('view-address', [
+            'model' => $this->findModel($id),
+            'address' => $address,
+        ]);
+    }
+
+    public function actionUpdateAddress($id, $address)
+    {
+        $counterparty = $this->findModel($id);
+        $model = AddressFL::findOne($address);
+        $model->counterparty_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($model->status === 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $addressHistory = $model->getAddressName();
+                    $addressHistory = 'отредактировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' у контрагента';
+                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-address', 'id' => $id, 'address' => $address]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-address', 'id' => $counterparty->id, 'address' => $model->id]);
+        }
+
+        return $this->render('update-address', [
+            'model' => $model,
+            'counterparty' => $counterparty,
+        ]);
+    }
+
+    public function actionActiveAddress($id, $address)
+    {
+        $model = $this->findModel($id);
+        $address = AddressFL::findOne($address);
+        $action_history = new ActionHistory();
+        $address->setStatus('STATUS_ACTIVE');
+
+        if ($address->status == 10) {
+            $addressHistory = $address->getAddressName();
+            $addressHistory = 'активировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-address', 'id' => $id, 'address' => $address->id]);
+    }
+
+    public function actionBlockedAddress($id, $address)
+    {
+        $model = $this->findModel($id);
+        $address = AddressFL::findOne($address);
+        $action_history = new ActionHistory();
+        $address->setStatus('STATUS_INACTIVE');
+
+        if ($address->status == 9) {
+            $addressHistory = $address->getAddressName();
+            $addressHistory = 'аннулировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
+            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-address', 'id' => $id, 'address' => $address->id]);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 
@@ -9,7 +10,7 @@ use yii\widgets\ListView;
 /* @var $passport app\models\Passport */
 /* @var $address app\models\AddressFl */
 
-$this->title = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+$this->title = StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
@@ -17,14 +18,14 @@ $this->params['buttons'] = [
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Аннулировать контрагента?',
+            'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Активировать контрагента?',
+            'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : false,
