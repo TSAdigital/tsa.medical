@@ -7,9 +7,9 @@
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: Паспорт';
-$this->params['breadcrumbs'][] = ['label' => 'Контрагенты', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->firs_name . ' ' . $counterparty->last_name . ' ' . $counterparty->middle_name, 30, '...'), 'url' => ['view', 'id' => $counterparty->id]];
+$this->title = 'Редактирование: Паспорт ' . $model->passport_serial . ' ' . $model->passport_number;
+$this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name, 25, '...'), 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Паспорт', 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => $model->passport_serial . ' ' . $model->passport_number, 'url' => ['view-passport', 'id' => $counterparty->id, 'passport' => $model->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';

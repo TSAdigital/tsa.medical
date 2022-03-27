@@ -33,16 +33,7 @@ $this->params['buttons'] = [
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="card-header p-2">
-                    <ul class="nav nav-pills">
-                        <li class="nav-item"><a class="nav-link active" href="#base"
-                                                data-toggle="tab">Основное</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
-                    </ul>
-                </div>
-                <div class="card-body pb-1">
-                    <div class="tab-content">
-                        <div class="active tab-pane" id="base">
+                <div class="card-body">
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'options' => [
@@ -61,32 +52,6 @@ $this->params['buttons'] = [
                                     'updated_at:datetime',
                                 ],
                             ]) ?>
-                        </div>
-                        <div class="tab-pane" id="address">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'index',
-                                        'captionOptions' => ['width' => '200px'],
-                                    ],
-                                    'country',
-                                    'region',
-                                    'district',
-                                    'city',
-                                    'locality',
-                                    'street',
-                                    'house',
-                                    'body',
-                                    'building',
-                                    'office',
-                                ],
-                            ]) ?>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

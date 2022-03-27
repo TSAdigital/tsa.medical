@@ -100,7 +100,7 @@ class UsersController extends Controller
                 $action_history->ActionHistory('fas fa-user bg-green', 'добавил(а) пользователя', 'users/profile', $model->getId(), $model->username);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
-                        'title' => 'Пользователь добавлен',
+                        'title' => 'Запись добавлена',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
@@ -111,7 +111,7 @@ class UsersController extends Controller
             }
             Yii::$app->session->setFlash('error', [
                 'options' => [
-                    'title' => 'Не удалось добавить пользователя',
+                    'title' => 'Не удалось добавить запись',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -147,7 +147,7 @@ class UsersController extends Controller
                     $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
-                            'title' => 'Изменения сохранены',
+                            'title' => 'Запись обновлена',
                             'toast' => true,
                             'position' => 'top-end',
                             'timer' => 5000,
@@ -158,7 +158,7 @@ class UsersController extends Controller
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Не удалось сохранить изменения',
+                        'title' => 'Не удалось обновить запись',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
@@ -170,7 +170,7 @@ class UsersController extends Controller
         }else{
             Yii::$app->session->setFlash('warning', [
                 'options' => [
-                    'title' => 'Нельзя редактировать заблокированного пользователя',
+                    'title' => 'Нельзя редактировать не активную запись',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -191,11 +191,11 @@ class UsersController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_INACTIVE');
 
-        if ($model->setStatus('STATUS_INACTIVE') === true) {
+        if ($model->status == 9) {
             $action_history->ActionHistory('fas fa-user bg-red', 'заблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Пользователь заблокирован',
+                    'title' => 'Запись аннулирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -207,7 +207,7 @@ class UsersController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось заблокировать пользователя',
+                'title' => 'Не удалось аннулировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -223,11 +223,11 @@ class UsersController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_ACTIVE');
 
-        if ($model->setStatus('STATUS_ACTIVE') === true) {
+        if ($model->status == 10) {
             $action_history->ActionHistory('fas fa-user bg-info', 'разблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Пользователь разблокирован',
+                    'title' => 'Запись активирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -239,7 +239,7 @@ class UsersController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось разблокировать пользователя',
+                'title' => 'Не удалось активировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,

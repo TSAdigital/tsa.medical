@@ -192,8 +192,8 @@ class User extends ActiveRecord implements IdentityInterface
     public static function getStatusesArray()
     {
         return [
-            self::STATUS_ACTIVE => 'Активен',
-            self::STATUS_INACTIVE => 'Заблокирован',
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
         ];
     }
 

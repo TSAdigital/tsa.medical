@@ -87,7 +87,7 @@ class DepartmentsController extends Controller
             $action_history->ActionHistory('fas fa-building bg-green', 'добавил(а) подразделение', 'departments/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Подразделение добавлено',
+                    'title' => 'Запись добавлена',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,

@@ -85,18 +85,30 @@ class PositionsController extends Controller
         $model = new Position();
 
         $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-id-card-alt bg-green', 'добавил(а) должность', 'positions/view', $model->getId(), $model->name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Должность добавлена',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $action_history->ActionHistory('fas fa-id-card-alt bg-green', 'добавил(а) должность', 'positions/view', $model->getId(), $model->name);
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Запись добавлена',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -122,7 +134,7 @@ class PositionsController extends Controller
                     $action_history->ActionHistory('fas fa-id-card-alt bg-blue', 'отредактировал(а) должность', 'positions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
-                            'title' => 'Изменения сохранены',
+                            'title' => 'Запись обновлена',
                             'toast' => true,
                             'position' => 'top-end',
                             'timer' => 5000,
@@ -133,14 +145,13 @@ class PositionsController extends Controller
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Не удалось сохранить изменения',
+                        'title' => 'Не удалось обновить запись',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
                         'showConfirmButton' => false
                     ]
                 ]);
-                return $this->refresh();
             }
         }else{
             Yii::$app->session->setFlash('warning', [
@@ -166,11 +177,11 @@ class PositionsController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_INACTIVE');
 
-        if ($model->setStatus('STATUS_INACTIVE') === true) {
+        if ($model->status == 9) {
             $action_history->ActionHistory('fas fa-id-card-alt bg-red', 'аннулировал(а) должность', 'positions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Должность аннулирована',
+                    'title' => 'Запись аннулирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -182,7 +193,7 @@ class PositionsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось аннулировать должность',
+                'title' => 'Не удалось аннулировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -198,11 +209,11 @@ class PositionsController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_ACTIVE');
 
-        if ($model->setStatus('STATUS_ACTIVE') === true) {
+        if ($model->status == 10) {
             $action_history->ActionHistory('fas fa-id-card-alt bg-info', 'активировал(а) должность', 'positions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Должность активирована',
+                    'title' => 'Запись активирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -214,7 +225,7 @@ class PositionsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать должность',
+                'title' => 'Не удалось активировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,

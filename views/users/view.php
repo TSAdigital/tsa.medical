@@ -11,17 +11,17 @@ $this->params['breadcrumbs'][] = ['label' => 'Пользователи', 'url' =
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : false,
-    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Заблокировать', ['blocked', 'id' => $model->id], [
+    'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Заблокировать пользователя?',
+            'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : '',
-    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Разблокировать', ['active', 'id' => $model->id], [
+    'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
         'class' => 'btn btn-app',
         'data' => [
-            'confirm' => 'Разблокировать пользователя?',
+            'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : '',
