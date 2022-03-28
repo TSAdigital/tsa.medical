@@ -99,8 +99,8 @@ class Division extends ActiveRecord
     public static function getStatusesArray()
     {
         return [
-            self::STATUS_ACTIVE => 'Активно',
-            self::STATUS_INACTIVE => 'Аннулировано',
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
         ];
     }
 

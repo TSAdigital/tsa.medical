@@ -97,7 +97,7 @@ class UsersController extends Controller
             $model->generateAuthKey();
             $model->save();
             if ($model->save()){
-                $action_history->ActionHistory('fas fa-user bg-green', 'добавил(а) пользователя', 'users/profile', $model->getId(), $model->username);
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) пользователя', 'users/profile', $model->getId(), $model->username);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Запись добавлена',
@@ -144,7 +144,7 @@ class UsersController extends Controller
                 $model->generateAuthKey();
                 $model->save();
                 if ($model->save()){
-                    $action_history->ActionHistory('fas fa-user bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -192,7 +192,7 @@ class UsersController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->status == 9) {
-            $action_history->ActionHistory('fas fa-user bg-red', 'заблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
+            $action_history->ActionHistory('fas fa-times bg-red', 'заблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -224,7 +224,7 @@ class UsersController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->status == 10) {
-            $action_history->ActionHistory('fas fa-user bg-info', 'разблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
+            $action_history->ActionHistory('fas fa-check bg-info', 'разблокировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',

@@ -87,7 +87,7 @@ class PositionsController extends Controller
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                $action_history->ActionHistory('fas fa-id-card-alt bg-green', 'добавил(а) должность', 'positions/view', $model->getId(), $model->name);
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) должность', 'positions/view', $model->getId(), $model->name);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Запись добавлена',
@@ -131,7 +131,7 @@ class PositionsController extends Controller
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-id-card-alt bg-blue', 'отредактировал(а) должность', 'positions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) должность', 'positions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -178,7 +178,7 @@ class PositionsController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->status == 9) {
-            $action_history->ActionHistory('fas fa-id-card-alt bg-red', 'аннулировал(а) должность', 'positions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) должность', 'positions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -210,7 +210,7 @@ class PositionsController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->status == 10) {
-            $action_history->ActionHistory('fas fa-id-card-alt bg-info', 'активировал(а) должность', 'positions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) должность', 'positions/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',

@@ -4,6 +4,7 @@ use app\models\CounterpartyFl;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CounterpartyFlSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -60,11 +61,13 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 }
                             ],
                             [
-                                'attribute'=>'birthdate',
+                                'attribute'=>'snils',
                                 'options' => ['width'=>'20%'],
+                                'headerOptions' => ['style' => 'text-align: center !important;'],
+                                'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'value' => function($data)
                                 {
-                                    return Yii::$app->formatter->asDate($data->birthdate);
+                                    return Yii::$app->formatter->asSnils($data->snils);
                                 }
 
                             ],

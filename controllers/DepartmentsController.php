@@ -83,18 +83,30 @@ class DepartmentsController extends Controller
     {
         $model = new Department();
         $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-building bg-green', 'добавил(а) подразделение', 'departments/view', $model->getId(), $model->name);
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Запись добавлена',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) подразделение', 'departments/view', $model->getId(), $model->name);
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Запись добавлена',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -113,14 +125,13 @@ class DepartmentsController extends Controller
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
-        $old = $model->name;
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-building bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
-                            'title' => 'Изменения сохранены',
+                            'title' => 'Запись обновлена',
                             'toast' => true,
                             'position' => 'top-end',
                             'timer' => 5000,
@@ -131,7 +142,7 @@ class DepartmentsController extends Controller
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Не удалось сохранить изменения',
+                        'title' => 'Не удалось обновить запись',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
@@ -164,11 +175,11 @@ class DepartmentsController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_INACTIVE');
 
-        if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-building bg-red', 'аннулировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
+        if ($model->status == 9) {
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Подразделение аннулировано',
+                    'title' => 'Запись аннулирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -180,7 +191,7 @@ class DepartmentsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось аннулировать подразделение',
+                'title' => 'Не удалось аннулировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -196,11 +207,11 @@ class DepartmentsController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_ACTIVE');
 
-        if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-building bg-info', 'активировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
+        if ($model->status == 10) {
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) подразделение', 'departments/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Подразделение активировано',
+                    'title' => 'Запись активирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -212,7 +223,7 @@ class DepartmentsController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать подразделение',
+                'title' => 'Не удалось активировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,

@@ -43,6 +43,8 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                             //'full_name',
                             [
                                 'attribute' => 'inn',
+                                'headerOptions' => ['style' => 'text-align: center !important;'],
+                                'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'options' => ['width'=>'20%'],
                             ],
                             [

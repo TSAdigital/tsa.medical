@@ -117,7 +117,7 @@ class CounterpartiesController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
-                $action_history->ActionHistory('fas fa-handshake bg-green', 'добавил(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Запись добавлена',
@@ -160,7 +160,7 @@ class CounterpartiesController extends Controller
         if ($model->status === 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
-                    $action_history->ActionHistory('fas fa-handshake bg-blue', 'отредактировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -230,7 +230,7 @@ class CounterpartiesController extends Controller
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
                     $addressHistory = 'добавил(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' адрес контрагенту';
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $action_history->ActionHistory('fas fa-plus bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись добавлена',
@@ -293,7 +293,7 @@ class CounterpartiesController extends Controller
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
                     $addressHistory = 'отредактировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' адрес у контрагента';
-                    $action_history->ActionHistory('fas fa-map-marked-alt bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -344,7 +344,7 @@ class CounterpartiesController extends Controller
         if ($address->status == 10) {
             $addressHistory = $address->getAddressName();
             $addressHistory = 'активировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-check bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',
@@ -379,7 +379,7 @@ class CounterpartiesController extends Controller
         if ($address->status == 9) {
             $addressHistory = $address->getAddressName();
             $addressHistory = 'аннулировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
-            $action_history->ActionHistory('fas fa-map-marked-alt bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-times bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -414,7 +414,7 @@ class CounterpartiesController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = 'добавил(а) контакт ' . Html::a($model->name, ['counterparties/view-contact', 'id' => $counterparty->id, 'contact' => $model->getId()]) . ' контрагенту';
-                    $action_history->ActionHistory('fas fa-address-book bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $action_history->ActionHistory('fas fa-plus bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись добавлена',
@@ -477,7 +477,7 @@ class CounterpartiesController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = 'отредактировал(а) контакт ' . Html::a($model->name, ['counterparties/view-contact', 'id' => $counterparty->id, 'contact' => $model->id]) . ' у контрагента';
-                    $action_history->ActionHistory('fas fa-address-book bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
@@ -487,7 +487,7 @@ class CounterpartiesController extends Controller
                             'showConfirmButton' => false
                         ]
                     ]);
-                    return $this->redirect(['view', 'id' => $counterparty->id]);
+                    return $this->redirect(['view-contact', 'id' => $counterparty->id, 'contact' => $model->id]);
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
@@ -527,7 +527,7 @@ class CounterpartiesController extends Controller
 
         if ($contact->status == 10) {
             $addressHistory = 'активировал(а) контакт ' . Html::a($contact->name, ['counterparties/view-contact', 'id' => $model->id, 'contact' => $contact->id]) . ' у контрагента';
-            $action_history->ActionHistory('fas fa-address-book bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-check bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',
@@ -560,7 +560,7 @@ class CounterpartiesController extends Controller
 
         if ($contact->status == 9) {
             $addressHistory = 'аннулировал(а) контакт ' . Html::a($contact->name, ['counterparties/view-contact', 'id' => $model->id, 'contact' => $contact->id]) . ' у контрагента';
-            $action_history->ActionHistory('fas fa-address-book bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-times bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -591,7 +591,7 @@ class CounterpartiesController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->status == 9) {
-            $action_history->ActionHistory('fas fa-handshake bg-red', 'аннулировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -623,7 +623,7 @@ class CounterpartiesController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->status == 10) {
-            $action_history->ActionHistory('fas fa-handshake bg-info', 'активировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) контрагента', 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',

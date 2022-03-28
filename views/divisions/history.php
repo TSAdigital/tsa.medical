@@ -8,7 +8,7 @@ use yii\widgets\ListView;
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 
 $this->title = 'История: ' . $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Отделения', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'История';
 $this->params['buttons'] = [

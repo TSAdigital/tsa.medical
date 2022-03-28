@@ -128,8 +128,8 @@ class Address extends ActiveRecord
     public static function getStatusesArray()
     {
         return [
-            self::STATUS_ACTIVE => 'Активнен',
-            self::STATUS_INACTIVE => 'Аннулирован',
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
         ];
     }
 
