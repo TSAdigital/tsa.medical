@@ -126,13 +126,12 @@ class DivisionsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
         $action_history = new ActionHistory();
-        $old = $model->name;
+
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) отделение', 'divisions/view', $model->getId(), $old != $model->name ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' .$model->name : $model->name);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) отделение', 'divisions/view', $model->getId(), $model->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',

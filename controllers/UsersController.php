@@ -136,7 +136,6 @@ class UsersController extends Controller
     {
         $model = $this->findModel($id);
         $action_history = new ActionHistory();
-        $old = $model->username;
 
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
@@ -144,7 +143,7 @@ class UsersController extends Controller
                 $model->generateAuthKey();
                 $model->save();
                 if ($model->save()){
-                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $old != $model->username ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $model->username : $model->username);
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) пользователя', 'users/profile', $model->getId(), $model->username);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Запись обновлена',
