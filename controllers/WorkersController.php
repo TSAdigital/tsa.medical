@@ -88,7 +88,7 @@ class WorkersController extends Controller
 
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-id-card bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-id-card bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Сотрудник добавлен',
@@ -118,12 +118,11 @@ class WorkersController extends Controller
         $model = $this->findModel($id);
 
         $action_history = new ActionHistory();
-        $old = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $worker = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
-                    $action_history->ActionHistory('fas fa-id-card bg-blue', 'отредактировал(а) сотрудника', 'workers/view', $model->getId(), $old != $worker ? $old . ' <i class="fas fa-code" style="font-size: 13px"></i> ' . $worker : $worker);
+                    $action_history->ActionHistory('fas fa-id-card bg-blue', 'отредактировал(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
                     Yii::$app->session->setFlash('success', [
                         'options' => [
                             'title' => 'Изменения сохранены',

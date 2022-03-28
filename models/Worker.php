@@ -11,53 +11,28 @@ use yii\helpers\ArrayHelper;
  * This is the model class for table "worker".
  *
  * @property int $id
- * @property int $department
- * @property int $division
- * @property string $last_name
- * @property string $firs_name
- * @property string $middle_name
- * @property string $birthdate
- * @property string $phone
- * @property string $phone_work
- * @property string $phone_work_extension
- * @property string $email
- * @property int $gender
- * @property int $snils
- * @property int|null $inn
+ * @property int $counterparty_id
+ * @property int|null $position_id
+ * @property int $department_id
+ * @property int|null $division_id
+ * @property string|null $document
+ * @property string|null $document_number
+ * @property string|null $document_date
+ * @property string|null $start_work
+ * @property string|null $end_work
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
  *
- * @property Department $department0
- * @property Division $division0
- *
- * @property integer $passport_serial
- * @property integer $passport_number
- * @property string $passport_date
- * @property string $passport_issued
- * @property integer $passport_department_code
- * @property string $passport_birthplace
- *
- * @property integer $address_index
- * @property string $address_country
- * @property string $address_region
- * @property string $address_district
- * @property string $address_city
- * @property string $address_locality
- * @property string $address_street
- * @property string $address_house
- * @property string $address_body
- * @property string $address_building
- * @property string $address_apartment
+ * @property CounterpartyFl $counterparty
+ * @property Department $department
+ * @property Division $division
+ * @property Position $position
  */
-
 class Worker extends ActiveRecord
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-
-    const GENDER_MALE = 9;
-    const GENDER_FEMALE = 10;
 
     /**
      * {@inheritdoc}
@@ -91,144 +66,37 @@ class Worker extends ActiveRecord
     public function rules()
     {
         return [
-            ['gender', 'required'],
-            ['gender', 'integer'],
-            ['gender', 'in', 'range' => [self::GENDER_FEMALE, self::GENDER_MALE]],
-
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
-            ['department', 'required'],
-            ['department', 'integer'],
-            ['department', 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department' => 'id']],
+            ['counterparty_id', 'required'],
+            ['counterparty_id', 'integer'],
+            ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
 
-            ['division', 'integer'],
-            ['division', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division' => 'id']],
+            ['department_id', 'required'],
+            ['department_id', 'integer'],
+            ['department_id', 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
 
-            ['last_name', 'required'],
-            ['last_name', 'string', 'max' => 40],
-            ['last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            ['last_name', 'trim'],
+            ['division_id', 'integer'],
+            ['division_id', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division_id' => 'id']],
 
-            ['firs_name', 'required'],
-            ['firs_name', 'string', 'max' => 40],
-            ['firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            ['firs_name', 'trim'],
+            ['position_id', 'integer'],
+            ['department_id', 'required'],
+            ['position_id', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
 
-            ['middle_name', 'string', 'max' => 40],
-            ['middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            ['middle_name', 'trim'],
+            ['document', 'string', 'max' => 255],
+            ['document', 'trim'],
+            ['document', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['birthdate', 'date'],
-            ['birthdate', 'required'],
+            ['document_number', 'string', 'max' => 255],
+            ['document_number', 'trim'],
+            ['document_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['snils', 'required'],
-            ['snils', 'string', 'min' => 11, 'tooShort' => 'Значение «СНИЛС» должно содержать 11 символов.'],
-            ['snils', 'unique'],
-            ['snils', 'trim'],
-            ['snils', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['document_date', 'date'],
 
-            ['inn', 'string', 'min' => 12, 'tooShort' => 'Значение «ИНН» должно содержать 12 символов.'],
-            ['inn', 'trim'],
-            ['inn', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['start_work', 'date'],
 
-            ['phone', 'string', 'min' => 11, 'tooShort' => 'Значение «Номер телефона» должно содержать 11 символов.'],
-            ['phone', 'trim'],
-            ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['phone_work', 'string', 'min' => 11, 'tooShort' => 'Значение «Номер телефона» должно содержать 11 символов.'],
-            ['phone_work', 'trim'],
-            ['phone_work', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['phone_work_extension', 'string', 'max' => 10],
-            ['phone_work_extension', 'trim'],
-            ['phone_work_extension', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['email', 'email'],
-            ['email', 'trim'],
-            ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['passport_serial', 'string', 'min' => 4, 'tooShort' => 'Значение «Серия» должно содержать 4 символа.'],
-            ['passport_serial', 'trim'],
-            ['passport_serial', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['passport_number', 'string', 'min' => 6, 'tooShort' => 'Значение «Номер» должно содержать 6 символов.'],
-            ['passport_number', 'trim'],
-            ['passport_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['passport_date', 'date'],
-
-            ['passport_issued', 'string'],
-            ['passport_issued', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['passport_department_code', 'string', 'min' => 6, 'tooShort' => 'Значение «Код подразделения» должно содержать 6 символов.'],
-            ['passport_department_code', 'trim'],
-            ['passport_department_code', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['passport_birthplace', 'string', 'max' => 255],
-            ['address_country', 'trim'],
-            ['passport_birthplace', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_index', 'string', 'min' => 6, 'tooShort' => 'Значение «Индекс» должно содержать 6 символов.'],
-            ['address_index', 'trim'],
-            ['address_index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_country', 'string', 'max' => 255],
-            ['address_country', 'trim'],
-            ['address_country', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_region', 'string', 'max' => 255],
-            ['address_region', 'trim'],
-            ['address_region', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_district', 'string', 'max' => 255],
-            ['address_district', 'trim'],
-            ['address_district', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_city', 'string', 'max' => 255],
-            ['address_city', 'trim'],
-            ['address_city', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_locality', 'string', 'max' => 255],
-            ['address_locality', 'trim'],
-            ['address_locality', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_street', 'string', 'max' => 255],
-            ['address_street', 'trim'],
-            ['address_street', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_house', 'string', 'max' => 255],
-            ['address_house', 'trim'],
-            ['address_house', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_body', 'string', 'max' => 255],
-            ['address_body', 'trim'],
-            ['address_body', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_building', 'string', 'max' => 255],
-            ['address_building', 'trim'],
-            ['address_building', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['address_apartment', 'string', 'max' => 255],
-            ['address_apartment', 'trim'],
-            ['address_apartment', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['work_position', 'integer'],
-            ['work_position', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['work_position' => 'id']],
-
-            ['work_document', 'string', 'max' => 255],
-            ['work_document', 'trim'],
-            ['work_document', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['work_document_number', 'string', 'max' => 255],
-            ['work_document_number', 'trim'],
-            ['work_document_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            ['work_document_date', 'date'],
-
-            ['work_start', 'date'],
-
-            ['work_end', 'date'],
+            ['end_work', 'date'],
         ];
     }
 
@@ -239,48 +107,19 @@ class Worker extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'department' => 'Подразделение',
-            'department_name' => 'Подразделение',
-            'division' => 'Отделение',
-            'division_name' => 'Отделение',
-            'last_name' => 'Фамилия',
-            'firs_name' => 'Имя',
-            'middle_name' => 'Отчество',
-            'birthdate' => 'Дата рождения',
-            'gender' => 'Пол',
-            'snils' => 'СНИЛС',
-            'inn' => 'ИНН',
-            'phone' => 'Номер телефона',
-            'phone_work' => 'Рабочий номер телефона',
-            'phone_work_extension' => 'Внутренний номер телефона',
-            'email' => 'Электронная почта',
-
-            'passport_serial' => 'Серия',
-            'passport_number' => 'Номер',
-            'passport_date' => 'Дата выдачи',
-            'passport_issued' => 'Выдан',
-            'passport_department_code' => 'Код подразделения',
-            'passport_birthplace' => 'Место рождения',
-
-            'address_index' => 'Индекс',
-            'address_country' => 'Страна',
-            'address_region' => 'Регион',
-            'address_district' => 'Район',
-            'address_city' => 'Город',
-            'address_locality' => 'Населенный пункт',
-            'address_street' => 'Улица',
-            'address_house' => 'Дом',
-            'address_body' => 'Корпус',
-            'address_building' => 'Строение',
-            'address_apartment' => 'Квартира',
-
-            'work_position' => 'Должность',
+            'counterparty_id' => 'Контрагент',
+            'counterparty_name' => 'Контрагент',
+            'position_id' => 'Должность',
             'position_name' => 'Должность',
-            'work_document' => 'Основание',
-            'work_document_number' => 'Номер документа',
-            'work_document_date' => 'Дата документа',
-            'work_start' => 'Дата выхода на работу',
-            'work_end' => 'Дата окончания работы',
+            'department_id' => 'Подразделение',
+            'department_name' => 'Подразделение',
+            'division_id' => 'Отделение',
+            'division_name' => 'Отделение',
+            'document' => 'Основание',
+            'document_number' => 'Номер документа',
+            'document_date' => 'Дата документа',
+            'start_work' => 'Дата выхода на работу',
+            'end_work' => 'Дата окончания работы',
 
             'status' => 'Статус',
             'created_at' => 'Запись создана',
@@ -289,59 +128,73 @@ class Worker extends ActiveRecord
     }
 
     /**
-     * Gets query for [[Department0]].
+     * Gets query for [[Counterparty]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDepartment0()
+    public function getCounterparty()
     {
-        return $this->hasOne(Department::className(), ['id' => 'department']);
+        return $this->hasOne(CounterpartyFl::className(), ['id' => 'counterparty_id']);
+    }
+
+    public function getCounterparty_name()
+    {
+        return $this->counterparty->getFullName();
+    }
+
+    /**
+     * Gets query for [[Department]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDepartment()
+    {
+        return $this->hasOne(Department::className(), ['id' => 'department_id']);
     }
 
     public function getDepartment_name()
     {
-        return $this->department0->name;
+        return $this->department->name;
     }
 
-    public function getDivision0()
+    /**
+     * Gets query for [[Division]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDivision()
     {
-        return $this->hasOne(Division::className(), ['id' => 'division']);
+        return $this->hasOne(Division::className(), ['id' => 'division_id']);
     }
 
     public function getDivision_name()
     {
-        return $this->division0->name;
+        return $this->division->name;
     }
 
-    public function getPosition0()
+
+    /**
+     * Gets query for [[Position]].
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPosition()
     {
-        return $this->hasOne(Position::className(), ['id' => 'work_position']);
+        return $this->hasOne(Position::className(), ['id' => 'position_id']);
     }
 
     public function getPosition_name()
     {
-        return $this->position0->name;
+        return $this->position->name;
     }
+
 
     public static function getStatusesArray()
     {
         return [
-            self::STATUS_ACTIVE => 'Активнен',
-            self::STATUS_INACTIVE => 'Аннулирован',
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
         ];
-    }
-
-    public static function getGenderArray()
-    {
-        return [
-            self::GENDER_MALE => 'Мужской',
-            self::GENDER_FEMALE => 'Женский',
-        ];
-    }
-
-    public function getGender()
-    {
-        return ArrayHelper::getValue(self::getGenderArray(), $this->gender);
     }
 
     public function getStatusName()
@@ -360,11 +213,9 @@ class Worker extends ActiveRecord
 
     public function beforeSave($insert)
     {
-        $this->birthdate = date('Y-m-d', strtotime($this->birthdate));
-        $this->passport_date = !empty($this->passport_date) ? date('Y-m-d', strtotime($this->passport_date)) : null;
-        $this->work_document_date= !empty($this->work_document_date) ? date('Y-m-d', strtotime($this->work_document_date)) : null;
-        $this->work_start = !empty($this->work_start) ? date('Y-m-d', strtotime($this->work_start)) : null;
-        $this->work_end = !empty($this->work_end) ? date('Y-m-d', strtotime($this->work_end)) : null;
+        $this->document_date= !empty($this->document_date) ? date('Y-m-d', strtotime($this->document_date)) : null;
+        $this->start_work = !empty($this->start_work) ? date('Y-m-d', strtotime($this->start_work)) : null;
+        $this->end_work = !empty($this->end_work) ? date('Y-m-d', strtotime($this->end_work)) : null;
 
         return parent::beforeSave($insert);
     }
@@ -372,10 +223,8 @@ class Worker extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind ();
-        $this->birthdate = Yii::$app->formatter->asDate($this->birthdate);
-        $this->passport_date = !empty($this->passport_date) ? Yii::$app->formatter->asDate($this->passport_date) : null;
-        $this->work_document_date= !empty($this->work_document_date) ? Yii::$app->formatter->asDate($this->work_document_date) : null;
-        $this->work_start = !empty($this->work_start) ? Yii::$app->formatter->asDate($this->work_start) : null;
-        $this->work_end = !empty($this->work_end) ? Yii::$app->formatter->asDate($this->work_end) : null;
-   }
+        $this->document_date = !empty($this->document_date) ? Yii::$app->formatter->asDate($this->document_date) : null;
+        $this->start_work = !empty($this->start_work) ? Yii::$app->formatter->asDate($this->start_work) : null;
+        $this->end_work = !empty($this->end_work) ? Yii::$app->formatter->asDate($this->end_work) : null;
+    }
 }

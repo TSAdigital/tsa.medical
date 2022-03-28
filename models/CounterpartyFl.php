@@ -171,6 +171,11 @@ class CounterpartyFl extends ActiveRecord
         return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
     }
 
+    public function getFullName()
+    {
+        return $this->last_name . ' ' . $this->firs_name . ' ' . $this->middle_name;
+    }
+
     public function beforeSave($insert)
     {
         $this->birthdate = date('Y-m-d', strtotime($this->birthdate));

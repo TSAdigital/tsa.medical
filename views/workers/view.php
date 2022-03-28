@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
 
-$this->title = $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+$this->title = $model->getCounterparty_name();
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
@@ -38,10 +38,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#passport" data-toggle="tab">Паспорт</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адрес</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -58,17 +55,6 @@ $this->params['buttons'] = [
                                         'captionOptions' => ['width' => '200px'],
                                     ],
                                     'division_name',
-                                    'last_name',
-                                    'firs_name',
-                                    'middle_name',
-                                    'birthdate:date',
-                                    [
-                                        'attribute' => 'gender',
-                                        'captionOptions' => ['width' => '200px'],
-                                        'value' => $model->getGender(),
-                                    ],
-                                    'snils:snils',
-                                    'inn',
                                     [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),
@@ -78,91 +64,8 @@ $this->params['buttons'] = [
                                 ],
                             ]) ?>
                         </div>
-                        <div class="tab-pane" id="passport">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    'passport_serial:passportSerial',
-                                    [
-                                        'attribute' => 'passport_number',
-                                        'captionOptions' => ['width' => '200px'],
+                        <div class="tab-pane" id="certificate">
 
-                                    ],
-                                    'passport_date:date',
-                                    'passport_issued',
-                                    'passport_department_code:passportDepartmentCode',
-                                    'passport_birthplace',
-                                ],
-                            ]) ?>
-                        </div>
-                        <div class="tab-pane" id="address">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'address_index',
-                                        'captionOptions' => ['width' => '200px'],
-                                    ],
-                                    'address_country',
-                                    'address_region',
-                                    'address_district',
-                                    'address_city',
-                                    'address_locality',
-                                    'address_street',
-                                    'address_house',
-                                    'address_body',
-                                    'address_building',
-                                    'address_apartment',
-                                ],
-                            ]) ?>
-                        </div>
-                        <div class="tab-pane" id="work">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'position_name',
-                                        'captionOptions' => ['width' => '210px'],
-                                    ],
-                                    'work_document',
-                                    'work_document_number',
-                                    'work_document_date:date',
-                                    'work_start:date',
-                                    'work_end:date',
-                                ],
-                            ]) ?>
-                        </div>
-                        <div class="tab-pane" id="contact">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'phone',
-                                        'format' => 'raw',
-                                        'captionOptions' => ['width' => '250px'],
-                                        'value' => Yii::$app->formatter->asPhone($model->phone)
-                                    ],
-                                    [
-                                        'attribute' => 'phone_work',
-                                        'format' => 'raw',
-                                        'value' => Yii::$app->formatter->asPhone($model->phone_work)
-                                    ],
-                                    'phone_work_extension',
-                                    'email:email',
-                                ],
-                            ]) ?>
                         </div>
                     </div>
                 </div>

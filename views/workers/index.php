@@ -33,40 +33,22 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
 
                             //'id',
                             [
-                                'attribute'=>'last_name',
-                                'options' => ['width'=>'20%'],
+                                'attribute'=>'counterparty_name',
+                                'options' => ['width'=>'45%'],
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
                                     return
-                                        Html::a($data->last_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                        Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
                             ],
                             [
-                                'attribute'=>'firs_name',
+                                'attribute'=>'position_name',
                                 'options' => ['width'=>'20%'],
-                                'format'=>'raw',
-                                'value' => function($data)
-                                {
-                                    return
-                                        Html::a($data->firs_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
-                                }
-                            ],
-                            [
-                                'attribute'=>'middle_name',
-                                'options' => ['width'=>'20%'],
-                                'format'=>'raw',
-                                'value' => function($data)
-                                {
-                                    return
-                                        Html::a($data->middle_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
-                                }
                             ],
                             [
                                 'attribute'=>'department_name',
-                                'options' => ['width'=>'25%'],
-                                'format'=>'raw',
-                                'value' => 'department_name'
+                                'options' => ['width'=>'20%'],
                             ],
                             [
                                 'filter' => Worker::getStatusesArray(),

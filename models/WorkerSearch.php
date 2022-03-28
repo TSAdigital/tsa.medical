@@ -10,15 +10,14 @@ use yii\data\ActiveDataProvider;
  */
 class WorkerSearch extends Worker
 {
-    public $department_name;
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['id', 'department', 'gender', 'snils', 'inn', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['last_name', 'firs_name', 'middle_name', 'department_name', 'birthdate'], 'safe'],
+            [['id', 'counterparty_id', 'position_id', 'department_id', 'division_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['document', 'document_number', 'document_date', 'start_work', 'end_work'], 'safe'],
         ];
     }
 
@@ -46,14 +45,9 @@ class WorkerSearch extends Worker
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 8,
-            ],
         ]);
 
         $this->load($params);
-
-        $query->joinWith(['department0']);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -61,38 +55,23 @@ class WorkerSearch extends Worker
             return $dataProvider;
         }
 
-        $dataProvider->setSort([
-            'attributes' => [
-                'department_name' => [
-                    'asc' => ['department.name' => SORT_ASC],
-                    'desc' => ['department.name' => SORT_DESC],
-                    'label' => 'department.name',
-                    'default' => SORT_ASC
-                ],
-                'last_name',
-                'firs_name',
-                'middle_name',
-                'status',
-            ]
-        ]);
-
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'department' => $this->department,
-            'birthdate' => $this->birthdate,
-            'gender' => $this->gender,
-            'snils' => $this->snils,
-            'inn' => $this->inn,
-            'worker.status' => $this->status,
+            'counterparty_id' => $this->counterparty_id,
+            'position_id' => $this->position_id,
+            'department_id' => $this->department_id,
+            'division_id' => $this->division_id,
+            'document_date' => $this->document_date,
+            'start_work' => $this->start_work,
+            'end_work' => $this->end_work,
+            'status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'firs_name', $this->firs_name])
-            ->andFilterWhere(['like', 'middle_name', $this->middle_name])
-            ->andFilterWhere(['like', 'department.name', $this->department_name]);
+        $query->andFilterWhere(['like', 'document', $this->document])
+            ->andFilterWhere(['like', 'document_number', $this->document_number]);
 
         return $dataProvider;
     }

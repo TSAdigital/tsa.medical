@@ -5,9 +5,9 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Редактирование: ' . $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name;
+$this->title = 'Редактирование: ' . $model->getCounterparty_name();
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->getCounterparty_name(), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"position"]),
