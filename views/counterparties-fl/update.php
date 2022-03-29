@@ -6,9 +6,9 @@
 use yii\bootstrap\Html;
 use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: ' . StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 35, '...');
+$this->title = 'Редактирование: ' . StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 35, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 35, '...'), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 35, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"counterparty-fl"]),

@@ -21,7 +21,7 @@ use yii\helpers\ArrayHelper;
  * @property string|null $web_site
  *
  * @property string|null $director_last_name
- * @property string|null $director_firs_name
+ * @property string|null $director_first_name
  * @property string|null $director_middle_name
  * @property string|null $director_position
  * @property string|null $director_document
@@ -112,9 +112,9 @@ class Counterparty extends ActiveRecord
             ['director_last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['director_last_name', 'trim'],
 
-            ['director_firs_name', 'string', 'max' => 40],
-            ['director_firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            ['director_firs_name', 'trim'],
+            ['director_first_name', 'string', 'max' => 40],
+            ['director_first_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['director_first_name', 'trim'],
 
             ['director_middle_name', 'string', 'max' => 40],
             ['director_middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -148,7 +148,7 @@ class Counterparty extends ActiveRecord
             'ogrn' => 'ОГРН',
             'okpo' => 'ОКПО',
             'director_last_name' => 'Фамилия',
-            'director_firs_name' => 'Имя',
+            'director_first_name' => 'Имя',
             'director_middle_name' => 'Отчество',
             'director_position' => 'Должность',
             'director_document' => 'Основание',

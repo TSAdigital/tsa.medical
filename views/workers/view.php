@@ -38,7 +38,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Деятельность</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -51,9 +51,11 @@ $this->params['buttons'] = [
                                 ],
                                 'attributes' => [
                                     [
-                                        'attribute' => 'department_name',
-                                        'captionOptions' => ['width' => '200px'],
+                                        'attribute' => 'counterparty_name',
+                                        'captionOptions' => ['width' => '220px'],
                                     ],
+                                    'position_name',
+                                    'department_name',
                                     'division_name',
                                     [
                                         'attribute' => 'status',
@@ -65,7 +67,22 @@ $this->params['buttons'] = [
                             ]) ?>
                         </div>
                         <div class="tab-pane" id="certificate">
-
+                            <?= DetailView::widget([
+                                'model' => $model,
+                                'options' => [
+                                    'class' => 'table table-bordered table-striped',
+                                ],
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'document',
+                                        'captionOptions' => ['width' => '220px'],
+                                    ],
+                                    'document_number',
+                                    'document_date',
+                                    'start_work',
+                                    'end_work',
+                                ],
+                            ]) ?>
                         </div>
                     </div>
                 </div>

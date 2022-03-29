@@ -85,7 +85,7 @@ $this->params['buttons'] = [
                                         'attribute' => 'director_last_name',
                                         'captionOptions' => ['width' => '250px'],
                                     ],
-                                    'director_firs_name',
+                                    'director_first_name',
                                     'director_middle_name',
                                     [
                                         'attribute' => 'director_position',

@@ -42,13 +42,13 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 }
                             ],
                             [
-                                'attribute'=>'firs_name',
+                                'attribute'=>'first_name',
                                 'options' => ['width'=>'20%'],
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
                                     return
-                                        Html::a($data->firs_name, ['counterparties-fl/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                        Html::a($data->first_name, ['counterparties-fl/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
                             ],
                             [

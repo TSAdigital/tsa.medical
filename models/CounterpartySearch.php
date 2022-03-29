@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Counterparty;
 
 /**
  * CounterpartySearch represents the model behind the search form of `app\models\Counterparty`.
@@ -18,7 +17,7 @@ class CounterpartySearch extends Counterparty
     {
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'phone', 'email', 'web_site', 'director_last_name', 'director_firs_name', 'director_middle_name', 'director_position', 'director_document'], 'safe'],
+            [['name', 'full_name', 'inn', 'kpp', 'ogrn', 'okpo', 'phone', 'email', 'web_site', 'director_last_name', 'director_first_name', 'director_middle_name', 'director_position', 'director_document'], 'safe'],
         ];
     }
 

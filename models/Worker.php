@@ -81,7 +81,7 @@ class Worker extends ActiveRecord
             ['division_id', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division_id' => 'id']],
 
             ['position_id', 'integer'],
-            ['department_id', 'required'],
+            ['position_id', 'required'],
             ['position_id', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
 
             ['document', 'string', 'max' => 255],
@@ -169,7 +169,7 @@ class Worker extends ActiveRecord
 
     public function getDivision_name()
     {
-        return $this->division->name;
+        return !empty($this->division->name) ? $this->division->name : NULL;
     }
 
 

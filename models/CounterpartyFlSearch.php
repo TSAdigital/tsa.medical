@@ -17,7 +17,7 @@ class CounterpartyFlSearch extends CounterpartyFl
     {
         return [
             [['id', 'gender', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['last_name', 'firs_name', 'middle_name', 'birthdate', 'snils', 'inn'], 'safe'],
+            [['last_name', 'first_name', 'middle_name', 'birthdate', 'snils', 'inn'], 'safe'],
         ];
     }
 
@@ -66,7 +66,7 @@ class CounterpartyFlSearch extends CounterpartyFl
         ]);
 
         $query->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'firs_name', $this->firs_name])
+            ->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'middle_name', $this->middle_name])
             ->andFilterWhere(['like', 'snils', $this->snils])
             ->andFilterWhere(['like', 'inn', $this->inn]);

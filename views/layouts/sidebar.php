@@ -16,6 +16,8 @@
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
                     ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card'],
                     ['label' => 'Медицинские карты', 'url' => ['medical-card/index'], 'icon' => 'notes-medical'],
+                    ['label' => 'ЭДО', 'url' => ['documents/index'], 'icon' => 'file-invoice'],
+                    ['label' => 'Оборудование', 'url' => ['equipments/index'], 'icon' => 'microscope'],
                     ['label' => 'Последняя активность', 'url' => ['action-history/index'], 'icon' => 'history'],
                     ['label' => 'СПРАВОЧНИКИ', 'header' => true],
                     [

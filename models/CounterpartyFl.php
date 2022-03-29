@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property string $last_name
- * @property string $firs_name
+ * @property string $first_name
  * @property string|null $middle_name
  * @property string $birthdate
  * @property int $gender
@@ -103,10 +103,10 @@ class CounterpartyFl extends ActiveRecord
             ['last_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['last_name', 'trim'],
 
-            ['firs_name', 'required'],
-            ['firs_name', 'string', 'max' => 40],
-            ['firs_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-            ['firs_name', 'trim'],
+            ['first_name', 'required'],
+            ['first_name', 'string', 'max' => 40],
+            ['first_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['first_name', 'trim'],
 
             ['middle_name', 'string', 'max' => 40],
             ['middle_name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
@@ -122,7 +122,7 @@ class CounterpartyFl extends ActiveRecord
         return [
             'id' => 'ID',
             'last_name' => 'Фамилия',
-            'firs_name' => 'Имя',
+            'first_name' => 'Имя',
             'middle_name' => 'Отчество',
             'birthdate' => 'Дата рождения',
             'gender' => 'Пол',
@@ -173,7 +173,7 @@ class CounterpartyFl extends ActiveRecord
 
     public function getFullName()
     {
-        return $this->last_name . ' ' . $this->firs_name . ' ' . $this->middle_name;
+        return $this->last_name . ' ' . $this->first_name . ' ' . $this->middle_name;
     }
 
     public function beforeSave($insert)

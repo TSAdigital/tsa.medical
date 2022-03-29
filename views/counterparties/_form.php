@@ -70,7 +70,7 @@ use yii\widgets\MaskedInput;
         <div class="tab-pane" id="tab2">
 
             <?= $form->field($model, 'director_last_name')->textInput(['maxlength' => true]) ?>
-            <?= $form->field($model, 'director_firs_name')->textInput(['maxlength' => true]) ?>
+            <?= $form->field($model, 'director_first_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'director_middle_name')->textInput(['maxlength' => true]) ?>
             <?= $form->field($model, 'director_position')->widget(Select2::classname(),
                 [

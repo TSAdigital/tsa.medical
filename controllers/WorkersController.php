@@ -3,11 +3,13 @@
 namespace app\controllers;
 
 use app\models\ActionHistory;
+use app\models\CounterpartyFl;
 use app\models\Division;
 use Yii;
 use app\models\Worker;
 use app\models\WorkerSearch;
 use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,7 +31,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-list'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -184,7 +186,7 @@ class WorkersController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-id-card bg-red', 'аннулировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-id-card bg-red', 'аннулировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Сотрудник аннулирован',
@@ -216,7 +218,7 @@ class WorkersController extends Controller
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-id-card bg-info', 'активировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name);
+            $action_history->ActionHistory('fas fa-id-card bg-info', 'активировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Сотрудник активирован',
@@ -271,5 +273,32 @@ class WorkersController extends Controller
         }
 
         throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    public function actionCounterpartyList($q = null, $id = null) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $query = new Query;
+            $query->select(['id', "CONCAT(last_name,' ',first_name,' ',middle_name) AS text"])
+                ->from('counterparty_fl')
+                ->where(['OR',
+                    ['like', 'last_name', $q],
+                    ['like', 'first_name', $q],
+                    ['like', 'middle_name', $q],
+                    ['like', 'snils', $q],
+                ])
+                ->andWhere(['status' => 10])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $counterparty = CounterpartyFl::findOne($id);
+            $text = $counterparty->last_name . '' . $counterparty->first_name . ' ' . $counterparty->middle_name;
+            $out['results'] = ['id' => $id, 'text' => $text];
+        }
+        return $out;
     }
 }

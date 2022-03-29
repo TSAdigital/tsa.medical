@@ -8,9 +8,9 @@ use yii\widgets\DetailView;
 /* @var $model app\models\CounterpartyFL */
 /* @var $address app\models\AddressFl */
 
-$this->title = StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 50, '...');
+$this->title = StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 30, '...'), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Адреса', 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $address->getAddressName();
 $this->params['buttons'] = [

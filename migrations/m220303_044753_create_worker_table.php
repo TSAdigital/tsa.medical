@@ -15,7 +15,7 @@ class m220303_044753_create_worker_table extends Migration
         $this->createTable('{{%worker}}', [
             'id' => $this->primaryKey(),
             'counterparty_id' => $this->integer()->notNull(),
-            'position_id' => $this->integer(),
+            'position_id' => $this->integer()->notNull(),
             'department_id' => $this->integer()->notNull(),
             'division_id' => $this->integer(),
             'document' => $this->string(),

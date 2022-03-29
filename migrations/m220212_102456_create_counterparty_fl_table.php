@@ -15,7 +15,7 @@ class m220212_102456_create_counterparty_fl_table extends Migration
         $this->createTable('{{%counterparty_fl}}', [
             'id' => $this->primaryKey(),
             'last_name' => $this->string()->notNull(),
-            'firs_name' => $this->string()->notNull(),
+            'first_name' => $this->string()->notNull(),
             'middle_name' => $this->string(),
             'birthdate' => $this->date()->notNull(),
             'gender' => $this->integer()->notNull(),

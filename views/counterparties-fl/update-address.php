@@ -9,7 +9,7 @@ use yii\helpers\StringHelper;
 
 $this->title = 'Редактирование: адрес ' . $model->getAddressName();
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->last_name . ' ' . $counterparty->firs_name . ' ' . $counterparty->middle_name, 20, '...'), 'url' => ['view', 'id' => $counterparty->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->last_name . ' ' . $counterparty->first_name . ' ' . $counterparty->middle_name, 20, '...'), 'url' => ['view', 'id' => $counterparty->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Адреса', 'url' => ['view', 'id' => $counterparty->id]];;
 $this->params['breadcrumbs'][] = ['label' => $model->getAddressName(), 'url' => ['view-address', 'id' => $counterparty->id, 'address' => $model->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';

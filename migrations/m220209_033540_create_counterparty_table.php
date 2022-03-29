@@ -25,7 +25,7 @@ class m220209_033540_create_counterparty_table extends Migration
             'web_site' => $this->string(),
 
             'director_last_name' => $this->string(),
-            'director_firs_name' => $this->string(),
+            'director_first_name' => $this->string(),
             'director_middle_name' => $this->string(),
             'director_position' => $this->integer(),
             'director_document' => $this->string(),

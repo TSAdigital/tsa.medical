@@ -10,7 +10,7 @@ use yii\widgets\ListView;
 /* @var $passport app\models\Passport */
 /* @var $address app\models\AddressFl */
 
-$this->title = StringHelper::truncate($model->last_name . ' ' . $model->firs_name . ' ' . $model->middle_name, 50, '...');
+$this->title = StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
@@ -56,7 +56,7 @@ $this->params['buttons'] = [
                                         'attribute' => 'last_name',
                                         'captionOptions' => ['width' => '250px'],
                                     ],
-                                    'firs_name',
+                                    'first_name',
                                     'middle_name',
                                     'birthdate:date',
                                     [
