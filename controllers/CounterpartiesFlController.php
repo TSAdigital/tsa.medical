@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ActionHistory;
 use app\models\AddressFl;
 use app\models\Passport;
+//use Faker\Factory;
 use Yii;
 use app\models\CounterpartyFl;
 use app\models\CounterpartyFlSearch;
@@ -31,7 +32,7 @@ class CounterpartiesFlController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-passport', 'view-passport', 'update-passport', 'blocked-passport', 'active-passport'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-passport', 'view-passport', 'update-passport', 'blocked-passport', 'active-passport', 'generate'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -663,4 +664,22 @@ class CounterpartiesFlController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+/*    public function actionGenerate()
+    {
+        $faker = Factory::create('ru_RU');
+        $snils = 11000000000;
+        for($i = 0; $i < 10000; $i++)
+        {
+            $post = new CounterpartyFl();
+            $post->last_name = $faker->lastName;
+            $post->first_name = $faker->firstName;
+            $post->middle_name = '';
+            $post->gender = $faker->randomElement([9, 10]);
+            $post->birthdate = $faker->date;
+            $post->snils = $snils+$i;
+            $post->save(false);
+        }
+        die('Data generation is complete!');
+    }*/
 }

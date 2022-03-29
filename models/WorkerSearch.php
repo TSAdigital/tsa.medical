@@ -100,11 +100,7 @@ class WorkerSearch extends Worker
         ]);
 
         $query->andFilterWhere(['like', 'document', $this->document])
-            ->andFilterWhere(['OR',
-                ['like', 'counterparty_fl.last_name', $this->counterparty_name],
-                ['like', 'counterparty_fl.first_name', $this->counterparty_name],
-                ['like', 'counterparty_fl.middle_name', $this->counterparty_name],
-            ])
+            ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name])
             ->andFilterWhere(['like', 'position.name', $this->position_name])
             ->andFilterWhere(['like', 'department.name', $this->department_name]);
 

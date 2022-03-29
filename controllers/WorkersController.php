@@ -279,15 +279,12 @@ class WorkersController extends Controller
         Yii::$app->response->format = Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
+            $q = preg_replace('/[^a-zA-Zа-яА-Я0-9]/ui', '', $q);
             $query = new Query;
             $query->select(['id', "CONCAT(last_name,' ',first_name,' ',middle_name) AS text"])
                 ->from('counterparty_fl')
-                ->where(['OR',
-                    ['like', 'last_name', $q],
-                    ['like', 'first_name', $q],
-                    ['like', 'middle_name', $q],
-                    ['like', 'snils', $q],
-                ])
+                ->where(['like', "CONCAT(last_name,first_name,middle_name)", $q])
+                ->orWhere(['like', 'snils', $q])
                 ->andWhere(['status' => 10])
                 ->limit(20);
             $command = $query->createCommand();
