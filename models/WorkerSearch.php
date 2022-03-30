@@ -21,7 +21,7 @@ class WorkerSearch extends Worker
     {
         return [
             [['id', 'counterparty_id', 'position_id', 'department_id', 'division_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['counterparty_name', 'department_name', 'position_name', 'document', 'document_number', 'document_date', 'start_work', 'end_work'], 'safe'],
+            [['counterparty_name', 'department_name', 'position_name', 'phone', 'extension_phone', 'email'], 'safe'],
         ];
     }
 
@@ -96,15 +96,15 @@ class WorkerSearch extends Worker
             'position_id' => $this->position_id,
             'department_id' => $this->department_id,
             'division_id' => $this->division_id,
-            'document_date' => $this->document_date,
-            'start_work' => $this->start_work,
-            'end_work' => $this->end_work,
+            'phone' => $this->phone,
+            'extension_phone' => $this->extension_phone,
+            'email' => $this->email,
             'worker.status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'document', $this->document])
+        $query->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name])
             ->andFilterWhere(['like', 'position.name', $this->position_name])
             ->andFilterWhere(['like', 'department.name', $this->department_name]);

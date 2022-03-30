@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -15,11 +14,9 @@ use yii\helpers\ArrayHelper;
  * @property int|null $position_id
  * @property int $department_id
  * @property int|null $division_id
- * @property string|null $document
- * @property string|null $document_number
- * @property string|null $document_date
- * @property string|null $start_work
- * @property string|null $end_work
+ * @property string|null $phone
+ * @property string|null $extension_phone
+ * @property string|null $email
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -84,19 +81,18 @@ class Worker extends ActiveRecord
             ['position_id', 'required'],
             ['position_id', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
 
-            ['document', 'string', 'max' => 255],
-            ['document', 'trim'],
-            ['document', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
+            ['phone', 'trim'],
+            ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['document_number', 'string', 'max' => 255],
-            ['document_number', 'trim'],
-            ['document_number', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['extension_phone', 'integer'],
+            ['extension_phone', 'string', 'max' => 6, 'tooLong' => 'Значение «Внутренний номер» должно содержать максимум 6 символов.'],
+            ['extension_phone', 'trim'],
+            ['extension_phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
-            ['document_date', 'date'],
-
-            ['start_work', 'date'],
-
-            ['end_work', 'date'],
+            ['email', 'email'],
+            ['email', 'trim'],
+            ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
         ];
     }
 
@@ -115,11 +111,9 @@ class Worker extends ActiveRecord
             'department_name' => 'Подразделение',
             'division_id' => 'Отделение',
             'division_name' => 'Отделение',
-            'document' => 'Основание',
-            'document_number' => 'Номер документа',
-            'document_date' => 'Дата документа',
-            'start_work' => 'Дата выхода на работу',
-            'end_work' => 'Дата окончания работы',
+            'phone' => 'Номер телефона',
+            'extension_phone' => 'Внутренний номер телефона',
+            'email' => 'Адрес электронной почты',
 
             'status' => 'Статус',
             'created_at' => 'Запись создана',
@@ -209,22 +203,5 @@ class Worker extends ActiveRecord
             return true;
         }
         return false;
-    }
-
-    public function beforeSave($insert)
-    {
-        $this->document_date= !empty($this->document_date) ? date('Y-m-d', strtotime($this->document_date)) : null;
-        $this->start_work = !empty($this->start_work) ? date('Y-m-d', strtotime($this->start_work)) : null;
-        $this->end_work = !empty($this->end_work) ? date('Y-m-d', strtotime($this->end_work)) : null;
-
-        return parent::beforeSave($insert);
-    }
-
-    public function afterFind()
-    {
-        parent::afterFind ();
-        $this->document_date = !empty($this->document_date) ? Yii::$app->formatter->asDate($this->document_date) : null;
-        $this->start_work = !empty($this->start_work) ? Yii::$app->formatter->asDate($this->start_work) : null;
-        $this->end_work = !empty($this->end_work) ? Yii::$app->formatter->asDate($this->end_work) : null;
     }
 }

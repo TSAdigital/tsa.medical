@@ -3,13 +3,13 @@
 use app\models\CounterpartyFl;
 use app\models\Department;
 use app\models\Position;
-use kartik\date\DatePicker;
 use kartik\depdrop\DepDrop;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
@@ -19,7 +19,7 @@ use yii\web\JsExpression;
 <div class="card-header p-2">
     <ul class="nav nav-pills">
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Деятельность <span class="tab-2"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Контакты <span class="tab-2"></span></a></li>
     </ul>
 </div>
 <div class="card-body">
@@ -84,45 +84,20 @@ use yii\web\JsExpression;
         </div>
         <div class="tab-pane" id="tab2">
 
-            <?= $form->field($model, 'document')->textInput() ?>
+            <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
+                'mask' => '9(999)999 99 99',
+                'clientOptions' => [
+                    'removeMaskOnSubmit' => true,
+                ],
+            ]) ?>
 
-            <?= $form->field($model, 'document_number')->textInput() ?>
+            <?= $form->field($model, 'extension_phone')->textInput() ?>
 
-            <?= $form->field($model, 'document_date')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => 'Ввод даты ...'],
-                'value' => 'dd.mm.yyyy',
-                'pluginOptions' => [
-                    'format' => 'dd.mm.yyyy',
-                    'autoclose' => true,
-                    'todayBtn' => true,
-                    'todayHighlight' => true,
-                    'endDate' => "0d"
-                ]
-            ]); ?>
-
-            <?= $form->field($model, 'start_work')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => 'Ввод даты ...'],
-                'value' => 'dd.mm.yyyy',
-                'pluginOptions' => [
-                    'format' => 'dd.mm.yyyy',
-                    'autoclose' => true,
-                    'todayBtn' => true,
-                    'todayHighlight' => true,
-                    'endDate' => "0d"
-                ]
-            ]); ?>
-
-            <?= $form->field($model, 'end_work')->widget(DatePicker::classname(), [
-                'options' => ['placeholder' => 'Ввод даты ...'],
-                'value' => 'dd.mm.yyyy',
-                'pluginOptions' => [
-                    'format' => 'dd.mm.yyyy',
-                    'autoclose' => true,
-                    'todayBtn' => true,
-                    'todayHighlight' => true,
-                    'endDate' => "0d"
-                ]
-            ]); ?>
+            <?= $form->field($model, 'email')->widget(MaskedInput::class, [
+                'clientOptions' => [
+                    'alias' => 'email'
+                ],
+            ]) ?>
 
         </div>
     </div>

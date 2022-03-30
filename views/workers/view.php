@@ -38,7 +38,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Деятельность</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -68,21 +68,19 @@ $this->params['buttons'] = [
                                 ],
                             ]) ?>
                         </div>
-                        <div class="tab-pane" id="certificate">
+                        <div class="tab-pane" id="contact">
                             <?= DetailView::widget([
                                 'model' => $model,
                                 'options' => [
                                     'class' => 'table table-bordered table-striped',
                                 ],
                                 'attributes' => [
+                                    'phone:phone',
                                     [
-                                        'attribute' => 'document',
-                                        'captionOptions' => ['width' => '220px'],
+                                        'attribute' => 'extension_phone',
+                                        'captionOptions' => ['width' => '240px'],
                                     ],
-                                    'document_number',
-                                    'document_date',
-                                    'start_work',
-                                    'end_work',
+                                    'email:email',
                                 ],
                             ]) ?>
                         </div>
