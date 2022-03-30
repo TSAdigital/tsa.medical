@@ -4,12 +4,12 @@ use yii\helpers\Html;
 use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Department */
+/* @var $model app\models\Worker */
 /* @var $actionsHistory yii\data\ActiveDataProvider */
 
-$this->title = 'История: ' . $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name;
-$this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 'url' => ['view', 'id' => $model->id]];
+$this->title = 'История: ' . $model->getCounterparty_name();
+$this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $model->getCounterparty_name(), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'История';
 $this->params['buttons'] = [
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])

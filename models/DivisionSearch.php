@@ -4,7 +4,6 @@ namespace app\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Division;
 
 /**
  * DivisionSearch represents the model behind the search form of `app\models\Division`.
@@ -48,6 +47,9 @@ class DivisionSearch extends Division
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);

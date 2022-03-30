@@ -89,18 +89,30 @@ class WorkersController extends Controller
         $model = new Worker();
 
         $action_history = new ActionHistory();
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $action_history->ActionHistory('fas fa-id-card bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Сотрудник добавлен',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Запись добавлена',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -124,10 +136,10 @@ class WorkersController extends Controller
         if($model->status === 10){
             if ($model->load(Yii::$app->request->post())) {
                 if($model->save()){
-                    $action_history->ActionHistory('fas fa-id-card bg-blue', 'отредактировал(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) сотрудника', 'workers/view', $model->getId(), $model->counterparty->getFullName());
                     Yii::$app->session->setFlash('success', [
                         'options' => [
-                            'title' => 'Изменения сохранены',
+                            'title' => 'Запись обновлена',
                             'toast' => true,
                             'position' => 'top-end',
                             'timer' => 5000,
@@ -138,7 +150,7 @@ class WorkersController extends Controller
                 }
                 Yii::$app->session->setFlash('error', [
                     'options' => [
-                        'title' => 'Не удалось сохранить изменения',
+                        'title' => 'Не удалось обновить запись',
                         'toast' => true,
                         'position' => 'top-end',
                         'timer' => 5000,
@@ -185,11 +197,11 @@ class WorkersController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_INACTIVE');
 
-        if ($model->setStatus('STATUS_INACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-id-card bg-red', 'аннулировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
+        if ($model->status == 9) {
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) сотрудника', 'workers/view', $model->getId(), $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Сотрудник аннулирован',
+                    'title' => 'Запись аннулирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -201,7 +213,7 @@ class WorkersController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось аннулировать сотрудника',
+                'title' => 'Не удалось аннулировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,
@@ -217,11 +229,11 @@ class WorkersController extends Controller
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_ACTIVE');
 
-        if ($model->setStatus('STATUS_ACTIVE') === true) {
-            $action_history->ActionHistory('fas fa-id-card bg-info', 'активировал(а) сотрудника', 'workers/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
+        if ($model->status == 10) {
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) сотрудника', 'workers/view', $model->getId(), $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Сотрудник активирован',
+                    'title' => 'Запись активирована',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
@@ -233,7 +245,7 @@ class WorkersController extends Controller
 
         Yii::$app->session->setFlash('error', [
             'options' => [
-                'title' => 'Не удалось активировать сотрудника',
+                'title' => 'Не удалось активировать запись',
                 'toast' => true,
                 'position' => 'top-end',
                 'timer' => 5000,

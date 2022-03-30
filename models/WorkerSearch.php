@@ -45,10 +45,14 @@ class WorkerSearch extends Worker
     {
         $query = Worker::find();
 
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
         ]);
 
         $this->load($params);
@@ -81,6 +85,7 @@ class WorkerSearch extends Worker
                     'label' => 'department_name',
                     'default' => SORT_ASC
                 ],
+                'status',
             ]
         ]);
 

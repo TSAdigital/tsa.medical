@@ -36,7 +36,7 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills">
+                    <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Деятельность</a></li>
                     </ul>
@@ -53,6 +53,8 @@ $this->params['buttons'] = [
                                     [
                                         'attribute' => 'counterparty_name',
                                         'captionOptions' => ['width' => '220px'],
+                                        'value' => Html::a($model->getCounterparty_name(), ['counterparties-fl/view', 'id' => $model->counterparty_id], ['target'=>'_blank']),
+                                        'format' => 'raw',
                                     ],
                                     'position_name',
                                     'department_name',
