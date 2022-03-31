@@ -273,18 +273,16 @@ class CounterpartiesController extends Controller
 
     public function actionViewAddress($id, $address)
     {
-        $address = Address::findOne($address);
-
         return $this->render('view-address', [
             'model' => $this->findModel($id),
-            'address' => $address,
+            'address' => $this->findAddress($address),
         ]);
     }
 
     public function actionUpdateAddress($id, $address)
     {
         $counterparty = $this->findModel($id);
-        $model = Address::findOne($address);
+        $model = $this->findAddress($address);
         $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
@@ -337,7 +335,7 @@ class CounterpartiesController extends Controller
     public function actionActiveAddress($id, $address)
     {
         $model = $this->findModel($id);
-        $address = Address::findOne($address);
+        $address = $this->findAddress($address);
         $action_history = new ActionHistory();
         $address->setStatus('STATUS_ACTIVE');
 
@@ -372,7 +370,7 @@ class CounterpartiesController extends Controller
     public function actionBlockedAddress($id, $address)
     {
         $model = $this->findModel($id);
-        $address = Address::findOne($address);
+        $address = $this->findAddress($address);
         $action_history = new ActionHistory();
         $address->setStatus('STATUS_INACTIVE');
 
@@ -458,7 +456,7 @@ class CounterpartiesController extends Controller
 
     public function actionViewContact($id, $contact)
     {
-        $contact = Contact::findOne($contact);
+        $contact = $this->findContact($contact);
 
         return $this->render('view-contact', [
             'model' => $this->findModel($id),
@@ -469,7 +467,7 @@ class CounterpartiesController extends Controller
     public function actionUpdateContact($id, $contact)
     {
         $counterparty = $this->findModel($id);
-        $model = Contact::findOne($contact);
+        $model = $this->findContact($contact);
         $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
@@ -521,7 +519,7 @@ class CounterpartiesController extends Controller
     public function actionActiveContact($id, $contact)
     {
         $model = $this->findModel($id);
-        $contact = Contact::findOne($contact);
+        $contact = $this->findContact($contact);
         $action_history = new ActionHistory();
         $contact->setStatus('STATUS_ACTIVE');
 
@@ -554,7 +552,7 @@ class CounterpartiesController extends Controller
     public function actionBlockedContact($id, $contact)
     {
         $model = $this->findModel($id);
-        $contact = Contact::findOne($contact);
+        $contact = $this->findContact($contact);
         $action_history = new ActionHistory();
         $contact->setStatus('STATUS_INACTIVE');
 
@@ -658,6 +656,24 @@ class CounterpartiesController extends Controller
     protected function findModel($id)
     {
         if (($model = Counterparty::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findContact($contact)
+    {
+        if (($model = Contact::findOne($contact)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findAddress($address)
+    {
+        if (($model = Address::findOne($address)) !== null) {
             return $model;
         }
 

@@ -335,18 +335,16 @@ class CounterpartiesFlController extends Controller
 
     public function actionViewPassport($id, $passport)
     {
-        $passport = Passport::findOne($passport);
-
         return $this->render('view-passport', [
             'model' => $this->findModel($id),
-            'passport' => $passport,
+            'passport' => $this->findPassport($passport),
         ]);
     }
 
     public function actionUpdatePassport($id, $passport)
     {
         $counterparty = $this->findModel($id);
-        $model = Passport::findOne($passport);
+        $model = $this->findPassport($passport);
         $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
@@ -397,7 +395,7 @@ class CounterpartiesFlController extends Controller
     public function actionActivePassport($id, $passport)
     {
         $model = $this->findModel($id);
-        $passport = Passport::findOne($passport);
+        $passport = $this->findPassport($passport);
         $action_history = new ActionHistory();
         $passport->setStatus('STATUS_ACTIVE');
 
@@ -431,7 +429,7 @@ class CounterpartiesFlController extends Controller
     public function actionBlockedPassport($id, $passport)
     {
         $model = $this->findModel($id);
-        $passport = Passport::findOne($passport);
+        $passport = $this->findPassport($passport);
         $action_history = new ActionHistory();
         $passport->setStatus('STATUS_INACTIVE');
 
@@ -518,22 +516,20 @@ class CounterpartiesFlController extends Controller
 
     public function actionViewAddress($id, $address)
     {
-        $address = AddressFL::findOne($address);
-
         return $this->render('view-address', [
             'model' => $this->findModel($id),
-            'address' => $address,
+            'address' => $this->findAddressFl($address),
         ]);
     }
 
     public function actionUpdateAddress($id, $address)
     {
         $counterparty = $this->findModel($id);
-        $model = AddressFL::findOne($address);
+        $model = $this->findAddressFl($address);
         $model->counterparty_id = $id;
         $action_history = new ActionHistory();
 
-        if ($model->status === 10) {
+        if ($model->status == 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
@@ -582,7 +578,7 @@ class CounterpartiesFlController extends Controller
     public function actionActiveAddress($id, $address)
     {
         $model = $this->findModel($id);
-        $address = AddressFL::findOne($address);
+        $address = $this->findAddressFl($address);
         $action_history = new ActionHistory();
         $address->setStatus('STATUS_ACTIVE');
 
@@ -617,7 +613,7 @@ class CounterpartiesFlController extends Controller
     public function actionBlockedAddress($id, $address)
     {
         $model = $this->findModel($id);
-        $address = AddressFL::findOne($address);
+        $address = $this->findAddressFl($address);
         $action_history = new ActionHistory();
         $address->setStatus('STATUS_INACTIVE');
 
@@ -662,7 +658,25 @@ class CounterpartiesFlController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findPassport($passport)
+    {
+        if (($model = Passport::findOne($passport)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findAddressFl($address)
+    {
+        if (($model = AddressFl::findOne($address)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
 
 /*    public function actionGenerate()
