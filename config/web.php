@@ -17,6 +17,10 @@ $config = [
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
+        'inflection' => [
+            'language' => 'ru',
+            'class' => 'wapmorgan\yii2inflection\Inflection'
+        ],
         'formatter' => [
             'class' => 'app\components\FormatterHelper',
             'dateFormat' => 'php:d.m.Y',

@@ -5,6 +5,7 @@ use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
+/* @var $age app\models\CounterpartyFl */
 
 $this->title = $model->getCounterparty_name();
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
@@ -38,6 +39,7 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills nav-pos">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
                 </div>
@@ -56,7 +58,10 @@ $this->params['buttons'] = [
                                         'value' => Html::a($model->getCounterparty_name(), ['counterparties-fl/view', 'id' => $model->counterparty_id], ['target'=>'_blank']),
                                         'format' => 'raw',
                                     ],
-                                    'position_name',
+                                    [
+                                        'attribute' => 'age',
+                                        'value' => Yii::$app->inflection->textizeTimeRange(new DateInterval('P'.$age.'Y')),
+                                    ],
                                     'department_name',
                                     'division_name',
                                     [
@@ -65,6 +70,20 @@ $this->params['buttons'] = [
                                     ],
                                     'created_at:datetime',
                                     'updated_at:datetime',
+                                ],
+                            ]) ?>
+                        </div>
+                        <div class="tab-pane" id="work">
+                            <?= DetailView::widget([
+                                'model' => $model,
+                                'options' => [
+                                    'class' => 'table table-bordered table-striped',
+                                ],
+                                'attributes' => [
+                                    [
+                                        'attribute' => 'position_name',
+                                        'captionOptions' => ['width' => '240px'],
+                                    ],
                                 ],
                             ]) ?>
                         </div>

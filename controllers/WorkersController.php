@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ActionHistory;
 use app\models\CounterpartyFl;
 use app\models\Division;
+use DateTime;
 use Yii;
 use app\models\Worker;
 use app\models\WorkerSearch;
@@ -71,11 +72,17 @@ class WorkersController extends Controller
      * @param int $id ID
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Exception
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+        $counterparty = $this->findCounterparty($model->counterparty_id);
+        $born = new DateTime(date('Y-m-d', strtotime($counterparty->birthdate)));
+        $age = $born->diff(new DateTime)->format('%y');
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'age' => $age
         ]);
     }
 
@@ -281,6 +288,15 @@ class WorkersController extends Controller
     protected function findModel($id)
     {
         if (($model = Worker::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findCounterparty($id)
+    {
+        if (($model = CounterpartyFl::findOne($id)) !== null) {
             return $model;
         }
 

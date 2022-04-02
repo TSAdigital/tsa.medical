@@ -105,6 +105,7 @@ class Worker extends ActiveRecord
             'id' => 'ID',
             'counterparty_id' => 'Контрагент',
             'counterparty_name' => 'Контрагент',
+            'age' => 'Возраст',
             'position_id' => 'Должность',
             'position_name' => 'Должность',
             'department_id' => 'Подразделение',

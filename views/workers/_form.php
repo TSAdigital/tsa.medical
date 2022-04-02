@@ -17,9 +17,10 @@ use yii\widgets\MaskedInput;
 ?>
 
 <div class="card-header p-2">
-    <ul class="nav nav-pills">
+    <ul class="nav nav-pills nav-pos">
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Контакты <span class="tab-2"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Деятельность <span class="tab-2"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab3" data-toggle="tab">Контакты <span class="tab-3"></span></a></li>
     </ul>
 </div>
 <div class="card-body">
@@ -49,16 +50,6 @@ use yii\widgets\MaskedInput;
                 ]);
             ?>
 
-            <?= $form->field($model, 'position_id')->widget(Select2::classname(),
-                [
-                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(), 'id', 'name'),
-                    'options' => ['placeholder' => 'Выберите должность...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-            ?>
-
             <?= $form->field($model, 'department_id')->widget(Select2::classname(),
                 [
                     'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(), 'id', 'name'),
@@ -83,6 +74,19 @@ use yii\widgets\MaskedInput;
             ?>
         </div>
         <div class="tab-pane" id="tab2">
+
+            <?= $form->field($model, 'position_id')->widget(Select2::classname(),
+                [
+                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(), 'id', 'name'),
+                    'options' => ['placeholder' => 'Выберите должность...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+            ?>
+
+        </div>
+        <div class="tab-pane" id="tab3">
 
             <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
                 'mask' => '9(999)999 99 99',

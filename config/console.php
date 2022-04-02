@@ -17,6 +17,9 @@ $config = [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'inflection' => [
+            'class' => 'wapmorgan\yii2inflection\Inflection'
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
         ],
