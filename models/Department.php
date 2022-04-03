@@ -72,8 +72,8 @@ class Department extends ActiveRecord
             'id' => 'Идентификатор',
             'name' => 'Наименование',
             'status' => 'Статус',
-            'created_at' => 'Создано',
-            'updated_at' => 'Изменено',
+            'created_at' => 'Запись создана',
+            'updated_at' => 'Запись изменена',
         ];
     }
 

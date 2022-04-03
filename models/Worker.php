@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -11,9 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property int $counterparty_id
- * @property int|null $position_id
- * @property int $department_id
- * @property int|null $division_id
+ * @property string|null date_of_employment
  * @property string|null $phone
  * @property string|null $extension_phone
  * @property string|null $email
@@ -70,16 +69,7 @@ class Worker extends ActiveRecord
             ['counterparty_id', 'integer'],
             ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
 
-            ['department_id', 'required'],
-            ['department_id', 'integer'],
-            ['department_id', 'exist', 'skipOnError' => true, 'targetClass' => Department::className(), 'targetAttribute' => ['department_id' => 'id']],
-
-            ['division_id', 'integer'],
-            ['division_id', 'exist', 'skipOnError' => true, 'targetClass' => Division::className(), 'targetAttribute' => ['division_id' => 'id']],
-
-            ['position_id', 'integer'],
-            ['position_id', 'required'],
-            ['position_id', 'exist', 'skipOnError' => true, 'targetClass' => Position::className(), 'targetAttribute' => ['position_id' => 'id']],
+            ['date_of_employment', 'date'],
 
             ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
             ['phone', 'trim'],
@@ -105,13 +95,8 @@ class Worker extends ActiveRecord
             'id' => 'ID',
             'counterparty_id' => 'Контрагент',
             'counterparty_name' => 'Контрагент',
+            'date_of_employment' => 'Дата принятия на работу',
             'age' => 'Возраст',
-            'position_id' => 'Должность',
-            'position_name' => 'Должность',
-            'department_id' => 'Подразделение',
-            'department_name' => 'Подразделение',
-            'division_id' => 'Отделение',
-            'division_name' => 'Отделение',
             'phone' => 'Номер телефона',
             'extension_phone' => 'Внутренний номер телефона',
             'email' => 'Адрес электронной почты',
@@ -137,53 +122,6 @@ class Worker extends ActiveRecord
         return $this->counterparty->getFullName();
     }
 
-    /**
-     * Gets query for [[Department]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDepartment()
-    {
-        return $this->hasOne(Department::className(), ['id' => 'department_id']);
-    }
-
-    public function getDepartment_name()
-    {
-        return $this->department->name;
-    }
-
-    /**
-     * Gets query for [[Division]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDivision()
-    {
-        return $this->hasOne(Division::className(), ['id' => 'division_id']);
-    }
-
-    public function getDivision_name()
-    {
-        return !empty($this->division->name) ? $this->division->name : NULL;
-    }
-
-
-    /**
-     * Gets query for [[Position]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPosition()
-    {
-        return $this->hasOne(Position::className(), ['id' => 'position_id']);
-    }
-
-    public function getPosition_name()
-    {
-        return $this->position->name;
-    }
-
-
     public static function getStatusesArray()
     {
         return [
@@ -204,5 +142,18 @@ class Worker extends ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->date_of_employment = !empty($this->date_of_employment) ? date('Y-m-d', strtotime($this->date_of_employment)) : NULL;
+
+        return parent::beforeSave($insert);
+    }
+
+    public function afterFind()
+    {
+        parent::afterFind();
+        $this->date_of_employment = !empty($this->date_of_employment) ? Yii::$app->formatter->asDate($this->date_of_employment): NULL;
     }
 }

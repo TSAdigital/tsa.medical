@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\ActionHistory;
 use app\models\CounterpartyFl;
 use app\models\Division;
+use app\models\Work;
 use DateTime;
 use Yii;
 use app\models\Worker;
@@ -12,6 +13,8 @@ use app\models\WorkerSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -32,7 +35,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-list'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -77,12 +80,27 @@ class WorkersController extends Controller
     public function actionView($id)
     {
         $model = $this->findModel($id);
+
         $counterparty = $this->findCounterparty($model->counterparty_id);
         $born = new DateTime(date('Y-m-d', strtotime($counterparty->birthdate)));
         $age = $born->diff(new DateTime)->format('%y');
+
+        $work = Work::find()->where(['worker_id' => $id]);
+        $pagerParams = $_GET;
+        $pagerParams['#'] = 'work/';
+        $work = new ActiveDataProvider([
+            'query' => $work,
+            'pagination' => [
+                'params' => $pagerParams,
+                'pageParam' => 'page-work',
+                'pageSize' => 9,
+            ],
+        ]);
+
         return $this->render('view', [
             'model' => $model,
-            'age' => $age
+            'age' => $age,
+            'work' => $work
         ]);
     }
 
@@ -278,6 +296,187 @@ class WorkersController extends Controller
         ]);
     }
 
+    public function actionCreateWork($id)
+    {
+        $model = new Work();
+        $worker = $this->findModel($id);
+        $model->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($worker->status == 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $position = 'добавил(а) должность ' . Html::a(Inflector::variablize($model->getPosition_name()), ['workers/view-work', 'id' => $worker->id, 'work' => $model->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-plus bg-green', $position, 'workers/view', $worker->id, $worker->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-work', 'id' => $id, 'work' => $model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить адрес к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $worker->id]);
+        }
+
+        return $this->render('create-work', [
+            'model' => $model,
+            'worker' => $worker,
+        ]);
+    }
+
+    public function actionViewWork($id, $work)
+    {
+        return $this->render('view-work', [
+            'model' => $this->findModel($id),
+            'work' => $this->findWork($work),
+        ]);
+    }
+
+    public function actionUpdateWork($id, $work)
+    {
+        $model= $this->findModel($id);
+        $work = $this->findWork($work);
+        $work->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($work->status == 10) {
+            if ($work->load(Yii::$app->request->post())) {
+                if ($work->save()) {
+                    $position = 'отредактировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-work', 'id' => $id, 'work' => $work->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-work', 'id' => $model->id, 'work' => $work->id]);
+        }
+
+        return $this->render('update-work', [
+            'model' => $model,
+            'work' => $work,
+        ]);
+    }
+
+    public function actionActiveWork($id, $work)
+    {
+        $model = $this->findModel($id);
+        $work = $this->findWork($work);
+        $action_history = new ActionHistory();
+        $work->setStatus('STATUS_ACTIVE');
+
+        if ($work->status == 10) {
+            $position = 'активировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+            $action_history->ActionHistory('fas fa-check bg-info', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-work', 'id' => $id, 'work' => $work->id]);
+    }
+
+    public function actionBlockedWork($id, $work)
+    {
+        $model = $this->findModel($id);
+        $work = $this->findWork($work);
+        $action_history = new ActionHistory();
+        $work->setStatus('STATUS_INACTIVE');
+
+        if ($work->status == 9) {
+            $position = 'аннулировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+            $action_history->ActionHistory('fas fa-times bg-red', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-work', 'id' => $id, 'work' => $work->id]);
+    }
+
     /**
      * Finds the Worker model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -297,6 +496,15 @@ class WorkersController extends Controller
     protected function findCounterparty($id)
     {
         if (($model = CounterpartyFl::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findWork($id)
+    {
+        if (($model = Work::findOne($id)) !== null) {
             return $model;
         }
 

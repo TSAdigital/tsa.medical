@@ -2,10 +2,12 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
 /* @var $age app\models\CounterpartyFl */
+/* @var $work app\models\Work */
 
 $this->title = $model->getCounterparty_name();
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
@@ -37,7 +39,7 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills nav-pos">
+                    <ul class="nav nav-pills nav-pos" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
@@ -62,8 +64,11 @@ $this->params['buttons'] = [
                                         'attribute' => 'age',
                                         'value' => Yii::$app->inflection->textizeTimeRange(new DateInterval('P'.$age.'Y')),
                                     ],
-                                    'department_name',
-                                    'division_name',
+                                    [
+                                        'attribute' => 'date_of_employment',
+                                        'format' => 'raw',
+                                    ],
+
                                     [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),
@@ -74,18 +79,48 @@ $this->params['buttons'] = [
                             ]) ?>
                         </div>
                         <div class="tab-pane" id="work">
-                            <?= DetailView::widget([
-                                'model' => $model,
-                                'options' => [
-                                    'class' => 'table table-bordered table-striped',
-                                ],
-                                'attributes' => [
-                                    [
-                                        'attribute' => 'position_name',
-                                        'captionOptions' => ['width' => '240px'],
-                                    ],
-                                ],
-                            ]) ?>
+                            <div class="row">
+                                <div class="table-responsive">
+
+                                    <?php
+                                    $button_add_passport =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id]) : null;
+                                    $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="align-middle">Подразделение</th>
+                                                    <th scope="col" class="align-middle">Занятость</th>
+                                                    <th scope="col" class="align-middle">Должность</th>
+                                                    <th scope="col" class="text-center align-middle">Ставка</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_passport .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                                    ?>
+
+                                    <?= ListView::widget([
+                                        'dataProvider' => $work,
+                                        'layout' => $tempalte,
+
+                                        'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-work', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
+                                        'itemOptions' => [
+                                            'tag' => false,
+                                        ],
+                                        'viewParams'=> ['worker' => $model],
+                                        'itemView' => '_list_work',
+                                        'pager' => [
+                                            'class' => 'yii\bootstrap4\LinkPager',
+                                        ],
+                                    ]); ?>
+
+                                </div>
+                            </div>
                         </div>
                         <div class="tab-pane" id="contact">
                             <?= DetailView::widget([

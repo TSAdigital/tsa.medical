@@ -34,21 +34,13 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                             //'id',
                             [
                                 'attribute'=>'counterparty_name',
-                                'options' => ['width'=>'45%'],
+                                'options' => ['width'=>'85%'],
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
                                     return
                                         Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
-                            ],
-                            [
-                                'attribute'=>'position_name',
-                                'options' => ['width'=>'20%'],
-                            ],
-                            [
-                                'attribute'=>'department_name',
-                                'options' => ['width'=>'20%'],
                             ],
                             [
                                 'filter' => Worker::getStatusesArray(),

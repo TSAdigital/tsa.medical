@@ -87,6 +87,7 @@ class CounterpartiesFlController extends Controller
         $passport = new ActiveDataProvider([
             'query' => $passport,
             'pagination' => [
+                'pageParam' => 'page-passport',
                 'pageSize' => 9,
             ],
         ]);
@@ -94,6 +95,7 @@ class CounterpartiesFlController extends Controller
         $address = new ActiveDataProvider([
             'query' => $address,
             'pagination' => [
+                'pageParam' => 'page-address-fl',
                 'pageSize' => 9,
             ],
         ]);

@@ -1,9 +1,7 @@
 <?php
 
 use app\models\CounterpartyFl;
-use app\models\Department;
-use app\models\Position;
-use kartik\depdrop\DepDrop;
+use kartik\date\DatePicker;
 use kartik\select2\Select2;
 use yii\bootstrap4\ActiveForm;
 use yii\helpers\ArrayHelper;
@@ -50,40 +48,22 @@ use yii\widgets\MaskedInput;
                 ]);
             ?>
 
-            <?= $form->field($model, 'department_id')->widget(Select2::classname(),
-                [
-                    'data' => ArrayHelper::map(Department::find()->where(['status' => 10])->all(), 'id', 'name'),
-                    'options' => ['placeholder' => 'Выберите подразделение...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-            ?>
-
-            <?= $form->field($model, 'division_id')->widget(DepDrop::classname(), [
-                'type' => DepDrop::TYPE_SELECT2,
-                'options' => ['placeholder' => 'Выберите отделение ...'],
-                'select2Options' => ['pluginOptions' => ['allowClear' => true]],
+            <?= $form->field($model, 'date_of_employment')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Ввод даты ...'],
+                'value' => 'dd.mm.yyyy',
                 'pluginOptions' => [
-                    'depends' => ['worker-department_id'],
-                    'initialize' => (bool)$model->department_id,
-                    'loadingText' => 'загрузка',
-                    'url' => Url::to(['/workers/subcat'])
-                ],
-            ]);
-            ?>
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
+                    'todayBtn' => true,
+                    'todayHighlight' => true,
+                    'endDate' => "0d"
+                ]
+            ]); ?>
+
         </div>
         <div class="tab-pane" id="tab2">
 
-            <?= $form->field($model, 'position_id')->widget(Select2::classname(),
-                [
-                    'data' => ArrayHelper::map(Position::find()->where(['status' => 10])->all(), 'id', 'name'),
-                    'options' => ['placeholder' => 'Выберите должность...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-            ?>
+
 
         </div>
         <div class="tab-pane" id="tab3">

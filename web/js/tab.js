@@ -1,13 +1,25 @@
-$(function($){
-    var storage = document.cookie.match(/nav-pos=(.+?);/);
+$(document).ready(() => {
+    let url = location.href.replace(/\/$/, "");
 
-
-    if (storage && storage[1] !== "#") {
-        $('.nav-pos a[href="' + storage[1] + '"]').tab('show');
+    if (location.hash) {
+        const hash = url.split("#");
+        $('#myTab a[href="#'+hash[1]+'"]').tab("show");
+        url = location.href.replace(/\/#/, "#");
+        history.replaceState(null, null, url);
+        setTimeout(() => {
+            $(window).scrollTop(0);
+        }, 400);
     }
 
-    $('ul.nav li').on('click', function() {
-        var id = $(this).find('a').attr('href');
-        document.cookie = 'nav-pos=' + id;
+    $('a[data-toggle="tab"]').on("click", function() {
+        let newUrl;
+        const hash = $(this).attr("href");
+        if(hash == "#base") {
+            newUrl = url.split("#")[0];
+        } else {
+            newUrl = url.split("#")[0] + hash;
+        }
+        newUrl += "/";
+        history.replaceState(null, null, newUrl);
     });
 });

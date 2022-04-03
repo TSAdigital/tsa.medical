@@ -20,8 +20,8 @@ class WorkerSearch extends Worker
     public function rules()
     {
         return [
-            [['id', 'counterparty_id', 'position_id', 'department_id', 'division_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['counterparty_name', 'department_name', 'position_name', 'phone', 'extension_phone', 'email'], 'safe'],
+            [['id', 'counterparty_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['counterparty_name', 'phone', 'extension_phone', 'email'], 'safe'],
         ];
     }
 
@@ -57,7 +57,7 @@ class WorkerSearch extends Worker
 
         $this->load($params);
 
-        $query->joinWith(['counterparty', 'department', 'position']);
+        $query->joinWith(['counterparty']);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
@@ -73,18 +73,6 @@ class WorkerSearch extends Worker
                     'label' => 'counterparty_name',
                     'default' => SORT_ASC
                 ],
-                'position_name' => [
-                    'asc' => ['position.name' => SORT_ASC],
-                    'desc' => ['position.name' => SORT_DESC],
-                    'label' => 'position_name',
-                    'default' => SORT_ASC
-                ],
-                'department_name' => [
-                    'asc' => ['department.name' => SORT_ASC],
-                    'desc' => ['department.name' => SORT_DESC],
-                    'label' => 'department_name',
-                    'default' => SORT_ASC
-                ],
                 'status',
             ]
         ]);
@@ -93,9 +81,6 @@ class WorkerSearch extends Worker
         $query->andFilterWhere([
             'id' => $this->id,
             'counterparty_id' => $this->counterparty_id,
-            'position_id' => $this->position_id,
-            'department_id' => $this->department_id,
-            'division_id' => $this->division_id,
             'phone' => $this->phone,
             'extension_phone' => $this->extension_phone,
             'email' => $this->email,
@@ -105,9 +90,8 @@ class WorkerSearch extends Worker
         ]);
 
         $query->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name])
-            ->andFilterWhere(['like', 'position.name', $this->position_name])
-            ->andFilterWhere(['like', 'department.name', $this->department_name]);
+            ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name]
+            );
 
         return $dataProvider;
     }
