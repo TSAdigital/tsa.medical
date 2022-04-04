@@ -95,6 +95,7 @@ class Worker extends ActiveRecord
             'id' => 'ID',
             'counterparty_id' => 'Контрагент',
             'counterparty_name' => 'Контрагент',
+            'snils' => 'Снилс',
             'date_of_employment' => 'Дата принятия на работу',
             'age' => 'Возраст',
             'phone' => 'Номер телефона',
@@ -120,6 +121,11 @@ class Worker extends ActiveRecord
     public function getCounterparty_name()
     {
         return $this->counterparty->getFullName();
+    }
+
+    public function getSnils()
+    {
+        return $this->counterparty->snils;
     }
 
     public static function getStatusesArray()

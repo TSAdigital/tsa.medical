@@ -367,7 +367,7 @@ class WorkersController extends Controller
         if ($work->status == 10) {
             if ($work->load(Yii::$app->request->post())) {
                 if ($work->save()) {
-                    $position = 'отредактировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+                    $position = 'отредактировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
                     $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $position, 'workers/view', $model->id, $model->getCounterparty_name());
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -417,7 +417,7 @@ class WorkersController extends Controller
         $work->setStatus('STATUS_ACTIVE');
 
         if ($work->status == 10) {
-            $position = 'активировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+            $position = 'активировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
             $action_history->ActionHistory('fas fa-check bg-info', $position, 'workers/view', $model->id, $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [
@@ -451,7 +451,7 @@ class WorkersController extends Controller
         $work->setStatus('STATUS_INACTIVE');
 
         if ($work->status == 9) {
-            $position = 'аннулировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' сотруднику';
+            $position = 'аннулировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудникуа';
             $action_history->ActionHistory('fas fa-times bg-red', $position, 'workers/view', $model->id, $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [

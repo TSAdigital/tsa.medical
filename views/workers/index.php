@@ -34,12 +34,19 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                             //'id',
                             [
                                 'attribute'=>'counterparty_name',
-                                'options' => ['width'=>'85%'],
+                                'options' => ['width'=>'55%'],
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
-                                    return
-                                        Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                    return Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                }
+                            ],
+                            [
+                                'attribute'=>'snils',
+                                'options' => ['width'=>'30%'],
+                                'value' => function($data)
+                                {
+                                    return Yii::$app->formatter->asSnils($data->snils);
                                 }
                             ],
                             [

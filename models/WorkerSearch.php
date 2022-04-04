@@ -11,8 +11,7 @@ use yii\data\ActiveDataProvider;
 class WorkerSearch extends Worker
 {
     public $counterparty_name;
-    public $department_name;
-    public $position_name;
+    public $snils;
 
     /**
      * {@inheritdoc}
@@ -21,7 +20,7 @@ class WorkerSearch extends Worker
     {
         return [
             [['id', 'counterparty_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['counterparty_name', 'phone', 'extension_phone', 'email'], 'safe'],
+            [['counterparty_name', 'snils', 'phone', 'extension_phone', 'email'], 'safe'],
         ];
     }
 
@@ -73,6 +72,12 @@ class WorkerSearch extends Worker
                     'label' => 'counterparty_name',
                     'default' => SORT_ASC
                 ],
+                'snils' => [
+                    'asc' => ['counterparty_fl.snils' => SORT_ASC],
+                    'desc' => ['counterparty_fl.snils' => SORT_DESC],
+                    'label' => 'snils',
+                    'default' => SORT_ASC
+                ],
                 'status',
             ]
         ]);
@@ -90,8 +95,8 @@ class WorkerSearch extends Worker
         ]);
 
         $query->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name]
-            );
+            ->andFilterWhere(['like', "CONCAT(counterparty_fl.last_name,' ',counterparty_fl.first_name,' ',counterparty_fl.middle_name)", $this->counterparty_name])
+            ->andFilterWhere(['like', 'counterparty_fl.snils', preg_replace('/[^0-9]/ui', '', $this->snils)]);
 
         return $dataProvider;
     }
