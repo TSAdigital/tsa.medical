@@ -14,6 +14,7 @@ use yii\helpers\ArrayHelper;
  * @property int $counterparty_id
  * @property int $category
  * @property string|null date_of_employment
+ * @property string|null date_of_dismissal
  * @property string|null $phone
  * @property string|null $extension_phone
  * @property string|null $email
@@ -28,6 +29,8 @@ use yii\helpers\ArrayHelper;
  */
 class Worker extends ActiveRecord
 {
+    public $message;
+
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
 
@@ -74,6 +77,7 @@ class Worker extends ActiveRecord
 
             ['category', 'required'],
             ['category', 'in', 'range' => [self::CATEGORY_SENIOR, self::CATEGORY_MIDDLE, self::CATEGORY_JUNIOR, self::CATEGORY_ADMIN, self::CATEGORY_OTHER]],
+            ['category', 'validateDates'],
 
             ['counterparty_id', 'required'],
             ['counterparty_id', 'unique', 'message' => 'Сотрудник с таким "идентификатором" уже существует.'],
@@ -81,6 +85,10 @@ class Worker extends ActiveRecord
             ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
 
             ['date_of_employment', 'date'],
+
+            ['date_of_dismissal', 'date'],
+
+            ['date_of_dismissal', 'validateDates'],
 
             ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
             ['phone', 'trim'],
@@ -109,7 +117,9 @@ class Worker extends ActiveRecord
             'counterparty_name' => 'Контрагент',
             'snils' => 'Снилс',
             'date_of_employment' => 'Дата принятия на работу',
+            'date_of_dismissal' => 'Дата увольнения',
             'age' => 'Возраст',
+            'work_time' => 'Время работы',
             'phone' => 'Номер телефона',
             'extension_phone' => 'Внутренний номер телефона',
             'email' => 'Адрес электронной почты',
@@ -181,6 +191,7 @@ class Worker extends ActiveRecord
     public function beforeSave($insert)
     {
         $this->date_of_employment = !empty($this->date_of_employment) ? date('Y-m-d', strtotime($this->date_of_employment)) : NULL;
+        $this->date_of_dismissal = !empty($this->date_of_dismissal) ? date('Y-m-d', strtotime($this->date_of_dismissal)) : NULL;
 
         return parent::beforeSave($insert);
     }
@@ -188,6 +199,15 @@ class Worker extends ActiveRecord
     public function afterFind()
     {
         parent::afterFind();
+
         $this->date_of_employment = !empty($this->date_of_employment) ? Yii::$app->formatter->asDate($this->date_of_employment): NULL;
+        $this->date_of_dismissal = !empty($this->date_of_dismissal) ? Yii::$app->formatter->asDate($this->date_of_dismissal): NULL;
+    }
+
+    public function validateDates(){
+        if(!empty($this->date_of_dismissal) and date('Y-m-d', strtotime($this->date_of_employment)) > date('Y-m-d', strtotime($this->date_of_dismissal))){
+            $this->addError('date_of_employment','Дата принятия на работу не может быть больше даты увольнения');
+            $this->addError('date_of_dismissal','Дата увольнения не может быть меньше даты принятия на работу');
+        }
     }
 }

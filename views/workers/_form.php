@@ -13,7 +13,7 @@ use yii\widgets\MaskedInput;
 /* @var $model app\models\Worker */
 /* @var $form yii\bootstrap4\ActiveForm */
 ?>
-
+<style> .invalid-feedback{display:block !important} </style>
 <div class="card-header p-2">
     <ul class="nav nav-pills nav-pos">
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
@@ -24,6 +24,16 @@ use yii\widgets\MaskedInput;
     <?php $form = ActiveForm::begin(['id' => 'workers']); ?>
     <div class="tab-content">
         <div class="active tab-pane" id="tab1">
+
+            <?= $form->field($model, 'category')->widget(Select2::classname(),
+                [
+                    'data' => $model->getCategoriesArray(),
+                    'options' => ['placeholder' => 'Выберите категорию...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+            ?>
 
             <?= $form->field($model, 'counterparty_id')->widget(Select2::classname(),
                 [
@@ -47,16 +57,6 @@ use yii\widgets\MaskedInput;
                 ]);
             ?>
 
-            <?= $form->field($model, 'category')->widget(Select2::classname(),
-                [
-                    'data' => $model->getCategoriesArray(),
-                    'options' => ['placeholder' => 'Выберите категорию...'],
-                    'pluginOptions' => [
-                        'allowClear' => true
-                    ],
-                ]);
-            ?>
-
             <?= $form->field($model, 'date_of_employment')->widget(DatePicker::classname(), [
                 'options' => ['placeholder' => 'Ввод даты ...'],
                 'value' => 'dd.mm.yyyy',
@@ -68,6 +68,18 @@ use yii\widgets\MaskedInput;
                     'endDate' => "0d"
                 ]
             ]); ?>
+
+            <?= $model->isNewRecord != true ? $form->field($model, 'date_of_dismissal')->widget(DatePicker::classname(), [
+                'options' => ['placeholder' => 'Ввод даты ...'],
+                'value' => 'dd.mm.yyyy',
+                'pluginOptions' => [
+                    'format' => 'dd.mm.yyyy',
+                    'autoclose' => true,
+                    'todayBtn' => true,
+                    'todayHighlight' => true,
+                    'endDate' => "0d"
+                ],
+            ]) : NULL ; ?>
 
         </div>
         <div class="tab-pane" id="tab2">

@@ -6,8 +6,9 @@ use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Worker */
-/* @var $age app\models\CounterpartyFl */
+/* @var $age app\controllers\CounterpartiesFlController */
 /* @var $work app\models\Work */
+/* @var $work_time app\controllers\CounterpartiesFlController */
 
 $this->title = $model->getCounterparty_name();
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
@@ -56,14 +57,14 @@ $this->params['buttons'] = [
                                 ],
                                 'attributes' => [
                                     [
+                                        'attribute' => 'category',
+                                        'value' => $model->getCategoryName(),
+                                    ],
+                                    [
                                         'attribute' => 'counterparty_name',
                                         'captionOptions' => ['width' => '220px'],
                                         'value' => Html::a($model->getCounterparty_name(), ['counterparties-fl/view', 'id' => $model->counterparty_id], ['target'=>'_blank']),
                                         'format' => 'raw',
-                                    ],
-                                    [
-                                        'attribute' => 'category',
-                                        'value' => $model->getCategoryName(),
                                     ],
                                     [
                                         'attribute' => 'age',
@@ -73,7 +74,15 @@ $this->params['buttons'] = [
                                         'attribute' => 'date_of_employment',
                                         'format' => 'raw',
                                     ],
-
+                                    [
+                                        'attribute' => 'date_of_dismissal',
+                                        'format' => 'raw',
+                                    ],
+                                    [
+                                        'attribute' => 'work_time',
+                                        'visible' => !empty($work_time),
+                                        'value' => $work_time != NULL ? Yii::$app->inflection->textizeTimeRange(new DateInterval('P'.$work_time.'D')) : NULL,
+                                    ],
                                     [
                                         'attribute' => 'status',
                                         'value' => $model->getStatusName(),

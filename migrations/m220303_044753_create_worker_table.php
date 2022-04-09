@@ -17,6 +17,7 @@ class m220303_044753_create_worker_table extends Migration
             'counterparty_id' => $this->integer()->notNull(),
             'category' => $this->integer()->notNull(),
             'date_of_employment' => $this->date(),
+            'date_of_dismissal' => $this->date(),
 
             'phone' => $this->string(),
             'extension_phone' => $this->integer(),

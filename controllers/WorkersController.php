@@ -82,8 +82,26 @@ class WorkersController extends Controller
         $model = $this->findModel($id);
 
         $counterparty = $this->findCounterparty($model->counterparty_id);
-        $born = new DateTime(date('Y-m-d', strtotime($counterparty->birthdate)));
-        $age = $born->diff(new DateTime)->format('%y');
+        $age = new DateTime(date('Y-m-d', strtotime($counterparty->birthdate)));
+        $age = $age->diff(new DateTime)->format('%y');
+
+        if(!empty($model->date_of_employment) and date('Y-m-d', strtotime($model->date_of_employment)) <= date('Y-m-d')){
+            $date = date('Y-m-d', strtotime($model->date_of_employment));
+            if(!empty($model->date_of_dismissal) and date('Y-m-d', strtotime($model->date_of_employment)) <= date('Y-m-d', strtotime($model->date_of_dismissal)))
+            {
+                $end_date = new DateTime(date('Y-m-d', strtotime($model->date_of_dismissal)));
+            }elseif(!empty($model->date_of_dismissal) and date('Y-m-d', strtotime($model->date_of_employment)) > date('Y-m-d', strtotime($model->date_of_dismissal))){
+                $end_date = NULL;
+            }else{
+                $end_date = new DateTime;
+            }
+
+            $work_time = new DateTime($date);
+            $work_time = $end_date ? $work_time->diff($end_date)->days : NULL;
+
+        }else{
+            $work_time = NULL;
+        }
 
         $work = Work::find()->where(['worker_id' => $id]);
         $pagerParams = $_GET;
@@ -100,7 +118,8 @@ class WorkersController extends Controller
         return $this->render('view', [
             'model' => $model,
             'age' => $age,
-            'work' => $work
+            'work' => $work,
+            'work_time' => $work_time
         ]);
     }
 
@@ -182,7 +201,6 @@ class WorkersController extends Controller
                         'showConfirmButton' => false
                     ]
                 ]);
-                return $this->refresh();
             }
         }else{
             Yii::$app->session->setFlash('warning', [
