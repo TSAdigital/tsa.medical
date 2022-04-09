@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 $this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $model->id, '#' => 'contact']];
 $this->params['breadcrumbs'][] = StringHelper::truncate($contact->name, 20, '...');
 $this->params['buttons'] = [
     'update' => $contact->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-contact', 'id' => $model->id, 'contact' => $contact->id], ['class' => 'btn btn-app']) : false,
@@ -29,7 +29,7 @@ $this->params['buttons'] = [
             'method' => 'post',
         ],
     ]) : false,
-    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['counterparties/view', 'id' => $model->id], ['class' => 'btn btn-app'])
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['counterparties/view', 'id' => $model->id, '#' => 'contact'], ['class' => 'btn btn-app'])
 ];
 ?>
 

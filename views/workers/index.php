@@ -34,7 +34,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                             //'id',
                             [
                                 'attribute'=>'counterparty_name',
-                                'options' => ['width'=>'55%'],
+                                'options' => ['width'=>'35%'],
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
@@ -42,8 +42,17 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 }
                             ],
                             [
-                                'attribute'=>'snils',
+                                'attribute'=>'category',
                                 'options' => ['width'=>'30%'],
+                                'filter' => Worker::getCategoriesArray(),
+                                'value' => function($model)
+                                {
+                                    return $model->getCategoryName();
+                                }
+                            ],
+                            [
+                                'attribute'=>'snils',
+                                'options' => ['width'=>'20%'],
                                 'value' => function($data)
                                 {
                                     return Yii::$app->formatter->asSnils($data->snils);

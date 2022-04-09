@@ -39,10 +39,11 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills nav-pos" id="myTab">
+                    <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -59,6 +60,10 @@ $this->params['buttons'] = [
                                         'captionOptions' => ['width' => '220px'],
                                         'value' => Html::a($model->getCounterparty_name(), ['counterparties-fl/view', 'id' => $model->counterparty_id], ['target'=>'_blank']),
                                         'format' => 'raw',
+                                    ],
+                                    [
+                                        'attribute' => 'category',
+                                        'value' => $model->getCategoryName(),
                                     ],
                                     [
                                         'attribute' => 'age',
@@ -137,6 +142,9 @@ $this->params['buttons'] = [
                                     'email:email',
                                 ],
                             ]) ?>
+                        </div>
+                        <div class="tab-pane" id="vaccination">
+
                         </div>
                     </div>
                 </div>

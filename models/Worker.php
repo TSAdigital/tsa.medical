@@ -12,6 +12,7 @@ use yii\helpers\ArrayHelper;
  *
  * @property int $id
  * @property int $counterparty_id
+ * @property int $category
  * @property string|null date_of_employment
  * @property string|null $phone
  * @property string|null $extension_phone
@@ -29,6 +30,12 @@ class Worker extends ActiveRecord
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+
+    const CATEGORY_SENIOR = 6;
+    const CATEGORY_MIDDLE = 7;
+    const CATEGORY_JUNIOR = 8;
+    const CATEGORY_ADMIN = 9;
+    const CATEGORY_OTHER = 10;
 
     /**
      * {@inheritdoc}
@@ -65,7 +72,11 @@ class Worker extends ActiveRecord
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
+            ['category', 'required'],
+            ['category', 'in', 'range' => [self::CATEGORY_SENIOR, self::CATEGORY_MIDDLE, self::CATEGORY_JUNIOR, self::CATEGORY_ADMIN, self::CATEGORY_OTHER]],
+
             ['counterparty_id', 'required'],
+            ['counterparty_id', 'unique', 'message' => 'Сотрудник с таким "идентификатором" уже существует.'],
             ['counterparty_id', 'integer'],
             ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
 
@@ -94,6 +105,7 @@ class Worker extends ActiveRecord
         return [
             'id' => 'ID',
             'counterparty_id' => 'Контрагент',
+            'category' => 'Категория',
             'counterparty_name' => 'Контрагент',
             'snils' => 'Снилс',
             'date_of_employment' => 'Дата принятия на работу',
@@ -134,6 +146,22 @@ class Worker extends ActiveRecord
             self::STATUS_ACTIVE => 'Активна',
             self::STATUS_INACTIVE => 'Аннулирована',
         ];
+    }
+
+    public static function getCategoriesArray()
+    {
+        return [
+            self::CATEGORY_SENIOR => 'Высший медицинский персонал',
+            self::CATEGORY_MIDDLE => 'Средний медицинский персонал',
+            self::CATEGORY_JUNIOR => 'Младший медицинский персонал',
+            self::CATEGORY_ADMIN => 'Административно-управленческий персонал',
+            self::CATEGORY_OTHER => 'Прочий персонал',
+        ];
+    }
+
+    public function getCategoryName()
+    {
+        return ArrayHelper::getValue(self::getCategoriesArray(), $this->category);
     }
 
     public function getStatusName()

@@ -11,7 +11,7 @@ use yii\widgets\DetailView;
 $this->title = StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 30, '...'), 'url' => ['view', 'id' => $model->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Паспорт', 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Паспорт', 'url' => ['view', 'id' => $model->id, '#' => 'passport/']];
 $this->params['breadcrumbs'][] = $passport->passport_serial . ' ' . $passport->passport_number;
 $this->params['buttons'] = [
     'update' => $passport->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-passport', 'id' => $model->id, 'passport' => $passport->id], ['class' => 'btn btn-app']) : false,
@@ -29,7 +29,7 @@ $this->params['buttons'] = [
             'method' => 'post',
         ],
     ]) : false,
-    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['counterparties-fl/view', 'id' => $model->id], ['class' => 'btn btn-app'])
+    'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['counterparties-fl/view', 'id' => $model->id, '#' => 'passport/'], ['class' => 'btn btn-app'])
 ];
 ?>
 

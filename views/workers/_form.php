@@ -17,8 +17,7 @@ use yii\widgets\MaskedInput;
 <div class="card-header p-2">
     <ul class="nav nav-pills nav-pos">
         <li class="nav-item"><a class="nav-link active" href="#tab1" data-toggle="tab">Основное <span class="tab-1"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Деятельность <span class="tab-2"></span></a></li>
-        <li class="nav-item"><a class="nav-link" href="#tab3" data-toggle="tab">Контакты <span class="tab-3"></span></a></li>
+        <li class="nav-item"><a class="nav-link" href="#tab2" data-toggle="tab">Контакты <span class="tab-2"></span></a></li>
     </ul>
 </div>
 <div class="card-body">
@@ -48,6 +47,16 @@ use yii\widgets\MaskedInput;
                 ]);
             ?>
 
+            <?= $form->field($model, 'category')->widget(Select2::classname(),
+                [
+                    'data' => $model->getCategoriesArray(),
+                    'options' => ['placeholder' => 'Выберите категорию...'],
+                    'pluginOptions' => [
+                        'allowClear' => true
+                    ],
+                ]);
+            ?>
+
             <?= $form->field($model, 'date_of_employment')->widget(DatePicker::classname(), [
                 'options' => ['placeholder' => 'Ввод даты ...'],
                 'value' => 'dd.mm.yyyy',
@@ -62,11 +71,6 @@ use yii\widgets\MaskedInput;
 
         </div>
         <div class="tab-pane" id="tab2">
-
-
-
-        </div>
-        <div class="tab-pane" id="tab3">
 
             <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
                 'mask' => '9(999)999 99 99',

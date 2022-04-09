@@ -39,7 +39,7 @@ $this->params['buttons'] = [
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header p-2">
-                    <ul class="nav nav-pills nav-pos">
+                    <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#director" data-toggle="tab">Руководитель</a></li>
                         <li class="nav-item"><a class="nav-link" href="#address" data-toggle="tab">Адреса</a></li>

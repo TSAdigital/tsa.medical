@@ -19,7 +19,7 @@ class WorkerSearch extends Worker
     public function rules()
     {
         return [
-            [['id', 'counterparty_id', 'status', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'counterparty_id', 'status', 'category', 'created_at', 'updated_at'], 'integer'],
             [['counterparty_name', 'snils', 'phone', 'extension_phone', 'email'], 'safe'],
         ];
     }
@@ -78,6 +78,7 @@ class WorkerSearch extends Worker
                     'label' => 'snils',
                     'default' => SORT_ASC
                 ],
+                'category',
                 'status',
             ]
         ]);
@@ -89,6 +90,7 @@ class WorkerSearch extends Worker
             'phone' => $this->phone,
             'extension_phone' => $this->extension_phone,
             'email' => $this->email,
+            'worker.category' => $this->category,
             'worker.status' => $this->status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
