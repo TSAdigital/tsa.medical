@@ -49,6 +49,16 @@ defined('YII_ENV') or define('YII_ENV', 'dev');
 //defined('YII_ENV') or define('YII_ENV', 'dev');
 ```
 
+Отредактировать следующую строчки в файле `web/index.php`:
+
+```php
+error_reporting(-1);
+```
+
+```php
+error_reporting(0);
+```
+
 ### Вход в систему
 Адрес электронной почты/Пароль
 
