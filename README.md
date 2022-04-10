@@ -36,27 +36,24 @@ php yii migrate
 ~~~
 
 ### Использование в продакшне
-Закомментировать следующие строчки в файле `web/index.php`:
-
+Отредактировать следующую строчки в файле `web/index.php`:
 ```php
 error_reporting(-1);
+```
+на
+```php
+error_reporting(0);
+```
+
+Закомментировать следующие строчки в файле `web/index.php`:
+```php
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 ```
+на
 ```php
-//error_reporting(-1);
 //defined('YII_DEBUG') or define('YII_DEBUG', true);
 //defined('YII_ENV') or define('YII_ENV', 'dev');
-```
-
-Отредактировать следующую строчки в файле `web/index.php`:
-
-```php
-error_reporting(-1);
-```
-
-```php
-error_reporting(0);
 ```
 
 ### Вход в систему
