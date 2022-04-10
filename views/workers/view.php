@@ -121,7 +121,7 @@ $this->params['buttons'] = [
                                     <?= ListView::widget([
                                         'dataProvider' => $work,
                                         'layout' => $tempalte,
-                                        'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-work', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : null,
+                                        'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-work', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
                                         'emptyTextOptions' => ['class' => 'empty mb-3'],
                                         'itemOptions' => [
                                             'tag' => false,
