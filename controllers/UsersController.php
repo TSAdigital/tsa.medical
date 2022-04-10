@@ -164,7 +164,6 @@ class UsersController extends Controller
                         'showConfirmButton' => false
                     ]
                 ]);
-                return $this->refresh();
             }
         }else{
             Yii::$app->session->setFlash('warning', [

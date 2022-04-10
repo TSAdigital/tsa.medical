@@ -680,22 +680,4 @@ class CounterpartiesFlController extends Controller
 
         throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
-
-/*    public function actionGenerate()
-    {
-        $faker = Factory::create('ru_RU');
-        $snils = 11000000000;
-        for($i = 0; $i < 10000; $i++)
-        {
-            $post = new CounterpartyFl();
-            $post->last_name = $faker->lastName;
-            $post->first_name = $faker->firstName;
-            $post->middle_name = '';
-            $post->gender = $faker->randomElement([9, 10]);
-            $post->birthdate = $faker->date;
-            $post->snils = $snils+$i;
-            $post->save(false);
-        }
-        die('Data generation is complete!');
-    }*/
 }
