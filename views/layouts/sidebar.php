@@ -36,7 +36,8 @@
                             ['label' => 'Физические лица', 'url' => ['counterparties-fl/index'], 'active'=> $this->context->getUniqueId() == 'counterparties-fl', 'icon' => ''],
                         ]
                     ],
-                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card-alt'],
+                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card-alt', 'active'=> $this->context->getUniqueId() == 'positions'],
+                    ['label' => 'Справки', 'url' => ['references-type/index'], 'icon' => 'file', 'active'=> $this->context->getUniqueId() == 'references-type'],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('viewAdminOnly')],
                     ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('viewAdminOnly')],
                 ],

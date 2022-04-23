@@ -43,8 +43,10 @@ $this->params['buttons'] = [
                     <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Справки</a></li>
                         <li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -136,6 +138,15 @@ $this->params['buttons'] = [
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane" id="certificate">
+
+                        </div>
+                        <div class="tab-pane" id="reference">
+
+                        </div>
+                        <div class="tab-pane" id="vaccination">
+
+                        </div>
                         <div class="tab-pane" id="contact">
                             <?= DetailView::widget([
                                 'model' => $model,
@@ -151,9 +162,6 @@ $this->params['buttons'] = [
                                     'email:email',
                                 ],
                             ]) ?>
-                        </div>
-                        <div class="tab-pane" id="vaccination">
-
                         </div>
                     </div>
                 </div>

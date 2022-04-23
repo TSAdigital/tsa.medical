@@ -1,14 +1,14 @@
 <?php
 
-use app\models\Position;
+use app\models\ReferenceType;
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\widgets\Pjax;
 /* @var $this yii\web\View */
-/* @var $searchModel app\models\PositionSearch */
+/* @var $searchModel app\models\ReferenceTypeSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Должности';
+$this->title = 'Виды справок';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app'])];
 ?>
@@ -18,6 +18,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
             <div class="card">
                 <div class="card-body pb-0">
 
+
                     <?php Pjax::begin(); ?>
                     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
@@ -26,9 +27,10 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                         'filterModel' => $searchModel,
                         'options' => ['class' => 'table-responsive'],
                         'tableOptions' => ['class' => 'table table-striped'],
-
                         'columns' => [
                             ['class' => 'yii\grid\SerialColumn'],
+
+                            //'id',
                             [
                                 'attribute'=>'name',
                                 'options' => ['width'=>'80%'],
@@ -36,25 +38,25 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 'value' => function($data)
                                 {
                                     return
-                                        Html::a($data->name, ['positions/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                        Html::a($data->name, ['references-type/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
                                 }
                             ],
                             [
-                                'filter' => Position::getStatusesArray(),
+                                'filter' => ReferenceType::getStatusesArray(),
                                 'attribute' => 'status',
                                 'options' => ['width'=>'20%'],
                                 'headerOptions' => ['style' => 'text-align: center !important;'],
                                 'contentOptions' => ['style' => 'text-align: center !important;'],
                                 'format' => 'raw',
                                 'value' => function ($model, $key, $index, $column) {
-                                    /** @var Position $model */
+                                    /** @var ReferenceType $model */
                                     /** @var \yii\grid\DataColumn $column */
                                     $value = $model->{$column->attribute};
                                     switch ($value) {
-                                        case Position::STATUS_ACTIVE:
+                                        case ReferenceType::STATUS_ACTIVE:
                                             $class = 'success';
                                             break;
-                                        case Position::STATUS_INACTIVE:
+                                        case ReferenceType::STATUS_INACTIVE:
                                             $class = 'danger';
                                             break;
                                         default:
@@ -65,6 +67,8 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 },
 
                             ],
+                            //'created_at',
+                            //'updated_at',
                         ],
                         'summaryOptions' => ['class' => 'summary mb-2'],
                         'pager' => [
@@ -79,4 +83,3 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
         </div>
     </div>
 </div>
-
