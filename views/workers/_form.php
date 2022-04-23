@@ -46,7 +46,7 @@ use yii\widgets\MaskedInput;
                             'errorLoading' => new JsExpression("function () { return 'Ждем результатов...'; }"),
                         ],
                         'ajax' => [
-                            'url' => Url::to(['/workers/counterparty-list']),
+                            'url' => Url::to(['/workers/counterparty-fl-list']),
                             'dataType' => 'json',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
                         ],

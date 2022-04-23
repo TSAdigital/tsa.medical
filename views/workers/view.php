@@ -8,6 +8,7 @@ use yii\widgets\ListView;
 /* @var $model app\models\Worker */
 /* @var $age app\controllers\CounterpartiesFlController */
 /* @var $work app\models\Work */
+/* @var $reference app\models\Reference */
 /* @var $work_time app\controllers\CounterpartiesFlController */
 
 $this->title = $model->getCounterparty_name();
@@ -142,6 +143,42 @@ $this->params['buttons'] = [
 
                         </div>
                         <div class="tab-pane" id="reference">
+                            <?php
+                            $button_add_reference =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-reference', 'id' => $model->id]) : null;
+                            $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="align-middle">Наименование</th>
+                                                    <th scope="col" class="align-middle">Кем выдана</th>
+                                                    <th scope="col" class="text-center align-middle">Дата выдачи</th>
+                                                    <th scope="col" class="text-center align-middle">Срок действия</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_reference .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
+
+                            <?= ListView::widget([
+                                'dataProvider' => $reference,
+                                'layout' => $tempalte,
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-reference', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyTextOptions' => ['class' => 'empty mb-3'],
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['worker' => $model],
+                                'itemView' => '_list_reference',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
 
                         </div>
                         <div class="tab-pane" id="vaccination">

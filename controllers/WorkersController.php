@@ -3,8 +3,10 @@
 namespace app\controllers;
 
 use app\models\ActionHistory;
+use app\models\Counterparty;
 use app\models\CounterpartyFl;
 use app\models\Division;
+use app\models\Reference;
 use app\models\Work;
 use DateTime;
 use Yii;
@@ -14,7 +16,6 @@ use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
-use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +36,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -46,6 +47,10 @@ class WorkersController extends Controller
                 'actions' => [
                     'blocked' => ['POST'],
                     'active' => ['POST'],
+                    'active-work' => ['POST'],
+                    'blocked-work' => ['POST'],
+                    'active-reference' => ['POST'],
+                    'blocked-reference' => ['POST'],
                 ],
             ],
         ];
@@ -81,7 +86,7 @@ class WorkersController extends Controller
     {
         $model = $this->findModel($id);
 
-        $counterparty = $this->findCounterparty($model->counterparty_id);
+        $counterparty = $this->findCounterpartyFl($model->counterparty_id);
         $age = new DateTime(date('Y-m-d', strtotime($counterparty->birthdate)));
         $age = $age->diff(new DateTime)->format('%y');
 
@@ -104,13 +109,26 @@ class WorkersController extends Controller
         }
 
         $work = Work::find()->where(['worker_id' => $id]);
-        $pagerParams = $_GET;
-        $pagerParams['#'] = 'work/';
+        $pagerWork = $_GET;
+        $pagerWork['#'] = 'work/';
         $work = new ActiveDataProvider([
             'query' => $work,
             'pagination' => [
-                'params' => $pagerParams,
+                'params' => $pagerWork,
                 'pageParam' => 'page-work',
+                'pageSize' => 9,
+            ],
+        ]);
+
+
+        $reference = Reference::find()->where(['worker_id' => $id]);
+        $pagerReference = $_GET;
+        $pagerReference['#'] = 'reference/';
+        $reference = new ActiveDataProvider([
+            'query' => $reference,
+            'pagination' => [
+                'params' => $pagerReference,
+                'pageParam' => 'page-reference',
                 'pageSize' => 9,
             ],
         ]);
@@ -119,6 +137,7 @@ class WorkersController extends Controller
             'model' => $model,
             'age' => $age,
             'work' => $work,
+            'reference' => $reference,
             'work_time' => $work_time
         ]);
     }
@@ -324,7 +343,7 @@ class WorkersController extends Controller
         if ($worker->status == 10) {
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
-                    $position = 'добавил(а) должность ' . Html::a(Inflector::variablize($model->getPosition_name()), ['workers/view-work', 'id' => $worker->id, 'work' => $model->getId()]) . ' сотруднику';
+                    $position = 'добавил(а) должность ' . Html::a($model->getPosition_name(), ['workers/view-work', 'id' => $worker->id, 'work' => $model->getId()]) . ' сотруднику';
                     $action_history->ActionHistory('fas fa-plus bg-green', $position, 'workers/view', $worker->id, $worker->getCounterparty_name());
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -351,14 +370,14 @@ class WorkersController extends Controller
         } else {
             Yii::$app->session->setFlash('error', [
                 'options' => [
-                    'title' => 'Нельзя добавить адрес к неактивной записи',
+                    'title' => 'Нельзя добавить должность к неактивной записи',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
                     'showConfirmButton' => false
                 ]
             ]);
-            return $this->redirect(['view', 'id' => $worker->id]);
+            return $this->redirect(['view', 'id' => $worker->id, '#' => 'work']);
         }
 
         return $this->render('create-work', [
@@ -385,7 +404,7 @@ class WorkersController extends Controller
         if ($work->status == 10) {
             if ($work->load(Yii::$app->request->post())) {
                 if ($work->save()) {
-                    $position = 'отредактировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
+                    $position = 'отредактировал(а) должность ' . Html::a($work->getPosition_name(), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
                     $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $position, 'workers/view', $model->id, $model->getCounterparty_name());
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -435,7 +454,7 @@ class WorkersController extends Controller
         $work->setStatus('STATUS_ACTIVE');
 
         if ($work->status == 10) {
-            $position = 'активировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
+            $position = 'активировал(а) должность ' . Html::a($work->getPosition_name(), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудника';
             $action_history->ActionHistory('fas fa-check bg-info', $position, 'workers/view', $model->id, $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [
@@ -469,7 +488,7 @@ class WorkersController extends Controller
         $work->setStatus('STATUS_INACTIVE');
 
         if ($work->status == 9) {
-            $position = 'аннулировал(а) должность ' . Html::a(Inflector::variablize($work->getPosition_name()), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудникуа';
+            $position = 'аннулировал(а) должность ' . Html::a($work->getPosition_name(), ['workers/view-work', 'id' => $model->id, 'work' => $work->getId()]) . ' у сотрудникуа';
             $action_history->ActionHistory('fas fa-times bg-red', $position, 'workers/view', $model->id, $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
                 'options' => [
@@ -495,6 +514,187 @@ class WorkersController extends Controller
         return $this->redirect(['view-work', 'id' => $id, 'work' => $work->id]);
     }
 
+    public function actionCreateReference($id)
+    {
+        $model = new Reference();
+        $worker = $this->findModel($id);
+        $model->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($worker->status == 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $position = 'добавил(а) справку ' . Html::a($model->getReference_type_name(), ['workers/view-reference', 'id' => $worker->id, 'reference' => $model->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-plus bg-green', $position, 'workers/view', $worker->id, $worker->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-reference', 'id' => $id, 'work' => $model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить справку к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $worker->id, '#' => 'reference']);
+        }
+
+        return $this->render('create-reference', [
+            'model' => $model,
+            'worker' => $worker,
+        ]);
+    }
+
+    public function actionViewReference($id, $reference)
+    {
+        return $this->render('view-reference', [
+            'model' => $this->findModel($id),
+            'reference' => $this->findReference($reference),
+        ]);
+    }
+
+    public function actionUpdateReference($id, $reference)
+    {
+        $model= $this->findModel($id);
+        $reference = $this->findReference($reference);
+        $reference->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($reference->status == 10) {
+            if ($reference->load(Yii::$app->request->post())) {
+                if ($reference->save()) {
+                    $position = 'отредактировал(а) справку ' . Html::a($reference->getReference_type_name(), ['workers/view-reference', 'id' => $model->id, 'reference' => $reference->getId()]) . ' у сотрудника';
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-reference', 'id' => $id, 'reference' => $reference->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-reference', 'id' => $model->id, 'reference' => $reference->id]);
+        }
+
+        return $this->render('update-reference', [
+            'model' => $model,
+            'reference' => $reference,
+        ]);
+    }
+
+    public function actionActiveReference($id, $reference)
+    {
+        $model = $this->findModel($id);
+        $reference = $this->findReference($reference);
+        $action_history = new ActionHistory();
+        $reference->setStatus('STATUS_ACTIVE');
+
+        if ($reference->status == 10) {
+            $position = 'активировал(а) должность ' . Html::a($reference->getReference_type_name(), ['workers/view-reference', 'id' => $model->id, 'reference' => $reference->getId()]) . ' у сотрудника';
+            $action_history->ActionHistory('fas fa-check bg-info', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-reference', 'id' => $id, 'reference' => $reference->id]);
+    }
+
+    public function actionBlockedReference($id, $reference)
+    {
+        $model = $this->findModel($id);
+        $reference = $this->findReference($reference);
+        $action_history = new ActionHistory();
+        $reference->setStatus('STATUS_INACTIVE');
+
+        if ($reference->status == 9) {
+            $position = 'аннулировал(а) справку ' . Html::a($reference->getReference_type_name(), ['workers/view-reference', 'id' => $model->id, 'reference' => $reference->getId()]) . ' у сотрудникуа';
+            $action_history->ActionHistory('fas fa-times bg-red', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-reference', 'id' => $id, 'reference' => $reference->id]);
+    }
+
     /**
      * Finds the Worker model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -511,7 +711,7 @@ class WorkersController extends Controller
         throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
 
-    protected function findCounterparty($id)
+    protected function findCounterpartyFl($id)
     {
         if (($model = CounterpartyFl::findOne($id)) !== null) {
             return $model;
@@ -529,7 +729,16 @@ class WorkersController extends Controller
         throw new NotFoundHttpException('Запрошенная страница не существует.');
     }
 
-    public function actionCounterpartyList($q = null, $id = null) {
+    protected function findReference($id)
+    {
+        if (($model = Reference::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    public function actionCounterpartyFlList($q = null, $id = null) {
         Yii::$app->response->format = Response::FORMAT_JSON;
         $out = ['results' => ['id' => '', 'text' => '']];
         if (!is_null($q)) {
@@ -548,6 +757,30 @@ class WorkersController extends Controller
         elseif ($id > 0) {
             $counterparty = CounterpartyFl::findOne($id);
             $text = $counterparty->last_name . '' . $counterparty->first_name . ' ' . $counterparty->middle_name;
+            $out['results'] = ['id' => $id, 'text' => $text];
+        }
+        return $out;
+    }
+
+    public function actionCounterpartyList($q = null, $id = null) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $out = ['results' => ['id' => '', 'text' => '']];
+        if (!is_null($q)) {
+            $q = preg_replace('/[^a-zA-Zа-яА-Я0-9]/ui', '', $q);
+            $query = new Query;
+            $query->select(['id', 'name AS text'])
+                ->from('counterparty')
+                ->where(['like', 'name', $q])
+                ->orWhere(['like', 'inn', $q])
+                ->andWhere(['status' => 10])
+                ->limit(20);
+            $command = $query->createCommand();
+            $data = $command->queryAll();
+            $out['results'] = array_values($data);
+        }
+        elseif ($id > 0) {
+            $counterparty = Counterparty::findOne($id);
+            $text = $counterparty->name;
             $out['results'] = ['id' => $id, 'text' => $text];
         }
         return $out;

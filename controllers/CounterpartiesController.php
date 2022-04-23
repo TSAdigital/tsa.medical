@@ -11,7 +11,6 @@ use app\models\CounterpartySearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
-use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -229,7 +228,7 @@ class CounterpartiesController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
-                    $addressHistory = 'добавил(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' адрес контрагенту';
+                    $addressHistory = 'добавил(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' адрес контрагенту';
                     $action_history->ActionHistory('fas fa-plus bg-green', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -290,7 +289,7 @@ class CounterpartiesController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
-                    $addressHistory = 'отредактировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' адрес у контрагента';
+                    $addressHistory = 'отредактировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' адрес у контрагента';
                     $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $addressHistory, 'counterparties/view', $counterparty->id, $counterparty->name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -341,7 +340,7 @@ class CounterpartiesController extends Controller
 
         if ($address->status == 10) {
             $addressHistory = $address->getAddressName();
-            $addressHistory = 'активировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
+            $addressHistory = 'активировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
             $action_history->ActionHistory('fas fa-check bg-info', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
@@ -376,7 +375,7 @@ class CounterpartiesController extends Controller
 
         if ($address->status == 9) {
             $addressHistory = $address->getAddressName();
-            $addressHistory = 'аннулировал(а) ' . Html::a(Inflector::variablize($addressHistory), ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
+            $addressHistory = 'аннулировал(а) ' . Html::a($addressHistory, ['counterparties/view-address', 'id' => $model->id, 'address' => $address->id]) . ' адрес у контрагента';
             $action_history->ActionHistory('fas fa-times bg-red', $addressHistory, 'counterparties/view', $model->getId(), $model->name);
             Yii::$app->session->setFlash('success', [
                 'options' => [

@@ -5,14 +5,12 @@ namespace app\controllers;
 use app\models\ActionHistory;
 use app\models\AddressFl;
 use app\models\Passport;
-//use Faker\Factory;
 use Yii;
 use app\models\CounterpartyFl;
 use app\models\CounterpartyFlSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\helpers\Html;
-use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -473,7 +471,7 @@ class CounterpartiesFlController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
-                    $addressHistory = 'добавил(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' контрагенту';
+                    $addressHistory = 'добавил(а) адрес ' . Html::a($addressHistory, ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->getId()]) . ' контрагенту';
                     $action_history->ActionHistory('fas fa-plus bg-green', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->first_name . ' ' . $counterparty->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -535,7 +533,7 @@ class CounterpartiesFlController extends Controller
             if ($model->load(Yii::$app->request->post())) {
                 if ($model->save()) {
                     $addressHistory = $model->getAddressName();
-                    $addressHistory = 'отредактировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' у контрагента';
+                    $addressHistory = 'отредактировал(а) адрес ' . Html::a($addressHistory, ['counterparties-fl/view-address', 'id' => $counterparty->id, 'address' => $model->id]) . ' у контрагента';
                     $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $addressHistory, 'counterparties-fl/view', $counterparty->id, $counterparty->last_name . ' ' . $counterparty->first_name . ' ' . $counterparty->middle_name);
                     Yii::$app->session->setFlash('success', [
                         'options' => [
@@ -586,7 +584,7 @@ class CounterpartiesFlController extends Controller
 
         if ($address->status == 10) {
             $addressHistory = $address->getAddressName();
-            $addressHistory = 'активировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
+            $addressHistory = 'активировал(а) адрес ' . Html::a($addressHistory, ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
             $action_history->ActionHistory('fas fa-check bg-info', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [
@@ -621,7 +619,7 @@ class CounterpartiesFlController extends Controller
 
         if ($address->status == 9) {
             $addressHistory = $address->getAddressName();
-            $addressHistory = 'аннулировал(а) адрес ' . Html::a(Inflector::variablize($addressHistory), ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
+            $addressHistory = 'аннулировал(а) адрес ' . Html::a($addressHistory, ['counterparties-fl/view-address', 'id' => $model->id, 'address' => $address->id]) . ' у контрагента';
             $action_history->ActionHistory('fas fa-times bg-red', $addressHistory, 'counterparties-fl/view', $model->getId(), $model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name);
             Yii::$app->session->setFlash('success', [
                 'options' => [

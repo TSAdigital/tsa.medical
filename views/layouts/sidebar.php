@@ -14,7 +14,7 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
-                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card'],
+                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card', 'active'=> $this->context->getUniqueId() == 'workers'],
                     ['label' => 'Медицинские карты', 'url' => ['medical-card/index'], 'icon' => 'notes-medical'],
                     ['label' => 'ЭДО', 'url' => ['documents/index'], 'icon' => 'file-invoice'],
                     ['label' => 'Оборудование', 'url' => ['equipments/index'], 'icon' => 'microscope'],
