@@ -535,7 +535,7 @@ class WorkersController extends Controller
                             'showConfirmButton' => false
                         ]
                     ]);
-                    return $this->redirect(['view-reference', 'id' => $id, 'work' => $model->getId()]);
+                    return $this->redirect(['view-reference', 'id' => $id, 'reference' => $model->getId()]);
                 } else {
                     Yii::$app->session->setFlash('error', [
                         'options' => [
