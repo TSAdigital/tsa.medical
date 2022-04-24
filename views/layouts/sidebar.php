@@ -9,7 +9,7 @@
     <div class="sidebar">
 
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav class="mt-2 mb-5">
             <?php
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
