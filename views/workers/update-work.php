@@ -7,11 +7,11 @@
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: должность ' . $work->getPosition_name();
+$this->title = 'Редактирование: должность ' . StringHelper::truncate($work->getPosition_name(), 32, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 20, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Деятельность', 'url' => ['view', 'id' => $model->id, '#' => 'work/']];
-$this->params['breadcrumbs'][] = ['label' => $work->getPosition_name(), 'url' => ['view-work', 'id' => $model->id, 'work' => $work->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($work->getPosition_name(), 10, '...'), 'url' => ['view-work', 'id' => $model->id, 'work' => $work->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form' => 'work']),

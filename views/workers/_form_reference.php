@@ -58,7 +58,6 @@ use yii\web\JsExpression;
                 'autoclose' => true,
                 'todayBtn' => true,
                 'todayHighlight' => true,
-                'endDate' => "0d"
             ]
         ]); ?>
 

@@ -10,7 +10,7 @@ use yii\widgets\ListView;
 
 $this->title = 'История: ' . StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 40, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 35, '...'), 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 40, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'История';
 $this->params['buttons'] = [
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['view', 'id' => $model->id], ['class' => 'btn btn-app'])

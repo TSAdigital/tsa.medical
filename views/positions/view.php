@@ -1,12 +1,13 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Position */
 
-$this->title = $model->name;
+$this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Должности', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [

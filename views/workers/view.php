@@ -1,6 +1,7 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\widgets\DetailView;
 use yii\widgets\ListView;
 
@@ -11,7 +12,7 @@ use yii\widgets\ListView;
 /* @var $reference app\models\Reference */
 /* @var $work_time app\controllers\CounterpartiesFlController */
 
-$this->title = $model->getCounterparty_name();
+$this->title = StringHelper::truncate($model->getCounterparty_name(), 45, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [

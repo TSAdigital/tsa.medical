@@ -12,7 +12,7 @@ $this->title = StringHelper::truncate($model->getCounterparty_name(), 50, '...')
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Справки', 'url' => ['view', 'id' => $model->id, '#' => 'reference/']];
-$this->params['breadcrumbs'][] = $reference->getReference_type_name();
+$this->params['breadcrumbs'][] = StringHelper::truncate($reference->getReference_type_name(), 10, '...');
 $this->params['buttons'] = [
     'update' => $reference->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-reference', 'id' => $model->id, 'reference' => $reference->id], ['class' => 'btn btn-app']) : false,
     'block' => $reference->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-reference', 'id' => $model->id, 'reference' => $reference->id], [

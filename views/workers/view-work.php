@@ -12,7 +12,7 @@ $this->title = StringHelper::truncate($model->getCounterparty_name(), 50, '...')
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Деятельность', 'url' => ['view', 'id' => $model->id, '#' => 'work/']];
-$this->params['breadcrumbs'][] = $work->getPosition_name();
+$this->params['breadcrumbs'][] = StringHelper::truncate($work->getPosition_name(), 10, '...');
 $this->params['buttons'] = [
     'update' => $work->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-work', 'id' => $model->id, 'work' => $work->id], ['class' => 'btn btn-app']) : false,
     'block' => $work->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-work', 'id' => $model->id, 'work' => $work->id], [

@@ -38,7 +38,11 @@ class ReferencesTypeController extends Controller
     public function actionIndex()
     {
         $searchModel = new ReferenceTypeSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        if (!isset($params['ReferenceTypeSearch'])) {
+            $params['ReferenceTypeSearch']['status'] = 10;
+        }
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
