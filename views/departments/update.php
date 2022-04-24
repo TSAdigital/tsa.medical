@@ -4,10 +4,11 @@
 /* @var $model app\models\Department */
 
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 
-$this->title = 'Редактирование: ' . $model->name;
+$this->title = 'Редактирование: ' . StringHelper::truncate($model->name, 35, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Подразделения', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 38, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"department"]),

@@ -71,7 +71,7 @@ class CounterpartyFlSearch extends CounterpartyFl
         $query->andFilterWhere(['like', 'last_name', $this->last_name])
             ->andFilterWhere(['like', 'first_name', $this->first_name])
             ->andFilterWhere(['like', 'middle_name', $this->middle_name])
-            ->andFilterWhere(['like', 'snils', $this->snils])
+            ->andFilterWhere(['like', 'snils', preg_replace('/[^0-9]/ui', '', $this->snils)])
             ->andFilterWhere(['like', 'inn', $this->inn]);
 
         return $dataProvider;
