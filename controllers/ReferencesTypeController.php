@@ -7,6 +7,7 @@ use Yii;
 use app\models\ReferenceType;
 use app\models\ReferenceTypeSearch;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -22,10 +23,21 @@ class ReferencesTypeController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
+                        'allow' => true,
+                        'roles' => ['user'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
