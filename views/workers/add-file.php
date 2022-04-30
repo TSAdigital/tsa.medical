@@ -22,6 +22,13 @@ $this->params['buttons'] = [
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
+
+                <div class="callout callout-danger">
+                    <h5><b>ВНИМАНИЕ!</b></h5>
+                    <p class="mb-1">Не рекомендуется загружать личные документы сотрудников, например - копия паспорта.</p>
+                    <p>Данный раздел больше подходит для хранение внутренних документов организации, например - копия приказа о приеме на работу.</p>
+                </div>
+
             <div class="card">
                 <div class="card-body">
                     <?=$this->render('_form_file', [
