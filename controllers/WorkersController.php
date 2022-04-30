@@ -1003,16 +1003,29 @@ class WorkersController extends Controller
         return $out;
     }
 
-    public function actionDownload($id)
+    public function actionDownload($id, $file)
     {
-        $download = $this->findFile($id);
+        $model = $this->findModel($id);
+        $download = $this->findFile($file);
         $path = Yii::getAlias('@webroot').'/'.$download->url;
         $path_info = pathinfo($path);
-        if (file_exists($path) && $download->url != NULL) {
-            return Yii::$app->response->sendFile($path, $download->name. '.' .$path_info['extension']);
-        }else {
-            throw new NotFoundHttpException("Файл '{$download->name}' не найден!");
+        if($download->status == 10){
+            if (file_exists($path) && $download->url != NULL) {
+                return Yii::$app->response->sendFile($path, $download->name. '.' .$path_info['extension']);
+            }else {
+                throw new NotFoundHttpException("Файл '{$download->name}' не найден!");
+            }
         }
+        Yii::$app->session->setFlash('warning', [
+            'options' => [
+                'title' => 'Нельзя скачивать файл у неактивной записи',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->redirect(['view-file', 'id' => $model->id, 'file' => $download->id]);
     }
 
     public function actionDeleteFile($id, $file)
