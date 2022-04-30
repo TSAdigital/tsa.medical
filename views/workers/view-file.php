@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getC
 $this->params['breadcrumbs'][] = ['label' => 'Файлы', 'url' => ['view', 'id' => $model->id, '#' => 'file/']];
 $this->params['breadcrumbs'][] = StringHelper::truncate($file->name, 10, '...');
 $this->params['buttons'] = [
-    'downloads' => ($file->status == 10 and file_exists($file->url)) ? Html::a('<i class="fas fa-download text-success"></i>Скачать файл', ['workers/download', 'id'=> $model->id, 'file' => $file->id], ['class' => 'btn btn-app']) : false,
+    'downloads' => ($file->status == 10 and file_exists($file->url) and !is_dir($file->url)) ? Html::a('<i class="fas fa-download text-success"></i>Скачать файл', ['workers/download', 'id'=> $model->id, 'file' => $file->id], ['class' => 'btn btn-app']) : false,
     'update' => $file->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-file', 'id' => $model->id, 'file' => $file->id], ['class' => 'btn btn-app']) : false,
     'block' => $file->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-file', 'id' => $model->id, 'file' => $file->id], [
         'class' => 'btn btn-app',
