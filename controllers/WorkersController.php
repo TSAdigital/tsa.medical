@@ -1037,7 +1037,9 @@ class WorkersController extends Controller
         $file->url = NULL;
         $action_history = new ActionHistory();
         if ($file->save(false)) {
-            FileHelper::removeDirectory($path_info['dirname']);
+            if (!is_dir($path) && file_exists($path)){
+                FileHelper::removeDirectory($path_info['dirname']);
+            }
             $text = 'удалил(а) файл ' . Html::a($file->name, ['workers/view-file', 'id' => $model->id, 'file' => $file->getId()]) . ' у сотрудника';
             $action_history->ActionHistory('far fa-trash-alt bg-danger', $text, 'workers/view', $model->id, $model->getCounterparty_name());
             Yii::$app->session->setFlash('success', [
