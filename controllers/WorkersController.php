@@ -7,7 +7,9 @@ use app\models\Counterparty;
 use app\models\CounterpartyFl;
 use app\models\Division;
 use app\models\Reference;
+use app\models\UploadForm;
 use app\models\Work;
+use app\models\WorkerFile;
 use DateTime;
 use Yii;
 use app\models\Worker;
@@ -15,11 +17,13 @@ use app\models\WorkerSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
+use yii\helpers\FileHelper;
 use yii\helpers\Html;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * WorkersController implements the CRUD actions for Worker model.
@@ -36,7 +40,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -51,6 +55,9 @@ class WorkersController extends Controller
                     'blocked-work' => ['POST'],
                     'active-reference' => ['POST'],
                     'blocked-reference' => ['POST'],
+                    'active-file' => ['POST'],
+                    'blocked-file' => ['POST'],
+                    'delete-file' => ['POST'],
                 ],
             ],
         ];
@@ -120,6 +127,18 @@ class WorkersController extends Controller
             ],
         ]);
 
+        $file = WorkerFile::find()->where(['worker_id' => $id]);
+        $pagerFile = $_GET;
+        $pagerFile['#'] = 'file/';
+        $file = new ActiveDataProvider([
+            'query' => $file,
+            'pagination' => [
+                'params' => $pagerFile,
+                'pageParam' => 'page-file',
+                'pageSize' => 9,
+            ],
+        ]);
+
 
         $reference = Reference::find()->where(['worker_id' => $id]);
         $pagerReference = $_GET;
@@ -138,7 +157,8 @@ class WorkersController extends Controller
             'age' => $age,
             'work' => $work,
             'reference' => $reference,
-            'work_time' => $work_time
+            'work_time' => $work_time,
+            'file' => $file
         ]);
     }
 
@@ -695,6 +715,194 @@ class WorkersController extends Controller
         return $this->redirect(['view-reference', 'id' => $id, 'reference' => $reference->id]);
     }
 
+    public function actionAddFile($id)
+    {
+        $model = new WorkerFile();
+        $worker = $this->findModel($id);
+        $file = new UploadForm();
+        $model->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($worker->status == 10) {
+            if ($model->load(Yii::$app->request->post()) and $this->uploadFile($model, $file)) {
+                if ($model->save()) {
+                    $text = 'добавил(а) файл ' . Html::a($model->name, ['workers/view-file', 'id' => $worker->id, 'file' => $model->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-plus bg-green', $text, 'workers/view', $worker->id, $worker->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-file', 'id' => $id, 'file' => $model->id]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить файл к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $worker->id, '#' => 'file']);
+        }
+
+        return $this->render('add-file', [
+            'model' => $model,
+            'worker' => $worker,
+            'file' => $file
+        ]);
+    }
+
+    public function actionViewFile($id, $file)
+    {
+        return $this->render('view-file', [
+            'model' => $this->findModel($id),
+            'file' => $this->findFile($file),
+        ]);
+    }
+
+    public function actionUpdateFile($id, $file)
+    {
+        $model= $this->findModel($id);
+        $file = $this->findFile($file);
+        $file->worker_id = $id;
+        $action_history = new ActionHistory();
+        if($file->url == NULL && Yii::$app->request->isPost)
+        {
+            $upload= new UploadForm();
+            $this->uploadFile($file, $upload);
+        }
+        if ($file->status == 10) {
+            if ($file->load(Yii::$app->request->post())) {
+                if ($file->save()) {
+                    $text = 'отредактировал(а) файл ' . Html::a($file->name, ['workers/view-file', 'id' => $model->id, 'file' => $file->getId()]) . ' у сотрудника';
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $text, 'workers/view', $model->id, $model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-file', 'id' => $id, 'file' => $file->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-file', 'id' => $model->id, 'file' => $file->id]);
+        }
+
+        return $this->render('update-file', [
+            'model' => $model,
+            'file' => $file,
+        ]);
+    }
+
+    public function actionActiveFile($id, $file)
+    {
+        $model = $this->findModel($id);
+        $file = $this->findFile($file);
+        $action_history = new ActionHistory();
+        $file->setStatus('STATUS_ACTIVE');
+
+        if ($file->status == 10) {
+            $text = 'активировал(а) файл ' . Html::a($file->name, ['workers/view-file', 'id' => $model->id, 'file' => $file->getId()]) . ' у сотрудника';
+            $action_history->ActionHistory('fas fa-check bg-info', $text, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-file', 'id' => $id, 'file' => $file->id]);
+    }
+
+    public function actionBlockedFile($id, $file)
+    {
+        $model = $this->findModel($id);
+        $file = $this->findFile($file);
+        $action_history = new ActionHistory();
+        $file->setStatus('STATUS_INACTIVE');
+
+        if ($file->status == 9) {
+            $text = 'аннулировал(а) файл ' . Html::a($file->name, ['workers/view-file', 'id' => $model->id, 'file' => $file->getId()]) . ' у сотрудникуа';
+            $action_history->ActionHistory('fas fa-times bg-red', $text, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-file', 'id' => $id, 'file' => $file->id]);
+    }
+
+
     /**
      * Finds the Worker model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -723,6 +931,15 @@ class WorkersController extends Controller
     protected function findWork($id)
     {
         if (($model = Work::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findFile($id)
+    {
+        if (($model = WorkerFile::findOne($id)) !== null) {
             return $model;
         }
 
@@ -784,5 +1001,68 @@ class WorkersController extends Controller
             $out['results'] = ['id' => $id, 'text' => $text];
         }
         return $out;
+    }
+
+    public function actionDownload($id)
+    {
+        $download = $this->findFile($id);
+        $path = Yii::getAlias('@webroot').'/'.$download->url;
+        $path_info = pathinfo($path);
+        if (file_exists($path) && $download->url != NULL) {
+            return Yii::$app->response->sendFile($path, $download->name. '.' .$path_info['extension']);
+        }else {
+            throw new NotFoundHttpException("Файл '{$download->name}' не найден!");
+        }
+    }
+
+    public function actionDeleteFile($id, $file)
+    {
+        $model = $this->findModel($id);
+        $file = $this->findFile($file);
+        $path = Yii::getAlias('@webroot').'/'.$file->url;
+        $path_info = pathinfo($path);
+        $file->url = NULL;
+        $action_history = new ActionHistory();
+        if ($file->save(false)) {
+            FileHelper::removeDirectory($path_info['dirname']);
+            $text = 'удалил(а) файл ' . Html::a($file->name, ['workers/view-file', 'id' => $model->id, 'file' => $file->getId()]) . ' у сотрудника';
+            $action_history->ActionHistory('far fa-trash-alt bg-danger', $text, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Файл удален',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Не удалось удалить файл',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+        return $this->redirect(['update-file', 'id' => $model->id, 'file' => $file->id]);
+    }
+
+    protected function uploadFile($model, $upload)
+    {
+        $file_name = md5(uniqid(microtime(), true));
+        $upload->file_name = $file_name;
+        $file_dir = 'uploads/workers/' . md5(uniqid(microtime(), true)) . '/';
+        FileHelper::createDirectory($file_dir, 0775, true);
+        $upload->file_dir = $file_dir;
+        $upload->file = UploadedFile::getInstance($upload, 'file');
+        $model->url = $file_dir . $file_name . '.' .$upload->file->extension;
+        if($upload->upload()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

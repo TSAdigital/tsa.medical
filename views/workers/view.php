@@ -9,6 +9,7 @@ use yii\widgets\ListView;
 /* @var $model app\models\Worker */
 /* @var $age app\controllers\CounterpartiesFlController */
 /* @var $work app\models\Work */
+/* @var $file app\models\WorkerFile */
 /* @var $reference app\models\Reference */
 /* @var $work_time app\controllers\CounterpartiesFlController */
 
@@ -49,6 +50,7 @@ $this->params['buttons'] = [
                         <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Справки</a></li>
                         <li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#file" data-toggle="tab">Файлы</a></li>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -200,6 +202,42 @@ $this->params['buttons'] = [
                                     'email:email',
                                 ],
                             ]) ?>
+                        </div>
+                        <div class="tab-pane" id="file">
+                            <?php
+                            $button_add_file =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['add-file', 'id' => $model->id]) : null;
+                            $tempalte = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="align-middle">Наименование</th>
+                                                    <th scope="col" class="text-center align-middle">Дата</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_file .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
+
+                            <?= ListView::widget([
+                                'dataProvider' => $file,
+                                'layout' => $tempalte,
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['add-file', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyTextOptions' => ['class' => 'empty mb-3'],
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['worker' => $model],
+                                'itemView' => '_list_file',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
                         </div>
                     </div>
                 </div>

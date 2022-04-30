@@ -175,8 +175,8 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Адрес электронной почты',
             'password' => 'Пароль',
             'status' => 'Статус',
-            'created_at' => 'Создан',
-            'updated_at' => 'Изменен',
+            'created_at' => 'Запись создана',
+            'updated_at' => 'Запись изменена',
             'roles' => 'Роль',
         ];
     }
