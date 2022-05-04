@@ -204,7 +204,8 @@ class Worker extends ActiveRecord
         $this->date_of_dismissal = !empty($this->date_of_dismissal) ? Yii::$app->formatter->asDate($this->date_of_dismissal): NULL;
     }
 
-    public function validateDates(){
+    public function validateDates()
+    {
         if(!empty($this->date_of_dismissal) and date('Y-m-d', strtotime($this->date_of_employment)) > date('Y-m-d', strtotime($this->date_of_dismissal))){
             $this->addError('date_of_employment','Дата принятия на работу не может быть больше даты увольнения');
             $this->addError('date_of_dismissal','Дата увольнения не может быть меньше даты принятия на работу');

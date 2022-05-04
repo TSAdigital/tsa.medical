@@ -421,7 +421,7 @@ class CounterpartiesController extends Controller
                             'showConfirmButton' => false
                         ]
                     ]);
-                    return $this->redirect(['view', 'id' => $id]);
+                    return $this->redirect(['view-contact', 'id' => $counterparty->id, 'contact' => $model->id]);
                 } else {
                     Yii::$app->session->setFlash('error', [
                         'options' => [
@@ -444,7 +444,7 @@ class CounterpartiesController extends Controller
                     'showConfirmButton' => false
                 ]
             ]);
-            return $this->redirect(['view', 'id' => $counterparty->id]);
+            return $this->redirect(['view', 'id' => $counterparty->id, '#' => 'contact/']);
         }
 
         return $this->render('create-contact', [

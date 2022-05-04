@@ -58,18 +58,23 @@ class Contact extends ActiveRecord
         return [
             ['name', 'string', 'max' => 255],
             ['name', 'trim'],
+            ['name', 'validatePhoneEmail'],
             ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             ['name', 'required'],
 
             ['phone', 'match', 'pattern' => '#^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})|(\d{1})(\(\d{3}\))(\d{3})\s+(\d{2})\s+(\d{2})$#', 'message' => 'Значение «Номер телефона» должно содержать 11 символов.'],
             ['phone', 'trim'],
+            ['phone', 'validatePhoneEmail'],
+            ['phone', 'validatePhone'],
             ['phone', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['phone_extension', 'integer'],
             ['phone_extension', 'trim'],
+            ['phone_extension', 'validatePhone'],
             ['phone_extension', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
             ['email', 'email'],
+            ['phone', 'validatePhoneEmail'],
             ['email', 'trim'],
             ['email', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
 
@@ -153,6 +158,21 @@ class Contact extends ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public function validatePhoneEmail()
+    {
+        if(empty($this->phone) and empty($this->email)){
+            $this->addError('phone','Должен быть указан номер телефона или адрес электронной почты');
+            $this->addError('email','Должен быть указан адрес электронной почты или номер телефона');
+        }
+    }
+
+    public function validatePhone()
+    {
+        if(!empty($this->phone_extension) and empty($this->phone)){
+            $this->addError('phone','Если указан внутренний номер, должен быть указан номер телефона');
+        }
     }
 
 }
