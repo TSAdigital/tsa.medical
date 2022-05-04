@@ -1012,7 +1012,7 @@ class WorkersController extends Controller
         $path_info = pathinfo($path);
         if($download->status == 10){
             if (file_exists($path) && $download->url != NULL) {
-                $file_name = Inflector::slug($download->name,'-');
+                $file_name = !empty(Inflector::slug($download->name,'-')) ? Inflector::slug($download->name,'-') : 'file';
                 return Yii::$app->response->sendFile($path, $file_name . '.' .$path_info['extension']);
             }else {
                 throw new NotFoundHttpException("Файл '{$download->name}' не найден!");
