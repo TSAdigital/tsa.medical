@@ -58,11 +58,23 @@ class WorkerFile extends ActiveRecord
     public function rules()
     {
         return [
-            [['worker_id', 'name'], 'required'],
-            [['worker_id', 'status'], 'integer'],
-            [['date'], 'safe'],
-            [['name', 'url'], 'string', 'max' => 255],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
+
+            ['name', 'string', 'max' => 255],
+            ['name', 'trim'],
+            ['name', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+            ['name', 'required'],
+
+            ['url', 'string', 'max' => 255],
+            ['url', 'trim'],
+            ['url', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['worker_id', 'integer'],
             [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],
+            ['worker_id', 'required'],
+
+            [['date'], 'date'],
         ];
     }
 

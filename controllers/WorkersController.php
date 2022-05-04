@@ -19,6 +19,7 @@ use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\FileHelper;
 use yii\helpers\Html;
+use yii\helpers\Inflector;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -1011,7 +1012,8 @@ class WorkersController extends Controller
         $path_info = pathinfo($path);
         if($download->status == 10){
             if (file_exists($path) && $download->url != NULL) {
-                return Yii::$app->response->sendFile($path, $download->name. '.' .$path_info['extension']);
+                $file_name = Inflector::slug($download->name,'-');
+                return Yii::$app->response->sendFile($path, $file_name . '.' .$path_info['extension']);
             }else {
                 throw new NotFoundHttpException("Файл '{$download->name}' не найден!");
             }
