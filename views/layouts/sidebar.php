@@ -14,7 +14,7 @@
             echo \hail812\adminlte\widgets\Menu::widget([
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
-                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'id-card', 'active'=> $this->context->getUniqueId() == 'workers'],
+                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'user-md', 'active'=> $this->context->getUniqueId() == 'workers'],
                     ['label' => 'Медицинские карты', 'url' => ['medical-card/index'], 'icon' => 'notes-medical'],
                     ['label' => 'ЭДО', 'url' => ['documents/index'], 'icon' => 'file-invoice'],
                     ['label' => 'Оборудование', 'url' => ['equipments/index'], 'icon' => 'microscope'],
@@ -36,7 +36,8 @@
                             ['label' => 'Физические лица', 'url' => ['counterparties-fl/index'], 'active'=> $this->context->getUniqueId() == 'counterparties-fl', 'icon' => ''],
                         ]
                     ],
-                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card-alt', 'active'=> $this->context->getUniqueId() == 'positions'],
+                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card', 'active'=> $this->context->getUniqueId() == 'positions'],
+                    ['label' => 'Специализации', 'url' => ['specializations/index'], 'icon' => 'id-card-alt', 'active'=> $this->context->getUniqueId() == 'specializations'],
                     ['label' => 'Справки', 'url' => ['references-type/index'], 'icon' => 'file', 'active'=> $this->context->getUniqueId() == 'references-type'],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('viewAdminOnly')],
                     ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('viewAdminOnly')],
