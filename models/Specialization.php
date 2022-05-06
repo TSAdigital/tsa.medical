@@ -2,7 +2,10 @@
 
 namespace app\models;
 
-use Yii;
+
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "specialization".
@@ -13,8 +16,19 @@ use Yii;
  * @property int $created_at
  * @property int $updated_at
  */
-class Specialization extends \yii\db\ActiveRecord
+class Specialization extends ActiveRecord
 {
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -23,16 +37,27 @@ class Specialization extends \yii\db\ActiveRecord
         return 'specialization';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'created_at', 'updated_at'], 'required'],
-            [['status', 'created_at', 'updated_at'], 'integer'],
-            [['name'], 'string', 'max' => 255],
+            [['name'], 'required'],
             [['name'], 'unique'],
+            [['name'], 'string', 'max' => 255],
+            [['name'], 'trim'],
+            [['name'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
     }
 
@@ -43,10 +68,32 @@ class Specialization extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'name' => 'Наименование',
+            'status' => 'Статус',
+            'created_at' => 'Запись создана',
+            'updated_at' => 'Запись изменена',
         ];
+    }
+
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
     }
 }

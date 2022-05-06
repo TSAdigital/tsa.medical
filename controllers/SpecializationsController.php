@@ -2,9 +2,12 @@
 
 namespace app\controllers;
 
+use app\models\ActionHistory;
 use Yii;
 use app\models\Specialization;
 use app\models\SpecializationSearch;
+use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,10 +23,21 @@ class SpecializationsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
+                        'allow' => true,
+                        'roles' => ['user'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'blocked' => ['POST'],
+                    'active' => ['POST'],
                 ],
             ],
         ];
@@ -36,7 +50,12 @@ class SpecializationsController extends Controller
     public function actionIndex()
     {
         $searchModel = new SpecializationSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $params = Yii::$app->request->queryParams;
+        if (!isset($params['SpecializationSearch'])) {
+            $params['SpecializationSearch']['status'] = 10;
+        }
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -66,8 +85,31 @@ class SpecializationsController extends Controller
     {
         $model = new Specialization();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $action_history = new ActionHistory();
+        if ($model->load(Yii::$app->request->post())) {
+            if($model->save()){
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) специальность', 'specializations/view', $model->getId(), $model->name);
+                Yii::$app->session->setFlash('success', [
+                    'options' => [
+                        'title' => 'Запись добавлена',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+                return $this->redirect(['view', 'id' => $model->id]);
+            }else{
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось добавить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
         }
 
         return $this->render('create', [
@@ -86,7 +128,43 @@ class SpecializationsController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        $action_history = new ActionHistory();
+
+        if($model->status === 10){
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) специальность', 'specializations/view', $model->getId(), $model->name);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -95,18 +173,85 @@ class SpecializationsController extends Controller
         ]);
     }
 
-    /**
-     * Deletes an existing Specialization model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
+    public function actionBlocked($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        $action_history = new ActionHistory();
+        $model->setStatus('STATUS_INACTIVE');
 
-        return $this->redirect(['index']);
+        if ($model->status == 9) {
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) специальность', 'specializations/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось аннулировать запись',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
+    }
+
+    public function actionActive($id)
+    {
+        $model = $this->findModel($id);
+
+        $action_history = new ActionHistory();
+        $model->setStatus('STATUS_ACTIVE');
+
+        if ($model->status == 10) {
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) специальность', 'specializations/view', $model->getId(), $model->name);
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id]);
+        }
+
+        Yii::$app->session->setFlash('error', [
+            'options' => [
+                'title' => 'Не удалось активировать запись',
+                'toast' => true,
+                'position' => 'top-end',
+                'timer' => 5000,
+                'showConfirmButton' => false
+            ]
+        ]);
+        return $this->refresh();
+    }
+
+    public function actionHistory($id)
+    {
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'specializations/view', 'current_record' => $id]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        return $this->render('history', [
+            'model' => $this->findModel($id),
+            'actionsHistory' => $dataProvider,
+        ]);
     }
 
     /**

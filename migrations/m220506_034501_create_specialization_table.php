@@ -12,7 +12,7 @@ class m220506_034501_create_specialization_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable('{{%specializations}}', [
+        $this->createTable('{{%specialization}}', [
             'id' => $this->primaryKey(),
             'name' => $this->string()->unique()->notNull(),
 
@@ -27,6 +27,6 @@ class m220506_034501_create_specialization_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%specializations}}');
+        $this->dropTable('{{%specialization}}');
     }
 }
