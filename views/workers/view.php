@@ -9,6 +9,7 @@ use yii\widgets\ListView;
 /* @var $model app\models\Worker */
 /* @var $age app\controllers\CounterpartiesFlController */
 /* @var $work app\models\Work */
+/* @var $certificate app\models\Certificate */
 /* @var $file app\models\WorkerFile */
 /* @var $reference app\models\Reference */
 /* @var $work_time app\controllers\CounterpartiesFlController */
@@ -104,7 +105,7 @@ $this->params['buttons'] = [
 
                                     <?php
                                     $button_add_passport =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id]) : null;
-                                    $tempalte = '
+                                    $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                  <tr>
@@ -126,7 +127,7 @@ $this->params['buttons'] = [
 
                                     <?= ListView::widget([
                                         'dataProvider' => $work,
-                                        'layout' => $tempalte,
+                                        'layout' => $template,
                                         'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-work', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
                                         'emptyTextOptions' => ['class' => 'empty mb-3'],
                                         'itemOptions' => [
@@ -143,12 +144,47 @@ $this->params['buttons'] = [
                             </div>
                         </div>
                         <div class="tab-pane" id="certificate">
+                            <?php
+                            $button_add_certificate =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-certificate', 'id' => $model->id]) : null;
+                            $template = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="align-middle">Кем выдан</th>
+                                                    <th scope="col" class="align-middle">Специальность</th>
+                                                    <th scope="col" class="text-center align-middle">Дата выдачи</th>
+                                                    <th scope="col" class="text-center align-middle">Срок действия</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_certificate .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
 
+                            <?= ListView::widget([
+                                'dataProvider' => $certificate,
+                                'layout' => $template,
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-certificate', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyTextOptions' => ['class' => 'empty mb-3'],
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['worker' => $model],
+                                'itemView' => '_list_certificate',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
                         </div>
                         <div class="tab-pane" id="reference">
                             <?php
                             $button_add_reference =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-reference', 'id' => $model->id]) : null;
-                            $tempalte = '
+                            $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                  <tr>
@@ -170,7 +206,7 @@ $this->params['buttons'] = [
 
                             <?= ListView::widget([
                                 'dataProvider' => $reference,
-                                'layout' => $tempalte,
+                                'layout' => $template,
                                 'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-reference', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
                                 'emptyTextOptions' => ['class' => 'empty mb-3'],
                                 'itemOptions' => [
@@ -206,7 +242,7 @@ $this->params['buttons'] = [
                         <div class="tab-pane" id="file">
                             <?php
                             $button_add_file =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['add-file', 'id' => $model->id]) : null;
-                            $tempalte = '
+                            $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
                                                  <tr>
@@ -226,7 +262,7 @@ $this->params['buttons'] = [
 
                             <?= ListView::widget([
                                 'dataProvider' => $file,
-                                'layout' => $tempalte,
+                                'layout' => $template,
                                 'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['add-file', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
                                 'emptyTextOptions' => ['class' => 'empty mb-3'],
                                 'itemOptions' => [

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\ActionHistory;
+use app\models\Certificate;
 use app\models\Counterparty;
 use app\models\CounterpartyFl;
 use app\models\Division;
@@ -41,7 +42,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -54,6 +55,8 @@ class WorkersController extends Controller
                     'active' => ['POST'],
                     'active-work' => ['POST'],
                     'blocked-work' => ['POST'],
+                    'active-certificate' => ['POST'],
+                    'blocked-certificate' => ['POST'],
                     'active-reference' => ['POST'],
                     'blocked-reference' => ['POST'],
                     'active-file' => ['POST'],
@@ -153,11 +156,24 @@ class WorkersController extends Controller
             ],
         ]);
 
+        $certificate = Certificate::find()->where(['worker_id' => $id]);
+        $pagerCertificate = $_GET;
+        $pagerCertificate['#'] = 'reference/';
+        $certificate = new ActiveDataProvider([
+            'query' => $certificate,
+            'pagination' => [
+                'params' => $pagerCertificate,
+                'pageParam' => 'page-certificate',
+                'pageSize' => 9,
+            ],
+        ]);
+
         return $this->render('view', [
             'model' => $model,
             'age' => $age,
             'work' => $work,
             'reference' => $reference,
+            'certificate' => $certificate,
             'work_time' => $work_time,
             'file' => $file
         ]);
@@ -533,6 +549,187 @@ class WorkersController extends Controller
         }
 
         return $this->redirect(['view-work', 'id' => $id, 'work' => $work->id]);
+    }
+
+    public function actionCreateCertificate($id)
+    {
+        $model = new Certificate();
+        $worker = $this->findModel($id);
+        $model->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($worker->status == 10) {
+            if ($model->load(Yii::$app->request->post())) {
+                if ($model->save()) {
+                    $position = 'добавил(а) сертификат ' . Html::a($model->getSpecialization_name(), ['workers/view-certificate', 'id' => $worker->id, 'certificate' => $model->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-plus bg-green', $position, 'workers/view', $worker->id, $worker->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-certificate', 'id' => $id, 'certificate' => $model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить сертификат к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $worker->id, '#' => 'certificate']);
+        }
+
+        return $this->render('create-certificate', [
+            'model' => $model,
+            'worker' => $worker,
+        ]);
+    }
+
+    public function actionViewCertificate($id, $certificate)
+    {
+        return $this->render('view-certificate', [
+            'model' => $this->findModel($id),
+            'certificate' => $this->findCertificate($certificate),
+        ]);
+    }
+
+    public function actionUpdateCertificate($id, $certificate)
+    {
+        $model= $this->findModel($id);
+        $certificate = $this->findCertificate($certificate);
+        $certificate->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($certificate->status == 10) {
+            if ($certificate->load(Yii::$app->request->post())) {
+                if ($certificate->save()) {
+                    $data = 'отредактировал(а) сертификат ' . Html::a($certificate->getSpecialization_name(), ['workers/view-certificate', 'id' => $model->id, 'certificate' => $certificate->getId()]) . ' у сотрудника';
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $data, 'workers/view', $model->id, $model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-certificate', 'id' => $id, 'certificate' => $certificate->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-certificate', 'id' => $model->id, 'certificate' => $certificate->id]);
+        }
+
+        return $this->render('update-certificate', [
+            'model' => $model,
+            'certificate' => $certificate,
+        ]);
+    }
+
+    public function actionActiveCertificate($id, $certificate)
+    {
+        $model = $this->findModel($id);
+        $certificate = $this->findCertificate($certificate);
+        $action_history = new ActionHistory();
+        $certificate->setStatus('STATUS_ACTIVE');
+
+        if ($certificate->status == 10) {
+            $data = 'активировал(а) сертификат ' . Html::a($certificate->getSpecialization_name(), ['workers/view-certificate', 'id' => $model->id, 'certificate' => $certificate->getId()]) . ' у сотрудника';
+            $action_history->ActionHistory('fas fa-check bg-info', $data, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-certificate', 'id' => $id, 'certificate' => $certificate->id]);
+    }
+
+    public function actionBlockedCertificate($id, $certificate)
+    {
+        $model = $this->findModel($id);
+        $certificate = $this->findCertificate($certificate);
+        $action_history = new ActionHistory();
+        $certificate->setStatus('STATUS_INACTIVE');
+
+        if ($certificate->status == 9) {
+            $data = 'аннулировал(а) сертификат ' . Html::a($certificate->getSpecialization_name(), ['workers/view-certificate', 'id' => $model->id, 'certificate' => $certificate->getId()]) . ' у сотрудникуа';
+            $action_history->ActionHistory('fas fa-times bg-red', $data, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-certificate', 'id' => $id, 'certificate' => $certificate->id]);
     }
 
     public function actionCreateReference($id)
@@ -941,6 +1138,15 @@ class WorkersController extends Controller
     protected function findFile($id)
     {
         if (($model = WorkerFile::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findCertificate($id)
+    {
+        if (($model = Certificate::findOne($id)) !== null) {
             return $model;
         }
 
