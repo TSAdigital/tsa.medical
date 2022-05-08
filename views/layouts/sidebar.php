@@ -1,3 +1,7 @@
+<?php
+use hail812\adminlte\widgets\Menu;
+?>
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="/" class="brand-link text-center">
@@ -10,8 +14,7 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2 mb-5">
-            <?php
-            echo \hail812\adminlte\widgets\Menu::widget([
+            <?= Menu::widget([
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
                     ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'user-md', 'active'=> $this->context->getUniqueId() == 'workers'],
