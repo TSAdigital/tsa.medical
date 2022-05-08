@@ -19,8 +19,8 @@ class m220507_043143_create_certificate_table extends Migration
             'specialization_id' => $this->integer()->notNull(),
             'serial' => $this->string(),
             'number' => $this->string(),
-            'start_date' => $this->date(),
-            'end_date' => $this->date(),
+            'start_date' => $this->date()->notNull(),
+            'end_date' => $this->date()->notNull(),
 
             'status' => $this->smallInteger()->notNull()->defaultValue(10),
             'created_at' => $this->integer()->notNull(),

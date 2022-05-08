@@ -84,6 +84,7 @@ class Certificate extends ActiveRecord
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
             [['start_date', 'end_date'], 'date'],
+            [['start_date', 'end_date'], 'required'],
         ];
     }
 
