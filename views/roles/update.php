@@ -5,7 +5,7 @@
 
 use yii\helpers\Html;
 
-$this->title = 'Update Auth Item: ' . $model->description;
+$this->title = 'Редактрование: ' . $model->description;
 $this->params['breadcrumbs'][] = ['label' => 'Роли', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->description, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
