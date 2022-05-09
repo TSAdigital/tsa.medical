@@ -3,9 +3,10 @@
 namespace app\controllers;
 
 use app\models\ActionHistory;
+use app\models\AuthItemChild;
 use Yii;
-use app\models\Position;
-use app\models\PositionSearch;
+use app\models\AuthItem;
+use app\models\AuthItemSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -13,9 +14,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * PositionsController implements the CRUD actions for Position model.
+ * RolesController implements the CRUD actions for AuthItem model.
  */
-class PositionsController extends Controller
+class RolesController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -27,14 +28,14 @@ class PositionsController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
+                        'actions' => ['profile'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
                     [
-                        'actions' => ['index'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'save-permissions'],
                         'allow' => true,
-                        'roles' => ['user', 'viewPositionIndex'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -49,18 +50,19 @@ class PositionsController extends Controller
     }
 
     /**
-     * Lists all Position models.
+     * Lists all AuthItem models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PositionSearch();
+        $searchModel = new AuthItemSearch();
 
         $params = Yii::$app->request->queryParams;
-        if (!isset($params['PositionSearch'])) {
-            $params['PositionSearch']['status'] = 10;
+        if (!isset($params['AuthItemSearch'])) {
+            $params['AuthItemSearch']['status'] = 10;
         }
         $dataProvider = $searchModel->search($params);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
@@ -68,31 +70,71 @@ class PositionsController extends Controller
     }
 
     /**
-     * Displays a single Position model.
+     * Displays a single AuthItem model.
      * @param int $id ID
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
+        $model = $this->findModel($id);
+
+        $permissions = new AuthItemChild();
+
+        $auth = Yii::$app->authManager;
+        $roleName = $this->findModel($id)->name;
+        $role = $auth->getRole($roleName);
+
+        if ($permissions->load(Yii::$app->request->post())) {
+            $data = [
+                'viewPositionMenu' => $permissions->viewPositionMenu,
+                'viewPositionIndex' => $permissions->viewPositionIndex,
+                'viewPositionView' => $permissions->viewPositionView,
+                'viewPositionUpdate' => $permissions->viewPositionUpdate,
+                'viewPositionActive' => $permissions->viewPositionActive,
+                'viewPositionBlocked' => $permissions->viewPositionBlocked,
+            ];
+            foreach ($data as $key => $value){
+                if($value == 'on') {
+                    if (empty($permissions->find()->where(['child' => $key])->andWhere(['parent' => $roleName])->all())) {
+                        $auth->addChild($role, $auth->getPermission($key));
+                    }
+                }else{
+                    $auth->removeChild($role, $auth->getPermission($key));
+                }
+            }
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Роли обновлены',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $model->id, '#' => 'permissions/']);
+        }
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'permissions' => $permissions,
+            'roleName' => $roleName
         ]);
     }
 
     /**
-     * Creates a new Position model.
+     * Creates a new AuthItem model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Position();
+        $model = new AuthItem();
 
         $action_history = new ActionHistory();
         if ($model->load(Yii::$app->request->post())) {
             if($model->save()){
-                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) должность', 'positions/view', $model->getId(), $model->name);
+                $action_history->ActionHistory('fas fa-plus bg-green', 'добавил(а) роль ', 'roles/view', $model->getId(), $model->description);
                 Yii::$app->session->setFlash('success', [
                     'options' => [
                         'title' => 'Запись добавлена',
@@ -102,7 +144,7 @@ class PositionsController extends Controller
                         'showConfirmButton' => false
                     ]
                 ]);
-                return $this->redirect(['view', 'id' => $model->id]);
+                return $this->redirect(['view', 'id' => $model->getId()]);
             }else{
                 Yii::$app->session->setFlash('error', [
                     'options' => [
@@ -122,7 +164,7 @@ class PositionsController extends Controller
     }
 
     /**
-     * Updates an existing Position model.
+     * Updates an existing AuthItem model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param int $id ID
      * @return mixed
@@ -131,43 +173,8 @@ class PositionsController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $action_history = new ActionHistory();
 
-        if($model->status === 10){
-            if ($model->load(Yii::$app->request->post())) {
-                if($model->save()){
-                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) должность', 'positions/view', $model->getId(), $model->name);
-                    Yii::$app->session->setFlash('success', [
-                        'options' => [
-                            'title' => 'Запись обновлена',
-                            'toast' => true,
-                            'position' => 'top-end',
-                            'timer' => 5000,
-                            'showConfirmButton' => false
-                        ]
-                    ]);
-                    return $this->redirect(['view', 'id' => $model->id]);
-                }
-                Yii::$app->session->setFlash('error', [
-                    'options' => [
-                        'title' => 'Не удалось обновить запись',
-                        'toast' => true,
-                        'position' => 'top-end',
-                        'timer' => 5000,
-                        'showConfirmButton' => false
-                    ]
-                ]);
-            }
-        }else{
-            Yii::$app->session->setFlash('warning', [
-                'options' => [
-                    'title' => 'Нельзя редактировать не активную запись',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -183,7 +190,7 @@ class PositionsController extends Controller
         $model->setStatus('STATUS_INACTIVE');
 
         if ($model->status == 9) {
-            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) должность', 'positions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-times bg-red', 'аннулировал(а) роль', 'roles/view', $model->getId(), $model->description);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись аннулирована',
@@ -211,11 +218,12 @@ class PositionsController extends Controller
     public function actionActive($id)
     {
         $model = $this->findModel($id);
+
         $action_history = new ActionHistory();
         $model->setStatus('STATUS_ACTIVE');
 
         if ($model->status == 10) {
-            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) должность', 'positions/view', $model->getId(), $model->name);
+            $action_history->ActionHistory('fas fa-check bg-info', 'активировал(а) роль', 'roles/view', $model->getId(), $model->description);
             Yii::$app->session->setFlash('success', [
                 'options' => [
                     'title' => 'Запись активирована',
@@ -242,7 +250,7 @@ class PositionsController extends Controller
 
     public function actionHistory($id)
     {
-        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'positions/view', 'current_record' => $id]);
+        $query = ActionHistory::find()->orderBy('created_at DESC')->where(['url' => 'roles/view', 'current_record' => $id]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -257,18 +265,18 @@ class PositionsController extends Controller
     }
 
     /**
-     * Finds the Position model based on its primary key value.
+     * Finds the AuthItem model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param int $id ID
-     * @return Position the loaded model
+     * @return AuthItem the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Position::findOne($id)) !== null) {
+        if (($model = AuthItem::findOne($id)) !== null) {
             return $model;
         }
 
-        throw new NotFoundHttpException('Запрошенная страница не существует.');
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

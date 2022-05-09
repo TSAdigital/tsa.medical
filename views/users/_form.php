@@ -1,6 +1,8 @@
 <?php
 
+use app\models\AuthItem;
 use yii\bootstrap4\ActiveForm;
+use yii\helpers\ArrayHelper;
 use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
@@ -19,7 +21,7 @@ use yii\widgets\MaskedInput;
         ],
     ]) ?>
     <?= $form->field($model, 'password')->passwordInput(['autocomplete' => 'new-password']) ?>
-    <?= $form->field($model, 'roles')->dropdownList($model->getRolesDropdown(), ['prompt' => 'Выберите роль']) ?>
+    <?= $form->field($model, 'roles')->dropdownList(ArrayHelper::map(AuthItem::find()->where(['status' => 10, 'type' => 1])->all(), 'name', 'description'), ['prompt' => 'Выберите роль']) ?>
 
     <?php ActiveForm::end(); ?>
 

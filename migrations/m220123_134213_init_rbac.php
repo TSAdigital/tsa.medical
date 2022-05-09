@@ -12,7 +12,7 @@ class m220123_134213_init_rbac extends Migration
      */
     public function safeUp()
     {
-        Yii::$app->runAction('migrate', ['migrationPath' => '@yii/rbac/migrations', 'interactive' => false]);
+        //Yii::$app->runAction('migrate', ['migrationPath' => '@yii/rbac/migrations', 'interactive' => false]);
     }
 
     /**

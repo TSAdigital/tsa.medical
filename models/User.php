@@ -27,8 +27,6 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
-    const ROLE_ADMIN = 'admin';
-    const ROLE_USER = 'user';
 
     public $password;
     public $roles;
@@ -79,7 +77,7 @@ class User extends ActiveRecord implements IdentityInterface
             ['password', 'string', 'min' => 6, 'max' => 32],
 
             ['roles', 'safe'],
-            ['roles', 'in', 'range' => [self::ROLE_ADMIN, self::ROLE_USER]],
+
             ['roles', 'required'],
         ];
     }
@@ -213,10 +211,7 @@ class User extends ActiveRecord implements IdentityInterface
 
     public static function getRolesDropdown()
     {
-        return [
-            self::ROLE_ADMIN => 'Администратор',
-            self::ROLE_USER => 'Пользователь',
-        ];
+        return ArrayHelper::map(AuthItem::find()->where(['type' => 1])->all(), 'name', 'description');
     }
 
     public function saveRoles()

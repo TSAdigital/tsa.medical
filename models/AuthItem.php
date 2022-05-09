@@ -2,13 +2,17 @@
 
 namespace app\models;
 
-use Yii;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "auth_item".
  *
+ * @property int $id
  * @property string $name
  * @property int $type
+ * @property int $status
  * @property string|null $description
  * @property string|null $rule_name
  * @property resource|null $data
@@ -22,8 +26,19 @@ use Yii;
  * @property AuthItem[] $parents
  * @property AuthRule $ruleName
  */
-class AuthItem extends \yii\db\ActiveRecord
+class AuthItem extends ActiveRecord
 {
+    const STATUS_INACTIVE = 9;
+    const STATUS_ACTIVE = 10;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,18 +47,28 @@ class AuthItem extends \yii\db\ActiveRecord
         return 'auth_item';
     }
 
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['name', 'type'], 'required'],
+            [['description'], 'required'],
+            [['description'], 'unique'],
             [['type', 'created_at', 'updated_at'], 'integer'],
-            [['description', 'data'], 'string'],
+            [['description'], 'string', 'max' => 64],
             [['name', 'rule_name'], 'string', 'max' => 64],
             [['name'], 'unique'],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
         ];
     }
 
@@ -55,11 +80,12 @@ class AuthItem extends \yii\db\ActiveRecord
         return [
             'name' => 'Name',
             'type' => 'Type',
-            'description' => 'Description',
+            'description' => 'Наименование',
             'rule_name' => 'Rule Name',
             'data' => 'Data',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'status' => 'Статус',
+            'created_at' => 'Запись создана',
+            'updated_at' => 'Запись изменена',
         ];
     }
 
@@ -121,5 +147,35 @@ class AuthItem extends \yii\db\ActiveRecord
     public function getRuleName()
     {
         return $this->hasOne(AuthRule::className(), ['name' => 'rule_name']);
+    }
+
+    public static function getStatusesArray()
+    {
+        return [
+            self::STATUS_ACTIVE => 'Активна',
+            self::STATUS_INACTIVE => 'Аннулирована',
+        ];
+    }
+
+    public function getStatusName()
+    {
+        return ArrayHelper::getValue(self::getStatusesArray(), $this->status);
+    }
+
+    public function setStatus($status)
+    {
+        ($status === 'STATUS_ACTIVE') ? $this->status = self::STATUS_ACTIVE : $this->status = self::STATUS_INACTIVE;
+        if($this->save(true, ['status'])){
+            return true;
+        }
+        return false;
+    }
+
+    public function beforeSave($insert)
+    {
+        $this->name = empty($this->name) ? md5(uniqid(microtime(), true)) : $this->name;
+        $this->type = 1;
+
+        return parent::beforeSave($insert);
     }
 }
