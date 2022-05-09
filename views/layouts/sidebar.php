@@ -45,6 +45,7 @@ use hail812\adminlte\widgets\Menu;
                     ['label' => 'Вакцины', 'url' => ['vaccines/index'], 'icon' => 'syringe', 'active'=> $this->context->getUniqueId() == 'vaccines'],
                     ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('viewAdminOnly')],
                     ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('viewAdminOnly')],
+                    ['label' => 'Роли', 'url' => ['roles/index'], 'icon' => 'user-tag', 'active'=> $this->context->getUniqueId() == 'roles', 'visible' => Yii::$app->user->can('viewAdminOnly')],
                 ],
             ]);
             ?>

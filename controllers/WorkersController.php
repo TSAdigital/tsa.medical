@@ -9,6 +9,7 @@ use app\models\CounterpartyFl;
 use app\models\Division;
 use app\models\Reference;
 use app\models\UploadForm;
+use app\models\Vaccination;
 use app\models\Work;
 use app\models\WorkerFile;
 use DateTime;
@@ -42,7 +43,7 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file', 'create-vaccination', 'view-vaccination', 'update-vaccination', 'blocked-vaccination', 'active-vaccination'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
@@ -156,6 +157,18 @@ class WorkersController extends Controller
             ],
         ]);
 
+        $vaccination = Vaccination::find()->where(['worker_id' => $id]);
+        $pagerVaccination = $_GET;
+        $pagerVaccination['#'] = 'vaccination/';
+        $vaccination = new ActiveDataProvider([
+            'query' => $vaccination,
+            'pagination' => [
+                'params' => $pagerVaccination,
+                'pageParam' => 'page-vaccination',
+                'pageSize' => 9,
+            ],
+        ]);
+
         $certificate = Certificate::find()->where(['worker_id' => $id]);
         $pagerCertificate = $_GET;
         $pagerCertificate['#'] = 'reference/';
@@ -173,6 +186,7 @@ class WorkersController extends Controller
             'age' => $age,
             'work' => $work,
             'reference' => $reference,
+            'vaccination' => $vaccination,
             'certificate' => $certificate,
             'work_time' => $work_time,
             'file' => $file
@@ -913,6 +927,188 @@ class WorkersController extends Controller
         return $this->redirect(['view-reference', 'id' => $id, 'reference' => $reference->id]);
     }
 
+    public function actionCreateVaccination($id)
+    {
+        $vaccination_model = new Vaccination();
+        $worker_model = $this->findModel($id);
+        $vaccination_model->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($worker_model->status == 10) {
+            if ($vaccination_model->load(Yii::$app->request->post())) {
+                if ($vaccination_model->save()) {
+                    $data = 'добавил(а) данные о вакцинации ' . Html::a($vaccination_model->getVaccine_name(), ['workers/view-vaccination', 'id' => $worker_model->id, 'vaccination' => $vaccination_model->getId()]) . ' сотруднику';
+                    $action_history->ActionHistory('fas fa-plus bg-green', $data, 'workers/view', $worker_model->id, $worker_model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись добавлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-vaccination', 'id' => $id, 'vaccination' => $vaccination_model->getId()]);
+                } else {
+                    Yii::$app->session->setFlash('error', [
+                        'options' => [
+                            'title' => 'Не удалось добавить запись',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                }
+            }
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Нельзя добавить данные о вакцинации к неактивной записи',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view', 'id' => $worker_model->id, '#' => 'vaccination']);
+        }
+
+        return $this->render('create-vaccination', [
+            'vaccination' => $vaccination_model,
+            'worker' => $worker_model,
+        ]);
+    }
+
+
+    public function actionViewVaccination($id, $vaccination)
+    {
+        return $this->render('view-vaccination', [
+            'model' => $this->findModel($id),
+            'vaccination' => $this->findVaccination($vaccination),
+        ]);
+    }
+
+    public function actionUpdateVaccination($id, $vaccination)
+    {
+        $model= $this->findModel($id);
+        $vaccination = $this->findVaccination($vaccination);
+        $vaccination->worker_id = $id;
+        $action_history = new ActionHistory();
+
+        if ($vaccination->status == 10) {
+            if ($vaccination->load(Yii::$app->request->post())) {
+                if ($vaccination->save()) {
+                    $position = 'отредактировал(а) данные о вакцинации ' . Html::a($vaccination->getVaccine_name(), ['workers/view-vaccination', 'id' => $model->id, 'vaccination' => $vaccination->getId()]) . ' у сотрудника';
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view-vaccination', 'id' => $id, 'vaccination' => $vaccination->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        } else {
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+            return $this->redirect(['view-vaccination', 'id' => $model->id, 'vaccination' => $vaccination->id]);
+        }
+
+        return $this->render('update-vaccination', [
+            'model' => $model,
+            'vaccination' => $vaccination,
+        ]);
+    }
+
+    public function actionActiveVaccination($id, $vaccination)
+    {
+        $model = $this->findModel($id);
+        $vaccination = $this->findVaccination($vaccination);
+        $action_history = new ActionHistory();
+        $vaccination->setStatus('STATUS_ACTIVE');
+
+        if ($vaccination->status == 10) {
+            $data = 'активировал(а) данные о вакцинации ' . Html::a($vaccination->getVaccine_name(), ['workers/view-vaccination', 'id' => $model->id, 'vaccination' => $vaccination->getId()]) . ' у сотрудника';
+            $action_history->ActionHistory('fas fa-check bg-info', $data, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись активирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось активировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-vaccination', 'id' => $id, 'vaccination' => $vaccination->id]);
+    }
+
+    public function actionBlockedVaccination($id, $vaccination)
+    {
+        $model = $this->findModel($id);
+        $vaccination = $this->findVaccination($vaccination);
+        $action_history = new ActionHistory();
+        $vaccination->setStatus('STATUS_INACTIVE');
+
+        if ($vaccination->status == 9) {
+            $position = 'аннулировал(а) данные о вакцинации ' . Html::a($vaccination->getVaccine_name(), ['workers/view-vaccination', 'id' => $model->id, 'vaccination' => $vaccination->getId()]) . ' у сотрудникуа';
+            $action_history->ActionHistory('fas fa-times bg-red', $position, 'workers/view', $model->id, $model->getCounterparty_name());
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Запись аннулирована',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        } else {
+            Yii::$app->session->setFlash('error', [
+                'options' => [
+                    'title' => 'Не удалось аннулировать запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+
+        return $this->redirect(['view-vaccination', 'id' => $id, 'vaccination' => $vaccination->id]);
+    }
+
     public function actionAddFile($id)
     {
         $model = new WorkerFile();
@@ -1156,6 +1352,15 @@ class WorkersController extends Controller
     protected function findReference($id)
     {
         if (($model = Reference::findOne($id)) !== null) {
+            return $model;
+        }
+
+        throw new NotFoundHttpException('Запрошенная страница не существует.');
+    }
+
+    protected function findVaccination($id)
+    {
+        if (($model = Vaccination::findOne($id)) !== null) {
             return $model;
         }
 

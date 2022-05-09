@@ -12,6 +12,7 @@ use yii\widgets\ListView;
 /* @var $certificate app\models\Certificate */
 /* @var $file app\models\WorkerFile */
 /* @var $reference app\models\Reference */
+/* @var $vaccination app\models\Vaccination */
 /* @var $work_time app\controllers\CounterpartiesFlController */
 
 $this->title = StringHelper::truncate($model->getCounterparty_name(), 45, '...');
@@ -190,7 +191,7 @@ $this->params['buttons'] = [
                                                  <tr>
                                                     <th scope="col" class="align-middle">Наименование</th>
                                                     <th scope="col" class="align-middle">Кем выдана</th>
-                                                    <th scope="col" class="text-center align-middle">Дата выдачи</th>
+                                                    <th scope="col" class="text-center align-middle">Дата вакцинации</th>
                                                     <th scope="col" class="text-center align-middle">Срок действия</th>
                                                     <th scope="col" class="text-center align-middle">Статус</th>
                                                     <th scope="col" class="text-center align-middle">'. $button_add_reference .'</th>
@@ -221,7 +222,42 @@ $this->params['buttons'] = [
 
                         </div>
                         <div class="tab-pane" id="vaccination">
+                            <?php
+                            $button_add_vaccination =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-vaccination', 'id' => $model->id]) : null;
+                            $template = '
+                                            <table class="table table-bordered table-striped">
+                                                <thead>
+                                                 <tr>
+                                                    <th scope="col" class="align-middle">Наименование</th>
+                                                    <th scope="col" class="align-middle">Вакцинация проходила в</th>
+                                                    <th scope="col" class="text-center align-middle">Дата выдачи</th>
+                                                    <th scope="col" class="text-center align-middle">Срок действия</th>
+                                                    <th scope="col" class="text-center align-middle">Статус</th>
+                                                    <th scope="col" class="text-center align-middle">'. $button_add_vaccination .'</th>
+                                                </tr>      
+                                                </thead>
+                                                <tbody>
+                                                    {items}
+                                                </tbody>
+                                            </table>
+                                            {pager}
+                                        ';
+                            ?>
 
+                            <?= ListView::widget([
+                                'dataProvider' => $vaccination,
+                                'layout' => $template,
+                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-vaccination', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyTextOptions' => ['class' => 'empty mb-3'],
+                                'itemOptions' => [
+                                    'tag' => false,
+                                ],
+                                'viewParams'=> ['worker' => $model],
+                                'itemView' => '_list_vaccination',
+                                'pager' => [
+                                    'class' => 'yii\bootstrap4\LinkPager',
+                                ],
+                            ]); ?>
                         </div>
                         <div class="tab-pane" id="contact">
                             <?= DetailView::widget([
