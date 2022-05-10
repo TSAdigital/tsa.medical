@@ -28,6 +28,8 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                         'tableOptions' => ['class' => 'table table-striped'],
 
                         'columns' => [
+                            ['class' => 'yii\grid\SerialColumn'],
+
                             [
                                 'attribute'=>'name',
                                 'options' => ['width'=>'80%'],
