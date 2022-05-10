@@ -95,6 +95,66 @@ $this->params['buttons'] = [
                                     <td class="text-center align-middle"></td>
                                 </tr>
                                 <tr>
+                                    <th class="align-middle text-right "><em><small>Деятельность</small></em></th>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle text-right "><em><small>Сертификаты</small></em></th>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle text-right "><em><small>Справки</small></em></th>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle text-right "><em><small>Вакцинация</small></em></th>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                </tr>
+                                <tr>
+                                    <th class="align-middle text-right "><em><small>Файлы</small></em></th>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
+                                </tr>
+                                <tr>
                                     <th scope="row" class="align-middle">Должности</th>
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'positionMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionMenu', $roleName)])->label('') ?></td>
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'positionIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionIndex', $roleName)])->label('') ?></td>
