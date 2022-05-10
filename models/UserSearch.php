@@ -39,7 +39,7 @@ class UserSearch extends User
      */
     public function search($params)
     {
-        $query = User::find();
+        $query = User::find()->orderBy(['id' => SORT_ASC]);
 
         // add conditions that should always apply here
 
@@ -66,7 +66,6 @@ class UserSearch extends User
                     'asc' => ['auth_assignment.user_id' => SORT_ASC],
                     'desc' => ['auth_assignment.user_id' => SORT_DESC],
                     'label' => 'roles',
-                    'default' => SORT_ASC
                 ],
                 'username',
                 'email',
