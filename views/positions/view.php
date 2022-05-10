@@ -10,23 +10,27 @@ use yii\widgets\DetailView;
 $this->title = StringHelper::truncate($model->name, 50, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Должности', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+$disabled_update = (Yii::$app->user->can('positionUpdate') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_block = (Yii::$app->user->can('positionBlocked') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_active = (Yii::$app->user->can('positionActive') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_history = (Yii::$app->user->can('positionHistory') or Yii::$app->user->can('admin')) ?: 'disabled';
 $this->params['buttons'] = [
-    'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app']) : false,
+    'update' => $model->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-app ' . $disabled_update]) : false,
     'block' => $model->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked', 'id' => $model->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app ' . $disabled_block,
         'data' => [
             'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $model->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active', 'id' => $model->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app ' . $disabled_active,
         'data' => [
             'confirm' => 'Активировать запись?',
             'method' => 'post',
         ],
     ]) : false,
-    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app']),
+    'history' => Html::a('<i class="fas fa-history text-info"></i>История', ['history', 'id' => $model->id], ['class' => 'btn btn-app ' . $disabled_history]),
     'undo' => Html::a('<i class="far fa-arrow-alt-circle-left text-muted"></i>Вернуться', ['positions/index'], ['class' => 'btn btn-app'])
 ];
 ?>

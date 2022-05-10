@@ -32,7 +32,7 @@ class CounterpartiesFlController extends Controller
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-passport', 'view-passport', 'update-passport', 'blocked-passport', 'active-passport', 'generate'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

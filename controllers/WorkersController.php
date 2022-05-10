@@ -45,7 +45,47 @@ class WorkersController extends Controller
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file', 'create-vaccination', 'view-vaccination', 'update-vaccination', 'blocked-vaccination', 'active-vaccination'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['workerIndex'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['workerView'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['workerCreate'],
+                    ],
+                    [
+                        'actions' => ['counterparty-fl-list'],
+                        'allow' => true,
+                        'roles' => ['workerCreate'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['workerUpdate'],
+                    ],
+                    [
+                        'actions' => ['active'],
+                        'allow' => true,
+                        'roles' => ['workerActive'],
+                    ],
+                    [
+                        'actions' => ['blocked'],
+                        'allow' => true,
+                        'roles' => ['workerBlocked'],
+                    ],
+                    [
+                        'actions' => ['history'],
+                        'allow' => true,
+                        'roles' => ['workerHistory'],
                     ],
                 ],
             ],

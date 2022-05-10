@@ -17,7 +17,7 @@ use hail812\adminlte\widgets\Menu;
             <?= Menu::widget([
                 'items' => [
                     ['label' => 'НАВИГАЦИЯ', 'header' => true],
-                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'user-md', 'active'=> $this->context->getUniqueId() == 'workers'],
+                    ['label' => 'Сотрудники', 'url' => ['workers/index'], 'icon' => 'user-md', 'active'=> $this->context->getUniqueId() == 'workers', 'visible' => Yii::$app->user->can('workerMenu') or Yii::$app->user->can('admin')],
                     ['label' => 'Медицинские карты', 'url' => ['medical-card/index'], 'icon' => 'notes-medical'],
                     ['label' => 'ЭДО', 'url' => ['documents/index'], 'icon' => 'file-invoice'],
                     ['label' => 'Оборудование', 'url' => ['equipments/index'], 'icon' => 'microscope'],
@@ -39,13 +39,13 @@ use hail812\adminlte\widgets\Menu;
                             ['label' => 'Физические лица', 'url' => ['counterparties-fl/index'], 'active'=> $this->context->getUniqueId() == 'counterparties-fl', 'icon' => ''],
                         ]
                     ],
-                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card', 'active'=> $this->context->getUniqueId() == 'positions'],
+                    ['label' => 'Должности', 'url' => ['positions/index'], 'icon' => 'id-card', 'active'=> $this->context->getUniqueId() == 'positions', 'visible' => Yii::$app->user->can('positionMenu') or Yii::$app->user->can('admin')],
                     ['label' => 'Специальности', 'url' => ['specializations/index'], 'icon' => 'id-card-alt', 'active'=> $this->context->getUniqueId() == 'specializations'],
                     ['label' => 'Справки', 'url' => ['references-type/index'], 'icon' => 'file', 'active'=> $this->context->getUniqueId() == 'references-type'],
                     ['label' => 'Вакцины', 'url' => ['vaccines/index'], 'icon' => 'syringe', 'active'=> $this->context->getUniqueId() == 'vaccines'],
-                    ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('viewAdminOnly')],
-                    ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('viewAdminOnly')],
-                    ['label' => 'Роли', 'url' => ['roles/index'], 'icon' => 'user-tag', 'active'=> $this->context->getUniqueId() == 'roles', 'visible' => Yii::$app->user->can('viewAdminOnly')],
+                    ['label' => 'НАСТРОЙКИ', 'header' => true, 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'Пользователи', 'url' => ['users/index'], 'icon' => 'users', 'active'=> $this->context->getUniqueId() == 'users', 'visible' => Yii::$app->user->can('admin')],
+                    ['label' => 'Роли', 'url' => ['roles/index'], 'icon' => 'user-tag', 'active'=> $this->context->getUniqueId() == 'roles', 'visible' => Yii::$app->user->can('admin')],
                 ],
             ]);
             ?>

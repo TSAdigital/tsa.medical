@@ -32,7 +32,7 @@ class CounterpartiesController extends Controller
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'create-address', 'view-address', 'update-address', 'blocked-address', 'active-address', 'create-contact', 'view-contact', 'update-contact', 'blocked-contact', 'active-contact'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

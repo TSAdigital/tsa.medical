@@ -29,7 +29,7 @@ class VaccinesController extends Controller
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

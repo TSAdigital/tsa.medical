@@ -29,12 +29,42 @@ class PositionsController extends Controller
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['admin'],
                     ],
                     [
                         'actions' => ['index'],
                         'allow' => true,
-                        'roles' => ['user', 'viewPositionIndex'],
+                        'roles' => ['positionIndex'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['positionView'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['positionCreate'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['positionUpdate'],
+                    ],
+                    [
+                        'actions' => ['active'],
+                        'allow' => true,
+                        'roles' => ['positionActive'],
+                    ],
+                    [
+                        'actions' => ['blocked'],
+                        'allow' => true,
+                        'roles' => ['positionBlocked'],
+                    ],
+                    [
+                        'actions' => ['history'],
+                        'allow' => true,
+                        'roles' => ['positionHistory'],
                     ],
                 ],
             ],

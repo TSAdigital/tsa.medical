@@ -14,33 +14,69 @@ class m220123_140203_craete_rbac_permission extends Migration
     {
         $auth = Yii::$app->authManager;
 
-        $permission = $auth->createPermission('viewAdminOnly');
-        $permission->description = 'Видно только администратору';
-        $auth->add($permission);
+        $positionMenu = $auth->createPermission('positionMenu');
+        $positionMenu->description = 'Отображать должности в меню';
+        $auth->add($positionMenu);
 
-        $viewPositionMenu = $auth->createPermission('viewPositionMenu');
-        $viewPositionMenu->description = 'Отображать должности в меню';
-        $auth->add($viewPositionMenu);
+        $positionIndex = $auth->createPermission('positionIndex');
+        $positionIndex->description = 'Просмотр списока должностей';
+        $auth->add($positionIndex);
 
-        $viewPositionIndex = $auth->createPermission('viewPositionIndex');
-        $viewPositionIndex->description = 'Просмотр списока должностей';
-        $auth->add($viewPositionIndex);
+        $positionCreate = $auth->createPermission('positionCreate');
+        $positionCreate->description = 'Просмотр должности';
+        $auth->add($positionCreate);
 
-        $viewPositionView = $auth->createPermission('viewPositionView');
-        $viewPositionView->description = 'Просмотр должности';
-        $auth->add($viewPositionView);
+        $positionView = $auth->createPermission('positionView');
+        $positionView->description = 'Просмотр должности';
+        $auth->add($positionView);
 
-        $viewPositionUpdate = $auth->createPermission('viewPositionUpdate');
-        $viewPositionUpdate->description = 'Редактирование должности';
-        $auth->add($viewPositionUpdate);
+        $positionUpdate = $auth->createPermission('positionUpdate');
+        $positionUpdate->description = 'Редактирование должности';
+        $auth->add($positionUpdate);
 
-        $viewPositionActive = $auth->createPermission('viewPositionActive');
-        $viewPositionActive->description = 'Активация должности';
-        $auth->add($viewPositionActive);
+        $positionActive = $auth->createPermission('positionActive');
+        $positionActive->description = 'Активация должности';
+        $auth->add($positionActive);
 
-        $viewPositionBlocked = $auth->createPermission('viewPositionBlocked');
-        $viewPositionBlocked->description = 'Аннулирование должности';
-        $auth->add($viewPositionBlocked);
+        $positionBlocked = $auth->createPermission('positionBlocked');
+        $positionBlocked->description = 'Аннулирование должности';
+        $auth->add($positionBlocked);
+
+        $positionHistory = $auth->createPermission('positionHistory');
+        $positionHistory->description = 'Аннулирование должности';
+        $auth->add($positionHistory);
+
+        $workerMenu = $auth->createPermission('workerMenu');
+        $workerMenu->description = 'Отображать должности в меню';
+        $auth->add($workerMenu);
+
+        $workerIndex = $auth->createPermission('workerIndex');
+        $workerIndex->description = 'Просмотр списока должностей';
+        $auth->add($workerIndex);
+
+        $workerCreate = $auth->createPermission('workerCreate');
+        $workerCreate->description = 'Просмотр должности';
+        $auth->add($workerCreate);
+
+        $workerView = $auth->createPermission('workerView');
+        $workerView->description = 'Просмотр должности';
+        $auth->add($workerView);
+
+        $workerUpdate = $auth->createPermission('workerUpdate');
+        $workerUpdate->description = 'Редактирование должности';
+        $auth->add($workerUpdate);
+
+        $workerActive = $auth->createPermission('workerActive');
+        $workerActive->description = 'Активация должности';
+        $auth->add($workerActive);
+
+        $workerBlocked = $auth->createPermission('workerBlocked');
+        $workerBlocked->description = 'Аннулирование должности';
+        $auth->add($workerBlocked);
+
+        $workerHistory = $auth->createPermission('workerHistory');
+        $workerHistory->description = 'Аннулирование должности';
+        $auth->add($workerHistory);
     }
 
     /**

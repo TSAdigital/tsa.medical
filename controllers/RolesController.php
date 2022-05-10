@@ -33,7 +33,7 @@ class RolesController extends Controller
                         'roles' => ['user'],
                     ],
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'save-permissions'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'permissions'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -44,6 +44,7 @@ class RolesController extends Controller
                 'actions' => [
                     'blocked' => ['POST'],
                     'active' => ['POST'],
+                    'permissions' => ['POST'],
                 ],
             ],
         ];
@@ -77,48 +78,10 @@ class RolesController extends Controller
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-
-        $permissions = new AuthItemChild();
-
-        $auth = Yii::$app->authManager;
-        $roleName = $this->findModel($id)->name;
-        $role = $auth->getRole($roleName);
-
-        if ($permissions->load(Yii::$app->request->post())) {
-            $data = [
-                'viewPositionMenu' => $permissions->viewPositionMenu,
-                'viewPositionIndex' => $permissions->viewPositionIndex,
-                'viewPositionView' => $permissions->viewPositionView,
-                'viewPositionUpdate' => $permissions->viewPositionUpdate,
-                'viewPositionActive' => $permissions->viewPositionActive,
-                'viewPositionBlocked' => $permissions->viewPositionBlocked,
-            ];
-            foreach ($data as $key => $value){
-                if($value == 'on') {
-                    if (empty($permissions->find()->where(['child' => $key])->andWhere(['parent' => $roleName])->all())) {
-                        $auth->addChild($role, $auth->getPermission($key));
-                    }
-                }else{
-                    $auth->removeChild($role, $auth->getPermission($key));
-                }
-            }
-            Yii::$app->session->setFlash('success', [
-                'options' => [
-                    'title' => 'Роли обновлены',
-                    'toast' => true,
-                    'position' => 'top-end',
-                    'timer' => 5000,
-                    'showConfirmButton' => false
-                ]
-            ]);
-            return $this->redirect(['view', 'id' => $model->id, '#' => 'permissions/']);
-        }
-
         return $this->render('view', [
-            'model' => $model,
-            'permissions' => $permissions,
-            'roleName' => $roleName
+            'model' => $this->findModel($id),
+            'permissions' => new AuthItemChild(),
+            'roleName' => $this->findModel($id)->name
         ]);
     }
 
@@ -273,10 +236,42 @@ class RolesController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = AuthItem::findOne($id)) !== null) {
+        if (($model = AuthItem::findOne($id)) !== null and $id > 1) {
             return $model;
         }
 
         throw new NotFoundHttpException('The requested page does not exist.');
+    }
+
+    public function actionPermissions($id)
+    {
+        $permissions = new AuthItemChild();
+
+        $auth = Yii::$app->authManager;
+        $roleName = $this->findModel($id)->name;
+        $role = $auth->getRole($roleName);
+
+        if ($permissions->load(Yii::$app->request->post())) {
+            $data = Yii::$app->request->post('AuthItemChild');
+            foreach ($data as $key => $value) {
+                if ($value == 1) {
+                    if (empty($permissions->find()->where(['child' => $key])->andWhere(['parent' => $roleName])->all())) {
+                        $auth->addChild($role, $auth->getPermission($key));
+                    }
+                } else {
+                    $auth->removeChild($role, $auth->getPermission($key));
+                }
+            }
+            Yii::$app->session->setFlash('success', [
+                'options' => [
+                    'title' => 'Роли обновлены',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
+        }
+        return $this->redirect(['view', 'id' => $id, '#' => 'permissions/']);
     }
 }

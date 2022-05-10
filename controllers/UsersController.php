@@ -30,7 +30,7 @@ class UsersController extends Controller
                     [
                         'actions' => ['profile'],
                         'allow' => true,
-                        'roles' => ['user'],
+                        'roles' => ['@'],
                     ],
                     [
                         'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history'],

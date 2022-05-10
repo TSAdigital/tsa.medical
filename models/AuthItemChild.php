@@ -9,24 +9,46 @@ use yii\db\ActiveRecord;
  *
  * @property string $parent
  * @property string $child
- * @property bool $viewPositionMenu
- * @property bool $viewPositionIndex
- * @property bool $viewPositionView
- * @property bool $viewPositionUpdate
- * @property bool $viewPositionActive
- * @property bool $viewPositionBlocked
+ * @property string $positionMenu
+ * @property string $positionIndex
+ * @property string $positionCreate
+ * @property string $positionView
+ * @property string $positionUpdate
+ * @property string $positionActive
+ * @property string $positionBlocked
+ * @property string $positionHistory
+ *
+ * @property string $workerMenu
+ * @property string $workerIndex
+ * @property string $workerCreate
+ * @property string $workerView
+ * @property string $workerUpdate
+ * @property string $workerActive
+ * @property string $workerBlocked
+ * @property string $workerHistory
  *
  * @property AuthItem $child0
  * @property AuthItem $parent0
  */
 class AuthItemChild extends ActiveRecord
 {
-    public $viewPositionMenu;
-    public $viewPositionIndex;
-    public $viewPositionView;
-    public $viewPositionUpdate;
-    public $viewPositionActive;
-    public $viewPositionBlocked;
+    public $positionMenu;
+    public $positionIndex;
+    public $positionCreate;
+    public $positionView;
+    public $positionUpdate;
+    public $positionActive;
+    public $positionBlocked;
+    public $positionHistory;
+
+    public $workerMenu;
+    public $workerIndex;
+    public $workerCreate;
+    public $workerView;
+    public $workerUpdate;
+    public $workerActive;
+    public $workerBlocked;
+    public $workerHistory;
     /**
      * {@inheritdoc}
      */
@@ -46,7 +68,8 @@ class AuthItemChild extends ActiveRecord
             [['parent', 'child'], 'unique', 'targetAttribute' => ['parent', 'child']],
             [['parent'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::className(), 'targetAttribute' => ['parent' => 'name']],
             [['child'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::className(), 'targetAttribute' => ['child' => 'name']],
-            [['viewPositionIndex', 'viewPositionMenu', 'viewPositionView', 'viewPositionUpdate', 'viewPositionActive', 'viewPositionBlocked'], 'safe']
+            [['positionIndex', 'positionMenu', 'positionCreate', 'positionView', 'positionUpdate', 'positionActive', 'positionBlocked', 'positionHistory'], 'integer'],
+            [['workerIndex', 'workerMenu', 'workerCreate', 'workerView', 'workerUpdate', 'workerActive', 'workerBlocked', 'workerHistory'], 'integer']
         ];
     }
 

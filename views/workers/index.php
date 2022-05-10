@@ -11,7 +11,8 @@ use app\models\Worker;
 
 $this->title = 'Сотрудники';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app'])];
+$disabled_create = (Yii::$app->user->can('workerCreate') or Yii::$app->user->can('admin')) ?: 'disabled';
+$this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app ' . $disabled_create])];
 ?>
 <div class="container-fluid">
     <div class="row">
@@ -38,7 +39,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
-                                    return Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                    return (Yii::$app->user->can('workerView') or Yii::$app->user->can('admin')) ? Html::a($data->counterparty_name, ['workers/view','id'=>$data->id], ['title' => 'View', 'class'=>'no-pjax']) : $data->counterparty_name;
                                 }
                             ],
                             [
