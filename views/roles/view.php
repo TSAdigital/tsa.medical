@@ -71,13 +71,14 @@ $this->params['buttons'] = [
                                 <tr>
                                     <th scope="col">Раздел</th>
                                     <th scope="col" class="text-center">Меню</th>
-                                    <th scope="col" class="text-center">Главная</th>
+                                    <th scope="col" class="text-center">Список</th>
                                     <th scope="col" class="text-center">Добавлять</th>
                                     <th scope="col" class="text-center">Просмотривать</th>
                                     <th scope="col" class="text-center">Редактировать</th>
                                     <th scope="col" class="text-center">Активировать</th>
                                     <th scope="col" class="text-center">Аннулировать</th>
                                     <th scope="col" class="text-center">История</th>
+                                    <th scope="col" class="text-center">Скачать</th>
                                     <th scope="col" class="text-center">Удалить</th>
                                 </tr>
                                 </thead>
@@ -93,9 +94,11 @@ $this->params['buttons'] = [
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'workerBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workerBlocked', $roleName)])->label('') ?></td>
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'workerHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workerHistory', $roleName)])->label('') ?></td>
                                     <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle text-right "><em><small>Деятельность</small></em></th>
+                                    <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
@@ -117,9 +120,11 @@ $this->params['buttons'] = [
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle text-right "><em><small>Справки</small></em></th>
+                                    <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
@@ -141,9 +146,11 @@ $this->params['buttons'] = [
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
+                                    <td class="text-center align-middle"></td>
                                 </tr>
                                 <tr>
                                     <th class="align-middle text-right "><em><small>Файлы</small></em></th>
+                                    <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
@@ -164,6 +171,7 @@ $this->params['buttons'] = [
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'positionActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionActive', $roleName)])->label('') ?></td>
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'positionBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionBlocked', $roleName)])->label('') ?></td>
                                     <td class="text-center align-middle"><?= $form->field($permissions, 'positionHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionHistory', $roleName)])->label('') ?></td>
+                                    <td class="text-center align-middle"></td>
                                     <td class="text-center align-middle"></td>
                                 </tr>
                                 </tbody>
