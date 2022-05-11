@@ -60,8 +60,10 @@ class Vaccination extends ActiveRecord
     {
         return [
             [['worker_id', 'vaccine_id', 'start_date', 'end_date'], 'required'],
-            [['worker_id', 'vaccine_id', 'counterparty_id', 'revaccination', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['start_date', 'end_date'], 'safe'],
+            [['worker_id', 'vaccine_id', 'counterparty_id', 'revaccination', 'created_at', 'updated_at'], 'integer'],
+            [['start_date', 'end_date'], 'date'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
             [['counterparty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Counterparty::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
             [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],
             [['vaccine_id'], 'exist', 'skipOnError' => true, 'targetClass' => Vaccine::className(), 'targetAttribute' => ['vaccine_id' => 'id']],

@@ -34,10 +34,27 @@ class ActionHistory extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['icon', 'user', 'action', 'url', 'current_record', 'text', 'created_at'], 'required'],
-            [['user', 'current_record', 'created_at'], 'integer'],
-            [['icon', 'action', 'url', 'text'], 'string', 'max' => 255],
+            ['icon', 'string', 'max' => 255],
+            ['icon', 'required'],
+
+            ['user', 'integer'],
+            ['user', 'required'],
             [['user'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user' => 'id']],
+
+            ['action', 'string', 'max' => 255],
+            ['action', 'required'],
+
+            ['url', 'string', 'max' => 255],
+            ['url', 'required'],
+
+            ['current_record', 'integer'],
+            ['current_record', 'required'],
+
+            ['text', 'string', 'max' => 255],
+            ['text', 'required'],
+
+            ['created_at', 'integer'],
+            ['created_at', 'required'],
         ];
     }
 

@@ -60,7 +60,9 @@ class Reference extends ActiveRecord
         return [
             [['worker_id', 'reference_type_id', 'counterparty_id'], 'required'],
             [['worker_id', 'reference_type_id', 'counterparty_id'], 'integer'],
-            [['start_date', 'end_date'], 'safe'],
+            [['start_date', 'end_date'], 'date'],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
             [['counterparty_id'], 'exist', 'skipOnError' => true, 'targetClass' => Counterparty::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
             [['reference_type_id'], 'exist', 'skipOnError' => true, 'targetClass' => ReferenceType::className(), 'targetAttribute' => ['reference_type_id' => 'id']],
             [['worker_id'], 'exist', 'skipOnError' => true, 'targetClass' => Worker::className(), 'targetAttribute' => ['worker_id' => 'id']],

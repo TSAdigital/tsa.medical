@@ -19,7 +19,7 @@ class m220123_140203_craete_rbac_permission extends Migration
         $auth->add($positionMenu);
 
         $positionIndex = $auth->createPermission('positionIndex');
-        $positionIndex->description = 'Просмотр списока должностей';
+        $positionIndex->description = 'Просмотр списка должностей';
         $auth->add($positionIndex);
 
         $positionCreate = $auth->createPermission('positionCreate');
@@ -51,7 +51,7 @@ class m220123_140203_craete_rbac_permission extends Migration
         $auth->add($workerMenu);
 
         $workerIndex = $auth->createPermission('workerIndex');
-        $workerIndex->description = 'Просмотр списока должностей';
+        $workerIndex->description = 'Просмотр списка должностей';
         $auth->add($workerIndex);
 
         $workerCreate = $auth->createPermission('workerCreate');
@@ -77,6 +77,34 @@ class m220123_140203_craete_rbac_permission extends Migration
         $workerHistory = $auth->createPermission('workerHistory');
         $workerHistory->description = 'Аннулирование должности';
         $auth->add($workerHistory);
+
+        $workMenu = $auth->createPermission('workMenu');
+        $workMenu->description = 'Отображать деятельность в меню у сотрудника';
+        $auth->add($workMenu);
+
+        $workIndex = $auth->createPermission('workIndex');
+        $workIndex->description = 'Просмотр списка деятельностей у сотрудника';
+        $auth->add($workIndex);
+
+        $workCreate = $auth->createPermission('workCreate');
+        $workCreate->description = 'Добавить деятельность сотруднику';
+        $auth->add($workCreate);
+
+        $workView = $auth->createPermission('workView');
+        $workView->description = 'Просмотр деятельност у сотрудника';
+        $auth->add($workView);
+
+        $workUpdate = $auth->createPermission('workUpdate');
+        $workUpdate->description = 'Редактирование деятельности у сотрудника';
+        $auth->add($workUpdate);
+
+        $workActive = $auth->createPermission('workActive');
+        $workActive->description = 'Активация деятельности у сотрудника';
+        $auth->add($workActive);
+
+        $workBlocked = $auth->createPermission('workBlocked');
+        $workBlocked->description = 'Аннулирование деятельности у сотрудника';
+        $auth->add($workBlocked);
     }
 
     /**

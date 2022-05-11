@@ -99,13 +99,13 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th class="align-middle text-right "><em><small>Деятельность</small></em></th>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
-                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'workBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>

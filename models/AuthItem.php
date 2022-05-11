@@ -64,6 +64,7 @@ class AuthItem extends ActiveRecord
             [['description'], 'unique'],
             [['type', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string', 'max' => 64],
+            [['description'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
             [['name', 'rule_name'], 'string', 'max' => 64],
             [['name'], 'unique'],
             [['rule_name'], 'exist', 'skipOnError' => true, 'targetClass' => AuthRule::className(), 'targetAttribute' => ['rule_name' => 'name']],

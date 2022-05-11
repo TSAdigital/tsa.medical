@@ -65,24 +65,24 @@ class AddressFl extends ActiveRecord
     public function rules()
     {
         return [
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'string', 'max' => 255],
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'trim'],
+            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['index', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Индекс» должно содержать 6 символов.'],
+            ['index', 'trim'],
+            ['index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
+
+            ['counterparty_id', 'required'],
+            ['counterparty_id', 'integer'],
+            ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
+
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 
             ['type', 'required'],
             ['type', 'default', 'value' => self::ADDRESS_REGISTRATION],
             ['type', 'in', 'range' => [self::ADDRESS_REGISTRATION, self::ADDRESS_RESIDENTIAL]],
-
-            ['counterparty_id', 'required'],
-            ['counterparty_id', 'integer'],
-            ['counterparty_id', 'exist', 'skipOnError' => true, 'targetClass' => CounterpartyFl::className(), 'targetAttribute' => ['counterparty_id' => 'id']],
-
-            ['index', 'match', 'pattern' => '#^(\d{6})$#', 'message' => 'Значение «Индекс» должно содержать 6 символов.'],
-            ['index', 'trim'],
-            ['index', 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
-
-            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'string', 'max' => 255],
-            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'trim'],
-            [['country', 'region', 'district', 'city', 'locality', 'street', 'house', 'body', 'building', 'apartment'], 'filter', 'filter' => '\yii\helpers\HtmlPurifier::process'],
         ];
     }
 
@@ -106,7 +106,6 @@ class AddressFl extends ActiveRecord
             'body' => 'Корпус',
             'building' => 'Строение',
             'apartment' => 'Квартира',
-
             'status' => 'Статус',
             'created_at' => 'Запись создана',
             'updated_at' => 'Запись изменена',

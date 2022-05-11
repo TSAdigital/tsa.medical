@@ -9,23 +9,32 @@ use yii\db\ActiveRecord;
  *
  * @property string $parent
  * @property string $child
- * @property string $positionMenu
- * @property string $positionIndex
- * @property string $positionCreate
- * @property string $positionView
- * @property string $positionUpdate
- * @property string $positionActive
- * @property string $positionBlocked
- * @property string $positionHistory
  *
- * @property string $workerMenu
- * @property string $workerIndex
- * @property string $workerCreate
- * @property string $workerView
- * @property string $workerUpdate
- * @property string $workerActive
- * @property string $workerBlocked
- * @property string $workerHistory
+ * @property int $positionMenu
+ * @property int $positionIndex
+ * @property int $positionCreate
+ * @property int $positionView
+ * @property int $positionUpdate
+ * @property int $positionActive
+ * @property int $positionBlocked
+ * @property int $positionHistory
+ *
+ * @property int $workerMenu
+ * @property int $workerIndex
+ * @property int $workerCreate
+ * @property int $workerView
+ * @property int $workerUpdate
+ * @property int $workerActive
+ * @property int $workerBlocked
+ * @property int $workerHistory
+ *
+ * @property int $workMenu
+ * @property int $workIndex
+ * @property int $workCreate
+ * @property int $workView
+ * @property int $workUpdate
+ * @property int $workActive
+ * @property int $workBlocked
  *
  * @property AuthItem $child0
  * @property AuthItem $parent0
@@ -49,6 +58,15 @@ class AuthItemChild extends ActiveRecord
     public $workerActive;
     public $workerBlocked;
     public $workerHistory;
+
+    public $workMenu;
+    public $workIndex;
+    public $workCreate;
+    public $workView;
+    public $workUpdate;
+    public $workActive;
+    public $workBlocked;
+
     /**
      * {@inheritdoc}
      */
@@ -69,7 +87,8 @@ class AuthItemChild extends ActiveRecord
             [['parent'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::className(), 'targetAttribute' => ['parent' => 'name']],
             [['child'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::className(), 'targetAttribute' => ['child' => 'name']],
             [['positionIndex', 'positionMenu', 'positionCreate', 'positionView', 'positionUpdate', 'positionActive', 'positionBlocked', 'positionHistory'], 'integer'],
-            [['workerIndex', 'workerMenu', 'workerCreate', 'workerView', 'workerUpdate', 'workerActive', 'workerBlocked', 'workerHistory'], 'integer']
+            [['workerIndex', 'workerMenu', 'workerCreate', 'workerView', 'workerUpdate', 'workerActive', 'workerBlocked', 'workerHistory'], 'integer'],
+            [['workIndex', 'workMenu', 'workCreate', 'workView', 'workUpdate', 'workActive', 'workBlocked', 'workHistory'], 'integer'],
         ];
     }
 

@@ -87,6 +87,40 @@ class WorkersController extends Controller
                         'allow' => true,
                         'roles' => ['workerHistory'],
                     ],
+
+                    [
+                        'actions' => ['create-work'],
+                        'allow' => true,
+                        'roles' => ['workCreate'],
+                    ],
+
+                    [
+                        'actions' => ['subcat'],
+                        'allow' => true,
+                        'roles' => ['workCreate'],
+                    ],
+
+                    [
+                        'actions' => ['view-work'],
+                        'allow' => true,
+                        'roles' => ['workView'],
+                    ],
+
+                    [
+                        'actions' => ['update-work'],
+                        'allow' => true,
+                        'roles' => ['workUpdate'],
+                    ],
+                    [
+                        'actions' => ['active-work'],
+                        'allow' => true,
+                        'roles' => ['workActive'],
+                    ],
+                    [
+                        'actions' => ['blocked-work'],
+                        'allow' => true,
+                        'roles' => ['workBlocked'],
+                    ],
                 ],
             ],
             'verbs' => [

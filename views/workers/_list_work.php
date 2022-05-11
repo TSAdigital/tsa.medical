@@ -14,6 +14,6 @@ $model->status === 10 ? $class = 'success' : $class = 'danger';
     <td class="text-center align-middle"><?= $model->bet ?></td>
     <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
     <td class="text-center align-middle">
-        <?= Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-work', 'id'=> $worker->id, 'work' => $model->id]) ?>
+        <?= ($model->status == 10 and (Yii::$app->user->can('workView') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-work', 'id'=> $worker->id, 'work' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-work', 'id'=> $worker->id, 'work' => $model->id], ['class' => 'btn disabled m-0 p-0']) ?>
     </td>
 </tr>
