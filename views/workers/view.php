@@ -52,7 +52,7 @@ $this->params['buttons'] = [
                     <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
                         <?= (Yii::$app->user->can('workMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>' : NULL; ?>
-                        <li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>
+                        <?= (Yii::$app->user->can('certificateMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>' : NULL; ?>
                         <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Справки</a></li>
                         <li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>
                         <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
@@ -109,7 +109,7 @@ $this->params['buttons'] = [
                                 <div class="table-responsive">
                                     <?php if(Yii::$app->user->can('workIndex') or Yii::$app->user->can('admin')) : ?>
                                     <?php
-                                    $button_add_passport =  ($model->status == 10 and (Yii::$app->user->can('workCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
+                                    $button_add_passport = ($model->status == 10 and (Yii::$app->user->can('workCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
                                     $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
@@ -152,7 +152,8 @@ $this->params['buttons'] = [
                         </div>
                         <div class="tab-pane" id="certificate">
                             <?php
-                            $button_add_certificate =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-certificate', 'id' => $model->id]) : null;
+                            if (Yii::$app->user->can('certificateIndex') or Yii::$app->user->can('admin')) :
+                            $button_add_certificate =  ($model->status == 10 and (Yii::$app->user->can('certificateCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-certificate', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-certificate', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
                             $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
@@ -176,7 +177,7 @@ $this->params['buttons'] = [
                             <?= ListView::widget([
                                 'dataProvider' => $certificate,
                                 'layout' => $template,
-                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-certificate', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyText' => ($model->status == 10 and (Yii::$app->user->can('certificateCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-certificate', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-certificate', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block disabled']),
                                 'emptyTextOptions' => ['class' => 'empty mb-3'],
                                 'itemOptions' => [
                                     'tag' => false,
@@ -187,6 +188,9 @@ $this->params['buttons'] = [
                                     'class' => 'yii\bootstrap4\LinkPager',
                                 ],
                             ]); ?>
+                            <?php else: ?>
+                                <p>У вас нет разрешения на просмотр</p>
+                            <?php endif; ?>
                         </div>
                         <div class="tab-pane" id="reference">
                             <?php

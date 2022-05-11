@@ -43,7 +43,13 @@ class WorkersController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history', 'subcat', 'counterparty-fl-list', 'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work', 'create-reference', 'counterparty-list', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference', 'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate', 'add-file', 'download', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file', 'create-vaccination', 'view-vaccination', 'update-vaccination', 'blocked-vaccination', 'active-vaccination'],
+                        'actions' => ['index', 'view', 'create', 'update', 'blocked', 'active', 'history',
+                            'subcat', 'counterparty-fl-list', 'counterparty-list', 'download',
+                            'create-work', 'view-work', 'update-work', 'blocked-work', 'active-work',
+                            'create-reference', 'view-reference', 'update-reference', 'blocked-reference', 'active-reference',
+                            'create-certificate', 'view-certificate', 'update-certificate', 'active-certificate', 'blocked-certificate',
+                            'add-file', 'view-file', 'update-file', 'delete-file', 'blocked-file', 'active-file',
+                            'create-vaccination', 'view-vaccination', 'update-vaccination', 'blocked-vaccination', 'active-vaccination'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -121,6 +127,37 @@ class WorkersController extends Controller
                         'allow' => true,
                         'roles' => ['workBlocked'],
                     ],
+                    [
+                        'actions' => ['create-certificate'],
+                        'allow' => true,
+                        'roles' => ['certificateCreate'],
+                    ],
+                    [
+                        'actions' => ['counterparty-list'],
+                        'allow' => true,
+                        'roles' => ['certificateCreate'],
+                    ],
+                    [
+                        'actions' => ['view-certificate'],
+                        'allow' => true,
+                        'roles' => ['certificateView'],
+                    ],
+
+                    [
+                        'actions' => ['update-certificate'],
+                        'allow' => true,
+                        'roles' => ['certificateUpdate'],
+                    ],
+                    [
+                        'actions' => ['active-certificate'],
+                        'allow' => true,
+                        'roles' => ['certificateActive'],
+                    ],
+                    [
+                        'actions' => ['blocked-certificate'],
+                        'allow' => true,
+                        'roles' => ['certificateBlocked'],
+                    ],
                 ],
             ],
             'verbs' => [
@@ -134,6 +171,8 @@ class WorkersController extends Controller
                     'blocked-certificate' => ['POST'],
                     'active-reference' => ['POST'],
                     'blocked-reference' => ['POST'],
+                    'active-vaccination' => ['POST'],
+                    'blocked-vaccination' => ['POST'],
                     'active-file' => ['POST'],
                     'blocked-file' => ['POST'],
                     'delete-file' => ['POST'],

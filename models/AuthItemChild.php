@@ -36,6 +36,39 @@ use yii\db\ActiveRecord;
  * @property int $workActive
  * @property int $workBlocked
  *
+ * @property int $certificateMenu
+ * @property int $certificateIndex
+ * @property int $certificateCreate
+ * @property int $certificateView
+ * @property int $certificateUpdate
+ * @property int $certificateActive
+ * @property int $certificateBlocked
+
+ * @property int $referenceMenu
+ * @property int $referenceIndex
+ * @property int $referenceCreate
+ * @property int $referenceView
+ * @property int $referenceUpdate
+ * @property int $referenceActive
+ * @property int $referenceBlocked
+
+ * @property int $vaccinationMenu
+ * @property int $vaccinationIndex
+ * @property int $vaccinationCreate
+ * @property int $vaccinationView
+ * @property int $vaccinationUpdate
+ * @property int $vaccinationActive
+ * @property int $vaccinationBlocked
+
+ * @property int $fileMenu
+ * @property int $fileIndex
+ * @property int $fileCreate
+ * @property int $fileView
+ * @property int $fileUpdate
+ * @property int $fileActive
+ * @property int $fileBlocked
+ * @property int $fileDelete
+ *
  * @property AuthItem $child0
  * @property AuthItem $parent0
  */
@@ -67,6 +100,39 @@ class AuthItemChild extends ActiveRecord
     public $workActive;
     public $workBlocked;
 
+    public $certificateMenu;
+    public $certificateIndex;
+    public $certificateCreate;
+    public $certificateView;
+    public $certificateUpdate;
+    public $certificateActive;
+    public $certificateBlocked;
+
+    public $referenceMenu;
+    public $referenceIndex;
+    public $referenceCreate;
+    public $referenceView;
+    public $referenceUpdate;
+    public $referenceActive;
+    public $referenceBlocked;
+
+    public $vaccinationMenu;
+    public $vaccinationIndex;
+    public $vaccinationCreate;
+    public $vaccinationView;
+    public $vaccinationUpdate;
+    public $vaccinationActive;
+    public $vaccinationBlocked;
+
+    public $fileMenu;
+    public $fileIndex;
+    public $fileCreate;
+    public $fileView;
+    public $fileUpdate;
+    public $fileActive;
+    public $fileBlocked;
+    public $fileDelete;
+
     /**
      * {@inheritdoc}
      */
@@ -88,7 +154,11 @@ class AuthItemChild extends ActiveRecord
             [['child'], 'exist', 'skipOnError' => true, 'targetClass' => AuthItem::className(), 'targetAttribute' => ['child' => 'name']],
             [['positionIndex', 'positionMenu', 'positionCreate', 'positionView', 'positionUpdate', 'positionActive', 'positionBlocked', 'positionHistory'], 'integer'],
             [['workerIndex', 'workerMenu', 'workerCreate', 'workerView', 'workerUpdate', 'workerActive', 'workerBlocked', 'workerHistory'], 'integer'],
-            [['workIndex', 'workMenu', 'workCreate', 'workView', 'workUpdate', 'workActive', 'workBlocked', 'workHistory'], 'integer'],
+            [['workIndex', 'workMenu', 'workCreate', 'workView', 'workUpdate', 'workActive', 'workBlocked'], 'integer'],
+            [['certificateIndex', 'certificateMenu', 'certificateCreate', 'certificateView', 'certificateUpdate', 'certificateActive', 'certificateBlocked'], 'integer'],
+            [['referenceIndex', 'referenceMenu', 'referenceCreate', 'referenceView', 'referenceUpdate', 'referenceActive', 'referenceBlocked'], 'integer'],
+            [['vaccinationIndex', 'vaccinationMenu', 'vaccinationCreate', 'vaccinationView', 'vaccinationUpdate', 'vaccinationActive', 'vaccinationBlocked'], 'integer'],
+            [['fileIndex', 'fileMenu', 'fileCreate', 'fileView', 'fileUpdate', 'fileActive', 'fileBlocked', 'fileDelete'], 'integer'],
         ];
     }
 

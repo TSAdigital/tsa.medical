@@ -13,17 +13,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Сертификаты', 'url' => ['view', 'id' => $model->id, '#' => 'certificate/']];
 $this->params['breadcrumbs'][] = StringHelper::truncate($certificate->getSpecialization_name(), 10, '...');
+$disabled_update = (Yii::$app->user->can('certificateUpdate') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_block = (Yii::$app->user->can('certificateBlocked') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_active = (Yii::$app->user->can('certificateActive') or Yii::$app->user->can('admin')) ?: 'disabled';
 $this->params['buttons'] = [
-    'update' => $certificate->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-certificate', 'id' => $model->id, 'certificate' => $certificate->id], ['class' => 'btn btn-app']) : false,
+    'update' => $certificate->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-certificate', 'id' => $model->id, 'certificate' => $certificate->id], ['class' => 'btn btn-app ' . $disabled_update]) : false,
     'block' => $certificate->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-certificate', 'id' => $model->id, 'certificate' => $certificate->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app ' . $disabled_block,
         'data' => [
             'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $certificate->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-certificate', 'id' => $model->id, 'certificate' => $certificate->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app ' . $disabled_active,
         'data' => [
             'confirm' => 'Активировать запись?',
             'method' => 'post',
