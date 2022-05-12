@@ -51,12 +51,12 @@ $this->params['buttons'] = [
                 <div class="card-header p-2">
                     <ul class="nav nav-pills" id="myTab">
                         <li class="nav-item"><a class="nav-link active" href="#base" data-toggle="tab">Основное</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
                         <?= (Yii::$app->user->can('workMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#work" data-toggle="tab">Деятельность</a></li>' : NULL; ?>
                         <?= (Yii::$app->user->can('certificateMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#certificate" data-toggle="tab">Сертификаты</a></li>' : NULL; ?>
-                        <li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Справки</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#contact" data-toggle="tab">Контакты</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#file" data-toggle="tab">Файлы</a></li>
+                        <?= (Yii::$app->user->can('referenceMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#reference" data-toggle="tab">Справки</a></li>' : NULL; ?>
+                        <?= (Yii::$app->user->can('vaccinationMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#vaccination" data-toggle="tab">Вакцинация</a></li>' : NULL; ?>
+                        <?= (Yii::$app->user->can('fileMenu') or Yii::$app->user->can('admin')) ? '<li class="nav-item"><a class="nav-link" href="#file" data-toggle="tab">Файлы</a></li>' : NULL; ?>
                     </ul>
                 </div>
                 <div class="card-body pb-1">
@@ -107,8 +107,8 @@ $this->params['buttons'] = [
                         <div class="tab-pane" id="work">
                             <div class="row">
                                 <div class="table-responsive">
-                                    <?php if(Yii::$app->user->can('workIndex') or Yii::$app->user->can('admin')) : ?>
                                     <?php
+                                    if(Yii::$app->user->can('workIndex') or Yii::$app->user->can('admin')) :
                                     $button_add_passport = ($model->status == 10 and (Yii::$app->user->can('workCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
                                     $template = '
                                             <table class="table table-bordered table-striped">
@@ -193,8 +193,10 @@ $this->params['buttons'] = [
                             <?php endif; ?>
                         </div>
                         <div class="tab-pane" id="reference">
+
                             <?php
-                            $button_add_reference =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-reference', 'id' => $model->id]) : null;
+                            if (Yii::$app->user->can('referenceIndex') or Yii::$app->user->can('admin')) :
+                            $button_add_reference = ($model->status == 10 and (Yii::$app->user->can('referenceCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-reference', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-reference', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
                             $template = '
                                             <table class="table table-bordered table-striped">
                                                 <thead>
@@ -218,7 +220,7 @@ $this->params['buttons'] = [
                             <?= ListView::widget([
                                 'dataProvider' => $reference,
                                 'layout' => $template,
-                                'emptyText' => $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-reference', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : 'Невозможно добавить новую запись.',
+                                'emptyText' => ($model->status == 10 and (Yii::$app->user->can('referenceCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-reference', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block']) : Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create-reference', 'id' => $model->id], ['class' => 'btn btn-app mx-auto d-block disabled']),
                                 'emptyTextOptions' => ['class' => 'empty mb-3'],
                                 'itemOptions' => [
                                     'tag' => false,
@@ -229,10 +231,14 @@ $this->params['buttons'] = [
                                     'class' => 'yii\bootstrap4\LinkPager',
                                 ],
                             ]); ?>
+                            <?php else: ?>
+                                <p>У вас нет разрешения на просмотр</p>
+                            <?php endif; ?>
 
                         </div>
                         <div class="tab-pane" id="vaccination">
                             <?php
+                            if (Yii::$app->user->can('vaccinationIndex') or Yii::$app->user->can('admin')) :
                             $button_add_vaccination =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-vaccination', 'id' => $model->id]) : null;
                             $template = '
                                             <table class="table table-bordered table-striped">
@@ -284,9 +290,13 @@ $this->params['buttons'] = [
                                     'email:email',
                                 ],
                             ]) ?>
+                            <?php else: ?>
+                                <p>У вас нет разрешения на просмотр</p>
+                            <?php endif; ?>
                         </div>
                         <div class="tab-pane" id="file">
                             <?php
+                            if (Yii::$app->user->can('fileIndex') or Yii::$app->user->can('admin')) :
                             $button_add_file =  $model->status == 10 ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['add-file', 'id' => $model->id]) : null;
                             $template = '
                                             <table class="table table-bordered table-striped">
@@ -320,6 +330,9 @@ $this->params['buttons'] = [
                                     'class' => 'yii\bootstrap4\LinkPager',
                                 ],
                             ]); ?>
+                            <?php else: ?>
+                                <p>У вас нет разрешения на просмотр</p>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>

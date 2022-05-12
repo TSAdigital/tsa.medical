@@ -158,6 +158,36 @@ class WorkersController extends Controller
                         'allow' => true,
                         'roles' => ['certificateBlocked'],
                     ],
+                    [
+                        'actions' => ['create-reference'],
+                        'allow' => true,
+                        'roles' => ['referenceCreate'],
+                    ],
+                    [
+                        'actions' => ['counterparty-list'],
+                        'allow' => true,
+                        'roles' => ['referenceCreate'],
+                    ],
+                    [
+                        'actions' => ['view-reference'],
+                        'allow' => true,
+                        'roles' => ['referenceView'],
+                    ],
+                    [
+                        'actions' => ['update-reference'],
+                        'allow' => true,
+                        'roles' => ['referenceUpdate'],
+                    ],
+                    [
+                        'actions' => ['active-reference'],
+                        'allow' => true,
+                        'roles' => ['referenceActive'],
+                    ],
+                    [
+                        'actions' => ['blocked-reference'],
+                        'allow' => true,
+                        'roles' => ['referenceBlocked'],
+                    ],
                 ],
             ],
             'verbs' => [

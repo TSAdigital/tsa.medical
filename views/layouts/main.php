@@ -29,6 +29,12 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <?php $this->head() ?>
 </head>
 <body class="hold-transition sidebar-mini">
+<div class="preloader">
+    <div class="preloader__row">
+        <div class="preloader__item"></div>
+        <div class="preloader__item"></div>
+    </div>
+</div>
 <?php $this->beginBody() ?>
 <?= Alert::widget(['useSessionFlash' => true]) ?>
 <div class="wrapper">
@@ -52,6 +58,7 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
 </div>
 
 <?php $this->endBody() ?>
+
 </body>
 </html>
 <?php $this->endPage() ?>
