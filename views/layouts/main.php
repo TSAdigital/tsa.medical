@@ -28,11 +28,9 @@ $assetDir = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/admi
     <title><?= Yii::$app->name ?> - <?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="sidebar-mini layout-fixed">
 <div class="preloader">
     <div class="preloader__row">
-        <div class="preloader__item"></div>
-        <div class="preloader__item"></div>
     </div>
 </div>
 <?php $this->beginBody() ?>

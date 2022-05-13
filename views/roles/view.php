@@ -160,8 +160,8 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Последняя активность</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'historyMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('historyMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'historyIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('historyIndex', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
@@ -175,26 +175,26 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Подразделения</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'departmentHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('departmentHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Отделения</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'divisionHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('divisionHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>

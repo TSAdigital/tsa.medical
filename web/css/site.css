@@ -81,38 +81,3 @@ div.required label:after {
     text-align: center;
     animation: preloader-rotate 2s infinite linear;
 }
-
-.preloader__item {
-    position: absolute;
-    display: inline-block;
-    top: 0;
-    background-color: #007bff;
-    border-radius: 100%;
-    width: 25px;
-    height: 25px;
-    animation: preloader-bounce 2s infinite ease-in-out;
-}
-
-.preloader__item:last-child {
-    top: auto;
-    bottom: 0;
-    animation-delay: -1s;
-}
-
-@keyframes preloader-rotate {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes preloader-bounce {
-
-    0%,
-    100% {
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1);
-    }
-}

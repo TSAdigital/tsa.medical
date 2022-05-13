@@ -133,6 +133,26 @@ class AuthItemChild extends ActiveRecord
     public $fileBlocked;
     public $fileDelete;
 
+    public $historyMenu;
+    public $historyIndex;
+
+    public $departmentMenu;
+    public $departmentIndex;
+    public $departmentCreate;
+    public $departmentView;
+    public $departmentUpdate;
+    public $departmentActive;
+    public $departmentBlocked;
+    public $departmentHistory;
+
+    public $divisionMenu;
+    public $divisionIndex;
+    public $divisionCreate;
+    public $divisionView;
+    public $divisionUpdate;
+    public $divisionActive;
+    public $divisionBlocked;
+    public $divisionHistory;
     /**
      * {@inheritdoc}
      */
@@ -159,6 +179,9 @@ class AuthItemChild extends ActiveRecord
             [['referenceIndex', 'referenceMenu', 'referenceCreate', 'referenceView', 'referenceUpdate', 'referenceActive', 'referenceBlocked'], 'integer'],
             [['vaccinationIndex', 'vaccinationMenu', 'vaccinationCreate', 'vaccinationView', 'vaccinationUpdate', 'vaccinationActive', 'vaccinationBlocked'], 'integer'],
             [['fileIndex', 'fileMenu', 'fileCreate', 'fileView', 'fileUpdate', 'fileActive', 'fileBlocked', 'fileDelete'], 'integer'],
+            [['historyMenu', 'historyIndex'], 'integer'],
+            [['departmentIndex', 'departmentMenu', 'departmentCreate', 'departmentView', 'departmentUpdate', 'departmentActive', 'departmentBlocked', 'departmentHistory'], 'integer'],
+            [['divisionIndex', 'divisionMenu', 'divisionCreate', 'divisionView', 'divisionUpdate', 'divisionActive', 'divisionBlocked', 'divisionHistory'], 'integer'],
         ];
     }
 

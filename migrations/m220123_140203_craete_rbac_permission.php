@@ -23,7 +23,7 @@ class m220123_140203_craete_rbac_permission extends Migration
         $auth->add($positionIndex);
 
         $positionCreate = $auth->createPermission('positionCreate');
-        $positionCreate->description = 'Просмотр должности';
+        $positionCreate->description = 'Добавление должности';
         $auth->add($positionCreate);
 
         $positionView = $auth->createPermission('positionView');
@@ -43,39 +43,39 @@ class m220123_140203_craete_rbac_permission extends Migration
         $auth->add($positionBlocked);
 
         $positionHistory = $auth->createPermission('positionHistory');
-        $positionHistory->description = 'Аннулирование должности';
+        $positionHistory->description = 'История действий с должностью';
         $auth->add($positionHistory);
 
         $workerMenu = $auth->createPermission('workerMenu');
-        $workerMenu->description = 'Отображать должности в меню';
+        $workerMenu->description = 'Отображать сотрудников в меню';
         $auth->add($workerMenu);
 
         $workerIndex = $auth->createPermission('workerIndex');
-        $workerIndex->description = 'Просмотр списка должностей';
+        $workerIndex->description = 'Просмотр списка сотрудников';
         $auth->add($workerIndex);
 
         $workerCreate = $auth->createPermission('workerCreate');
-        $workerCreate->description = 'Просмотр должности';
+        $workerCreate->description = 'Добавление сотрудника';
         $auth->add($workerCreate);
 
         $workerView = $auth->createPermission('workerView');
-        $workerView->description = 'Просмотр должности';
+        $workerView->description = 'Просмотр сотрудника';
         $auth->add($workerView);
 
         $workerUpdate = $auth->createPermission('workerUpdate');
-        $workerUpdate->description = 'Редактирование должности';
+        $workerUpdate->description = 'Редактирование сотрудника';
         $auth->add($workerUpdate);
 
         $workerActive = $auth->createPermission('workerActive');
-        $workerActive->description = 'Активация должности';
+        $workerActive->description = 'Активация сотрудника';
         $auth->add($workerActive);
 
         $workerBlocked = $auth->createPermission('workerBlocked');
-        $workerBlocked->description = 'Аннулирование должности';
+        $workerBlocked->description = 'Аннулирование сотрудника';
         $auth->add($workerBlocked);
 
         $workerHistory = $auth->createPermission('workerHistory');
-        $workerHistory->description = 'Аннулирование должности';
+        $workerHistory->description = 'Историй действий с сотрудником';
         $auth->add($workerHistory);
 
         $workMenu = $auth->createPermission('workMenu');
@@ -221,6 +221,174 @@ class m220123_140203_craete_rbac_permission extends Migration
         $fileDelete = $auth->createPermission('fileDelete');
         $fileDelete->description = 'Удаление файла у сотрудника';
         $auth->add($fileDelete);
+
+        $historyMenu = $auth->createPermission('historyMenu');
+        $historyMenu->description = 'Отображать последнюю активность в меню';
+        $auth->add($historyMenu);
+
+        $historyIndex = $auth->createPermission('historyIndex');
+        $historyIndex->description = 'Просмотр последней активности';
+        $auth->add($historyIndex);
+
+        $departmentMenu = $auth->createPermission('departmentMenu');
+        $departmentMenu->description = 'Отображать подразделения в меню';
+        $auth->add($departmentMenu);
+
+        $departmentIndex = $auth->createPermission('departmentIndex');
+        $departmentIndex->description = 'Просмотр списка подразделений';
+        $auth->add($departmentIndex);
+
+        $departmentCreate = $auth->createPermission('departmentCreate');
+        $departmentCreate->description = 'Добавление подразделения';
+        $auth->add($departmentCreate);
+
+        $departmentView = $auth->createPermission('departmentView');
+        $departmentView->description = 'Просмотр подразделения';
+        $auth->add($departmentView);
+
+        $departmentUpdate = $auth->createPermission('departmentUpdate');
+        $departmentUpdate->description = 'Редактирование подразделения';
+        $auth->add($departmentUpdate);
+
+        $departmentActive = $auth->createPermission('departmentActive');
+        $departmentActive->description = 'Активация подразделения';
+        $auth->add($departmentActive);
+
+        $departmentBlocked = $auth->createPermission('departmentBlocked');
+        $departmentBlocked->description = 'Аннулирование подразделения';
+        $auth->add($departmentBlocked);
+
+        $departmentHistory = $auth->createPermission('departmentHistory');
+        $departmentHistory->description = 'Иторий действий с подразделением';
+        $auth->add($departmentHistory);
+
+        $divisionMenu = $auth->createPermission('divisionMenu');
+        $divisionMenu->description = 'Отображать отделения в меню';
+        $auth->add($divisionMenu);
+
+        $divisionIndex = $auth->createPermission('divisionIndex');
+        $divisionIndex->description = 'Просмотр списка отделений';
+        $auth->add($divisionIndex);
+
+        $divisionCreate = $auth->createPermission('divisionCreate');
+        $divisionCreate->description = 'Добавление отделения';
+        $auth->add($divisionCreate);
+
+        $divisionView = $auth->createPermission('divisionView');
+        $divisionView->description = 'Просмотр отделения';
+        $auth->add($divisionView);
+
+        $divisionUpdate = $auth->createPermission('divisionUpdate');
+        $divisionUpdate->description = 'Редактирование отделения';
+        $auth->add($divisionUpdate);
+
+        $divisionActive = $auth->createPermission('divisionActive');
+        $divisionActive->description = 'Активация отделения';
+        $auth->add($divisionActive);
+
+        $divisionBlocked = $auth->createPermission('divisionBlocked');
+        $divisionBlocked->description = 'Аннулирование отделения';
+        $auth->add($divisionBlocked);
+
+        $divisionHistory = $auth->createPermission('divisionHistory');
+        $divisionHistory->description = 'Историй действий с отделением';
+        $auth->add($divisionHistory);
+
+        $specializationMenu = $auth->createPermission('specializationMenu');
+        $specializationMenu->description = 'Отображать специальности в меню';
+        $auth->add($specializationMenu);
+
+        $specializationIndex = $auth->createPermission('specializationIndex');
+        $specializationIndex->description = 'Просмотр списка специальностей';
+        $auth->add($specializationIndex);
+
+        $specializationCreate = $auth->createPermission('specializationCreate');
+        $specializationCreate->description = 'Добавление специальности';
+        $auth->add($specializationCreate);
+
+        $specializationView = $auth->createPermission('specializationView');
+        $specializationView->description = 'Просмотр специальности';
+        $auth->add($specializationView);
+
+        $specializationUpdate = $auth->createPermission('specializationUpdate');
+        $specializationUpdate->description = 'Редактирование специальности';
+        $auth->add($specializationUpdate);
+
+        $specializationActive = $auth->createPermission('specializationActive');
+        $specializationActive->description = 'Активация специальности';
+        $auth->add($specializationActive);
+
+        $specializationBlocked = $auth->createPermission('specializationBlocked');
+        $specializationBlocked->description = 'Аннулирование специальности';
+        $auth->add($specializationBlocked);
+
+        $specializationHistory = $auth->createPermission('specializationHistory');
+        $specializationHistory->description = 'Историй действий с специальностью';
+        $auth->add($specializationHistory);
+
+        $referenceTypeMenu = $auth->createPermission('referenceTypeMenu');
+        $referenceTypeMenu->description = 'Отображать вид справки в меню';
+        $auth->add($referenceTypeMenu);
+
+        $referenceTypeIndex = $auth->createPermission('referenceTypeIndex');
+        $referenceTypeIndex->description = 'Просмотр списка видов справок';
+        $auth->add($referenceTypeIndex);
+
+        $referenceTypeCreate = $auth->createPermission('referenceTypeCreate');
+        $referenceTypeCreate->description = 'Добавление вида справки';
+        $auth->add($referenceTypeCreate);
+
+        $referenceTypeView = $auth->createPermission('referenceTypeView');
+        $referenceTypeView->description = 'Просмотр вида справки';
+        $auth->add($referenceTypeView);
+
+        $referenceTypeUpdate = $auth->createPermission('referenceTypeUpdate');
+        $referenceTypeUpdate->description = 'Редактирование вида справки';
+        $auth->add($referenceTypeUpdate);
+
+        $referenceTypeActive = $auth->createPermission('referenceTypeActive');
+        $referenceTypeActive->description = 'Активация вида справки';
+        $auth->add($referenceTypeActive);
+
+        $referenceTypeBlocked = $auth->createPermission('referenceTypeBlocked');
+        $referenceTypeBlocked->description = 'Аннулирование вида справки';
+        $auth->add($referenceTypeBlocked);
+
+        $referenceTypeHistory = $auth->createPermission('referenceTypeHistory');
+        $referenceTypeHistory->description = 'История действий с видом справки';
+        $auth->add($referenceTypeHistory);
+
+        $vaccineMenu = $auth->createPermission('vaccineMenu');
+        $vaccineMenu->description = 'Отображать вакцины в меню';
+        $auth->add($vaccineMenu);
+
+        $vaccineIndex = $auth->createPermission('vaccineIndex');
+        $vaccineIndex->description = 'Просмотр списка вакцин';
+        $auth->add($vaccineIndex);
+
+        $vaccineCreate = $auth->createPermission('vaccineCreate');
+        $vaccineCreate->description = 'Добавление вакцины';
+        $auth->add($vaccineCreate);
+
+        $vaccineView = $auth->createPermission('vaccineView');
+        $vaccineView->description = 'Просмотр вакцины';
+        $auth->add($vaccineView);
+
+        $vaccineUpdate = $auth->createPermission('vaccineUpdate');
+        $vaccineUpdate->description = 'Редактирование вакцины';
+        $auth->add($vaccineUpdate);
+
+        $vaccineActive = $auth->createPermission('vaccineActive');
+        $vaccineActive->description = 'Активация вакцины';
+        $auth->add($vaccineActive);
+
+        $vaccineBlocked = $auth->createPermission('vaccineBlocked');
+        $vaccineBlocked->description = 'Аннулирование вакцины';
+        $auth->add($vaccineBlocked);
+
+        $vaccineHistory = $auth->createPermission('vaccineHistory');
+        $vaccineHistory->description = 'История действий с вакциной';
+        $auth->add($vaccineHistory);
     }
 
     /**

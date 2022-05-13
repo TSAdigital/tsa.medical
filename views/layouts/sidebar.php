@@ -50,10 +50,6 @@ use hail812\adminlte\widgets\Menu;
             ]);
             ?>
         </nav>
-        <div class="copyright small position-absolute fixed-bottom ml-2">
-            <p class="mb-0 text-muted">Powered by <a class='text-decoration-none' href='https://www.yiiframework.com/' target='_blank' rel='noopener'>Yii Framework</a></p>
-            <p class="mb-2 text-muted">Template <a class='text-decoration-none' href='https://adminlte.io/' target='_blank' rel='noopener'>AdminLTE</a></p>
-        </div>
         <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
