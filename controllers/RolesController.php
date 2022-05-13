@@ -236,7 +236,7 @@ class RolesController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = AuthItem::findOne($id)) !== null and $id > 1) {
+        if (($model = AuthItem::findOne(['id' => $id, 'type' => 1])) !== null and $id > 1 ) {
             return $model;
         }
 
