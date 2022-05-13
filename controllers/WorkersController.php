@@ -158,6 +158,7 @@ class WorkersController extends Controller
                         'allow' => true,
                         'roles' => ['certificateBlocked'],
                     ],
+
                     [
                         'actions' => ['create-reference'],
                         'allow' => true,
@@ -188,6 +189,74 @@ class WorkersController extends Controller
                         'allow' => true,
                         'roles' => ['referenceBlocked'],
                     ],
+
+                    [
+                        'actions' => ['create-vaccination'],
+                        'allow' => true,
+                        'roles' => ['vaccinationCreate'],
+                    ],
+                    [
+                        'actions' => ['counterparty-list'],
+                        'allow' => true,
+                        'roles' => ['vaccinationCreate'],
+                    ],
+                    [
+                        'actions' => ['view-vaccination'],
+                        'allow' => true,
+                        'roles' => ['vaccinationView'],
+                    ],
+                    [
+                        'actions' => ['update-vaccination'],
+                        'allow' => true,
+                        'roles' => ['vaccinationUpdate'],
+                    ],
+                    [
+                        'actions' => ['active-vaccination'],
+                        'allow' => true,
+                        'roles' => ['vaccinationActive'],
+                    ],
+                    [
+                        'actions' => ['blocked-vaccination'],
+                        'allow' => true,
+                        'roles' => ['vaccinationBlocked'],
+                    ],
+
+                    [
+                        'actions' => ['add-file'],
+                        'allow' => true,
+                        'roles' => ['fileCreate'],
+                    ],
+                    [
+                        'actions' => ['view-file'],
+                        'allow' => true,
+                        'roles' => ['fileView'],
+                    ],
+                    [
+                        'actions' => ['download'],
+                        'allow' => true,
+                        'roles' => ['fileView'],
+                    ],
+                    [
+                        'actions' => ['update-file'],
+                        'allow' => true,
+                        'roles' => ['fileUpdate'],
+                    ],
+                    [
+                        'actions' => ['active-file'],
+                        'allow' => true,
+                        'roles' => ['fileActive'],
+                    ],
+                    [
+                        'actions' => ['blocked-file'],
+                        'allow' => true,
+                        'roles' => ['fileBlocked'],
+                    ],
+                    [
+                        'actions' => ['delete-file'],
+                        'allow' => true,
+                        'roles' => ['fileDelete'],
+                    ],
+
                 ],
             ],
             'verbs' => [

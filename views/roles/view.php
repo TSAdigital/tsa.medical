@@ -84,6 +84,9 @@ $this->params['buttons'] = [
                                     </thead>
                                     <tbody>
                                     <tr>
+                                        <th colspan="10" class="text-center">НАВИГАЦИЯ</th>
+                                    </tr>
+                                    <tr>
                                         <th scope="row" class="align-middle">Сотрудники</th>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'workerMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workerMenu', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'workerIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('workerIndex', $roleName)])->label('') ?></td>
@@ -156,6 +159,117 @@ $this->params['buttons'] = [
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'fileDelete', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('fileDelete', $roleName)])->label('') ?></td>
                                     </tr>
                                     <tr>
+                                        <th scope="row" class="align-middle">Последняя активность</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th colspan="10" class="text-center">СПРАВОЧНИКИ</th>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Подразделения</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Отделения</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Контрагенты ЮЛ</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle text-right "><em><small>Адреса</small></em></th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle text-right "><em><small>Контакты</small></em></th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Контрагенты ФЛ</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle text-right "><em><small>Паспорт</small></em></th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th class="align-middle text-right "><em><small>Адреса</small></em></th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
                                         <th scope="row" class="align-middle">Должности</th>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'positionMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionMenu', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'positionIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionIndex', $roleName)])->label('') ?></td>
@@ -165,6 +279,42 @@ $this->params['buttons'] = [
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'positionActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionActive', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'positionBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"><?= $form->field($permissions, 'positionHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('positionHistory', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Специальности</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Справки</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"></td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="align-middle">Вакцины</th>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle">1</td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     </tbody>

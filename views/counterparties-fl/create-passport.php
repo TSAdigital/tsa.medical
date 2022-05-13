@@ -10,6 +10,7 @@ use yii\helpers\StringHelper;
 $this->title = 'Новый Паспорт';
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->last_name . ' ' . $counterparty->first_name . ' ' . $counterparty->middle_name, 40, '...'), 'url' => ['view', 'id' => $counterparty->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Паспорт', 'url' => ['view', 'id' => $counterparty->id, '#' => 'passport/']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form'=>"passport"]),

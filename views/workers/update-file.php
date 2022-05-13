@@ -8,6 +8,8 @@ use app\models\UploadForm;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 
+$button_delete = (Yii::$app->user->can('fileDelete') or Yii::$app->user->can('admin')) ?: 'disabled';
+
 $this->title = 'Редактирование: файла ' . StringHelper::truncate($file->name, 30, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 20, '...'), 'url' => ['view', 'id' => $model->id]];
@@ -16,7 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($file->name,
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [
     'save' => Html::submitButton('<i class="far fa-save text-green"></i>Сохранить', ['class' => 'btn btn-app', 'form' => 'file']),
-    'delete' => !empty($file->url) ? Html::a('<i class="far fa-trash-alt text-red"></i>Удалить файл', ['workers/delete-file', 'id' => $model->id, 'file' => $file->id], ['class' => 'btn btn-app', 'data' => [
+    'delete' => !empty($file->url) ? Html::a('<i class="far fa-trash-alt text-red"></i>Удалить файл', ['workers/delete-file', 'id' => $model->id, 'file' => $file->id], ['class' => 'btn btn-app ' . $button_delete, 'data' => [
         'confirm' => 'Удалить файл?',
         'method' => 'post',
     ]] ) : NULL,

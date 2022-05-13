@@ -10,7 +10,7 @@ use yii\helpers\StringHelper;
 $this->title = 'Редактирование: контакт ' . StringHelper::truncate($model->name, 33, '...');
 $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($counterparty->name, 15, '...'), 'url' => ['view', 'id' => $counterparty->id]];
-$this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $counterparty->id]];;
+$this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $counterparty->id, '#' => 'contact']];;
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view-contact', 'id' => $counterparty->id, 'contact' => $model->id]];;
 $this->params['breadcrumbs'][] = 'Редактирование';
 $this->params['buttons'] = [

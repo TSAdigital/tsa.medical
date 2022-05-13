@@ -47,9 +47,9 @@ $this->params['buttons'] = [
                                 'captionOptions' => ['width' => '200px'],
                             ],
                             'positionName',
-                            'phone',
+                            'phone:phone',
                             'phone_extension',
-                            'email',
+                            'email:email',
                             [
                                 'attribute' => 'status',
                                 'value' => $contact->getStatusName(),

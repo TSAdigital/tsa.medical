@@ -14,6 +14,6 @@ $model->status === 10 ? $class = 'success' : $class = 'danger';
     <td class="text-center align-middle"><?= $model->end_date ?></td>
     <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
     <td class="text-center align-middle">
-        <?= Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-vaccination', 'id'=> $worker->id, 'vaccination' => $model->id]) ?>
+        <?= (Yii::$app->user->can('vaccinationView') or Yii::$app->user->can('admin')) ? Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-vaccination', 'id'=> $worker->id, 'vaccination' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-vaccination', 'id'=> $worker->id, 'vaccination' => $model->id], ['class' => 'btn disabled m-0 p-0']) ?>
     </td>
 </tr>
