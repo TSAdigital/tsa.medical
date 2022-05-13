@@ -136,8 +136,43 @@ class RolesController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $action_history = new ActionHistory();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if($model->status === 10){
+            if ($model->load(Yii::$app->request->post())) {
+                if($model->save()){
+                    $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'отредактировал(а) роль', 'roles/view', $model->getId(), $model->description);
+                    Yii::$app->session->setFlash('success', [
+                        'options' => [
+                            'title' => 'Запись обновлена',
+                            'toast' => true,
+                            'position' => 'top-end',
+                            'timer' => 5000,
+                            'showConfirmButton' => false
+                        ]
+                    ]);
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
+                Yii::$app->session->setFlash('error', [
+                    'options' => [
+                        'title' => 'Не удалось обновить запись',
+                        'toast' => true,
+                        'position' => 'top-end',
+                        'timer' => 5000,
+                        'showConfirmButton' => false
+                    ]
+                ]);
+            }
+        }else{
+            Yii::$app->session->setFlash('warning', [
+                'options' => [
+                    'title' => 'Нельзя редактировать не активную запись',
+                    'toast' => true,
+                    'position' => 'top-end',
+                    'timer' => 5000,
+                    'showConfirmButton' => false
+                ]
+            ]);
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -246,10 +281,11 @@ class RolesController extends Controller
     public function actionPermissions($id)
     {
         $permissions = new AuthItemChild();
-
+        $model = $this->findModel($id);
         $auth = Yii::$app->authManager;
         $roleName = $this->findModel($id)->name;
         $role = $auth->getRole($roleName);
+        $action_history = new ActionHistory();
 
         if ($permissions->load(Yii::$app->request->post())) {
             $data = Yii::$app->request->post('AuthItemChild');
@@ -262,9 +298,10 @@ class RolesController extends Controller
                     $auth->removeChild($role, $auth->getPermission($key));
                 }
             }
+            $action_history->ActionHistory('fas fa-pencil-alt bg-blue', 'обновил(а) разрешения для роли', 'roles/view', $model->getId(), $model->description);
             Yii::$app->session->setFlash('success', [
                 'options' => [
-                    'title' => 'Роли обновлены',
+                    'title' => 'Разрешения обновлены',
                     'toast' => true,
                     'position' => 'top-end',
                     'timer' => 5000,
