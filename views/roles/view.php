@@ -99,9 +99,6 @@ $this->params['buttons'] = [
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <th colspan="10" class="text-center">НАВИГАЦИЯ</th>
-                                                    </tr>
-                                                    <tr>
                                                         <th scope="row" class="align-middle">Сотрудники</th>
                                                         <td class="text-center align-middle"><?= $form->field($permissions, 'workerMenu', ['options' => ['tag' => false]])->checkbox(['checked' => $permissions->checked('workerMenu', $roleName)])->label('') ?></td>
                                                         <td class="text-center align-middle"><?= $form->field($permissions, 'workerIndex', ['options' => ['tag' => false]])->checkbox(['checked' => $permissions->checked('workerIndex', $roleName)])->label('') ?></td>
