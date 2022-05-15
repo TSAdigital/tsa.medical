@@ -389,6 +389,70 @@ class m220123_140203_craete_rbac_permission extends Migration
         $vaccineHistory = $auth->createPermission('vaccineHistory');
         $vaccineHistory->description = 'История действий с вакциной';
         $auth->add($vaccineHistory);
+
+        $counterpartyMenu = $auth->createPermission('counterpartyMenu');
+        $counterpartyMenu->description = 'Отображать контрагенты ЮЛ в меню';
+        $auth->add($counterpartyMenu);
+
+        $counterpartyIndex = $auth->createPermission('counterpartyIndex');
+        $counterpartyIndex->description = 'Просмотр списка контрагентов ЮЛ';
+        $auth->add($counterpartyIndex);
+
+        $counterpartyCreate = $auth->createPermission('counterpartyCreate');
+        $counterpartyCreate->description = 'Добавление контрагента ЮЛ';
+        $auth->add($counterpartyCreate);
+
+        $counterpartyView = $auth->createPermission('counterpartyView');
+        $counterpartyView->description = 'Просмотр контрагента ЮЛ';
+        $auth->add($counterpartyView);
+
+        $counterpartyUpdate = $auth->createPermission('counterpartyUpdate');
+        $counterpartyUpdate->description = 'Редактирование контрагента ЮЛ';
+        $auth->add($counterpartyUpdate);
+
+        $counterpartyActive = $auth->createPermission('counterpartyActive');
+        $counterpartyActive->description = 'Активация контрагента ЮЛ';
+        $auth->add($counterpartyActive);
+
+        $counterpartyBlocked = $auth->createPermission('counterpartyBlocked');
+        $counterpartyBlocked->description = 'Аннулирование контрагента ЮЛ';
+        $auth->add($counterpartyBlocked);
+
+        $counterpartyHistory = $auth->createPermission('counterpartyHistory');
+        $counterpartyHistory->description = 'История действий с контрагентом ЮЛ';
+        $auth->add($counterpartyHistory);
+
+        $counterpartyFlMenu = $auth->createPermission('counterpartyFlMenu');
+        $counterpartyFlMenu->description = 'Отображать контрагенты ФЛ в меню';
+        $auth->add($counterpartyFlMenu);
+
+        $counterpartyFlIndex = $auth->createPermission('counterpartyFlIndex');
+        $counterpartyFlIndex->description = 'Просмотр списка контрагентов ФЛ';
+        $auth->add($counterpartyFlIndex);
+
+        $counterpartyFlCreate = $auth->createPermission('counterpartyFlCreate');
+        $counterpartyFlCreate->description = 'Добавление контрагента ФЛ';
+        $auth->add($counterpartyFlCreate);
+
+        $counterpartyFlView = $auth->createPermission('counterpartyFlView');
+        $counterpartyFlView->description = 'Просмотр контрагента ФЛ';
+        $auth->add($counterpartyFlView);
+
+        $counterpartyFlUpdate = $auth->createPermission('counterpartyFlUpdate');
+        $counterpartyFlUpdate->description = 'Редактирование контрагента ФЛ';
+        $auth->add($counterpartyFlUpdate);
+
+        $counterpartyFlActive = $auth->createPermission('counterpartyFlActive');
+        $counterpartyFlActive->description = 'Активация контрагента ФЛ';
+        $auth->add($counterpartyFlActive);
+
+        $counterpartyFlBlocked = $auth->createPermission('counterpartyFlBlocked');
+        $counterpartyFlBlocked->description = 'Аннулирование контрагента ФЛ';
+        $auth->add($counterpartyFlBlocked);
+
+        $counterpartyFlHistory = $auth->createPermission('counterpartyFlHistory');
+        $counterpartyFlHistory->description = 'История действий с контрагентом ФЛ';
+        $auth->add($counterpartyFlHistory);
     }
 
     /**

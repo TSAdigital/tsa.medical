@@ -31,6 +31,41 @@ class DepartmentsController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['departmentIndex'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['departmentCreate'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['departmentView'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['departmentUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked'],
+                        'allow' => true,
+                        'roles' => ['departmentBlocked'],
+                    ],
+                    [
+                        'actions' => ['active'],
+                        'allow' => true,
+                        'roles' => ['departmentActive'],
+                    ],
+                    [
+                        'actions' => ['history'],
+                        'allow' => true,
+                        'roles' => ['departmentHistory'],
+                    ],
                 ],
             ],
             'verbs' => [

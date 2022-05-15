@@ -30,6 +30,11 @@ class ActionHistoryController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['historyIndex'],
+                    ],
                 ],
             ],
         ];

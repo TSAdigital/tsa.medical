@@ -10,7 +10,8 @@ use yii\widgets\Pjax;
 
 $this->title = 'Вакцины';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app'])];
+$disabled_create = (Yii::$app->user->can('vaccineCreate') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle text-success"></i>Добавить', ['create'], ['class' => 'btn btn-app' . $disabled_create])];
 ?>
 <div class="container-fluid">
     <div class="row">
@@ -35,8 +36,7 @@ $this->params['buttons'] = ['create' => Html::a('<i class="fas fa-plus-circle te
                                 'format'=>'raw',
                                 'value' => function($data)
                                 {
-                                    return
-                                        Html::a($data->name, ['vaccines/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']);
+                                    return (Yii::$app->user->can('vaccineView') or Yii::$app->user->can('admin')) ? Html::a($data->name, ['vaccines/view','id'=>$data->id], ['title' => 'View','class'=>'no-pjax']) : $data->name;
                                 }
                             ],
                             [

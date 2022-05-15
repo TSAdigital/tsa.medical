@@ -13,20 +13,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Сотрудники', 'url' => ['
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->getCounterparty_name(), 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Деятельность', 'url' => ['view', 'id' => $model->id, '#' => 'work/']];
 $this->params['breadcrumbs'][] = StringHelper::truncate($work->getPosition_name(), 10, '...');
-$disabled_update = (Yii::$app->user->can('workUpdate') or Yii::$app->user->can('admin')) ?: 'disabled';
-$disabled_block = (Yii::$app->user->can('workBlocked') or Yii::$app->user->can('admin')) ?: 'disabled';
-$disabled_active = (Yii::$app->user->can('workActive') or Yii::$app->user->can('admin')) ?: 'disabled';
+$disabled_update = (Yii::$app->user->can('workUpdate') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_block = (Yii::$app->user->can('workBlocked') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_active = (Yii::$app->user->can('workActive') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
 $this->params['buttons'] = [
-    'update' => $work->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-work', 'id' => $model->id, 'work' => $work->id], ['class' => 'btn btn-app ' . $disabled_update]) : false,
+    'update' => $work->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-work', 'id' => $model->id, 'work' => $work->id], ['class' => 'btn btn-app' . $disabled_update]) : false,
     'block' => $work->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-work', 'id' => $model->id, 'work' => $work->id], [
-        'class' => 'btn btn-app ' . $disabled_block ,
+        'class' => 'btn btn-app' . $disabled_block ,
         'data' => [
             'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $work->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-work', 'id' => $model->id, 'work' => $work->id], [
-        'class' => 'btn btn-app ' . $disabled_active,
+        'class' => 'btn btn-app' . $disabled_active,
         'data' => [
             'confirm' => 'Активировать запись?',
             'method' => 'post',

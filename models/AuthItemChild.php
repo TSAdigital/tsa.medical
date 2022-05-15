@@ -43,7 +43,7 @@ use yii\db\ActiveRecord;
  * @property int $certificateUpdate
  * @property int $certificateActive
  * @property int $certificateBlocked
-
+*
  * @property int $referenceMenu
  * @property int $referenceIndex
  * @property int $referenceCreate
@@ -51,7 +51,7 @@ use yii\db\ActiveRecord;
  * @property int $referenceUpdate
  * @property int $referenceActive
  * @property int $referenceBlocked
-
+*
  * @property int $vaccinationMenu
  * @property int $vaccinationIndex
  * @property int $vaccinationCreate
@@ -59,7 +59,7 @@ use yii\db\ActiveRecord;
  * @property int $vaccinationUpdate
  * @property int $vaccinationActive
  * @property int $vaccinationBlocked
-
+*
  * @property int $fileMenu
  * @property int $fileIndex
  * @property int $fileCreate
@@ -68,6 +68,24 @@ use yii\db\ActiveRecord;
  * @property int $fileActive
  * @property int $fileBlocked
  * @property int $fileDelete
+ *
+ * @property int $counterpartyMenu
+ * @property int $counterpartyIndex
+ * @property int $counterpartyCreate
+ * @property int $counterpartyView
+ * @property int $counterpartyUpdate
+ * @property int $counterpartyActive
+ * @property int $counterpartyBlocked
+ * @property int $counterpartyDelete
+ *
+ * @property int $counterpartyFlMenu
+ * @property int $counterpartyFlIndex
+ * @property int $counterpartyFlCreate
+ * @property int $counterpartyFlView
+ * @property int $counterpartyFlUpdate
+ * @property int $counterpartyFlActive
+ * @property int $counterpartyFlBlocked
+ * @property int $counterpartyFlDelete
  *
  * @property AuthItem $child0
  * @property AuthItem $parent0
@@ -153,6 +171,51 @@ class AuthItemChild extends ActiveRecord
     public $divisionActive;
     public $divisionBlocked;
     public $divisionHistory;
+
+    public $specializationMenu;
+    public $specializationIndex;
+    public $specializationCreate;
+    public $specializationView;
+    public $specializationUpdate;
+    public $specializationActive;
+    public $specializationBlocked;
+    public $specializationHistory;
+
+    public $referenceTypeMenu;
+    public $referenceTypeIndex;
+    public $referenceTypeCreate;
+    public $referenceTypeView;
+    public $referenceTypeUpdate;
+    public $referenceTypeActive;
+    public $referenceTypeBlocked;
+    public $referenceTypeHistory;
+
+    public $vaccineMenu;
+    public $vaccineIndex;
+    public $vaccineCreate;
+    public $vaccineView;
+    public $vaccineUpdate;
+    public $vaccineActive;
+    public $vaccineBlocked;
+    public $vaccineHistory;
+
+    public $counterpartyMenu;
+    public $counterpartyIndex;
+    public $counterpartyCreate;
+    public $counterpartyView;
+    public $counterpartyUpdate;
+    public $counterpartyActive;
+    public $counterpartyBlocked;
+    public $counterpartyHistory;
+
+    public $counterpartyFlMenu;
+    public $counterpartyFlIndex;
+    public $counterpartyFlCreate;
+    public $counterpartyFlView;
+    public $counterpartyFlUpdate;
+    public $counterpartyFlActive;
+    public $counterpartyFlBlocked;
+    public $counterpartyFlHistory;
     /**
      * {@inheritdoc}
      */
@@ -182,6 +245,11 @@ class AuthItemChild extends ActiveRecord
             [['historyMenu', 'historyIndex'], 'integer'],
             [['departmentIndex', 'departmentMenu', 'departmentCreate', 'departmentView', 'departmentUpdate', 'departmentActive', 'departmentBlocked', 'departmentHistory'], 'integer'],
             [['divisionIndex', 'divisionMenu', 'divisionCreate', 'divisionView', 'divisionUpdate', 'divisionActive', 'divisionBlocked', 'divisionHistory'], 'integer'],
+            [['specializationIndex', 'specializationMenu', 'specializationCreate', 'specializationView', 'specializationUpdate', 'specializationActive', 'specializationBlocked', 'specializationHistory'], 'integer'],
+            [['referenceTypeIndex', 'referenceTypeMenu', 'referenceTypeCreate', 'referenceTypeView', 'referenceTypeUpdate', 'referenceTypeActive', 'referenceTypeBlocked', 'referenceTypeHistory'], 'integer'],
+            [['vaccineIndex', 'vaccineMenu', 'vaccineCreate', 'vaccineView', 'vaccineUpdate', 'vaccineActive', 'vaccineBlocked', 'vaccineHistory'], 'integer'],
+            [['counterpartyIndex', 'counterpartyMenu', 'counterpartyCreate', 'counterpartyView', 'counterpartyUpdate', 'counterpartyActive', 'counterpartyBlocked', 'counterpartyHistory'], 'integer'],
+            [['counterpartyFlIndex', 'counterpartyFlMenu', 'counterpartyFlCreate', 'counterpartyFlView', 'counterpartyFlUpdate', 'counterpartyFlActive', 'counterpartyFlBlocked', 'counterpartyFlHistory'], 'integer'],
         ];
     }
 

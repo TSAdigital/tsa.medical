@@ -73,8 +73,8 @@ $this->params['buttons'] = [
                                         <th scope="col">Раздел</th>
                                         <th scope="col" class="text-center">Меню</th>
                                         <th scope="col" class="text-center">Список</th>
-                                        <th scope="col" class="text-center">Добавлять</th>
-                                        <th scope="col" class="text-center">Просмотривать</th>
+                                        <th scope="col" class="text-center">Добавить</th>
+                                        <th scope="col" class="text-center">Просмотр</th>
                                         <th scope="col" class="text-center">Редактировать</th>
                                         <th scope="col" class="text-center">Активировать</th>
                                         <th scope="col" class="text-center">Аннулировать</th>
@@ -199,14 +199,14 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Контрагенты ЮЛ</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
@@ -235,14 +235,14 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Контрагенты ФЛ</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
@@ -283,38 +283,38 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Специальности</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'specializationHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('specializationHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Справки</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'referenceTypeHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('referenceTypeHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="align-middle">Вакцины</th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineBlocked', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'vaccineHistory', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('vaccineHistory', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     </tbody>
