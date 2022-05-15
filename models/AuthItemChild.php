@@ -323,6 +323,6 @@ class AuthItemChild extends ActiveRecord
 
     public function checked($key, $roleName)
     {
-        return !empty($this->find()->where(['child' => $key])->andWhere(['parent' => $roleName])->all());
+        return !empty($this->find()->where(['child' => $key])->andWhere(['parent' => $roleName])->one());
     }
 }
