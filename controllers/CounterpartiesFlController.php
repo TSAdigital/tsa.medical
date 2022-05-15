@@ -34,6 +34,93 @@ class CounterpartiesFlController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlIndex'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlCreate'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlView'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlBlocked'],
+                    ],
+                    [
+                        'actions' => ['active'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlActive'],
+                    ],
+                    [
+                        'actions' => ['history'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlHistory'],
+                    ],
+
+                    [
+                        'actions' => ['create-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlAddressCreate'],
+                    ],
+                    [
+                        'actions' => ['view-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlAddressView'],
+                    ],
+                    [
+                        'actions' => ['update-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlAddressUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlAddressBlocked'],
+                    ],
+                    [
+                        'actions' => ['active-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlAddressActive'],
+                    ],
+
+                    [
+                        'actions' => ['create-passport'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlPassportCreate'],
+                    ],
+                    [
+                        'actions' => ['view-passport'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlPassportView'],
+                    ],
+                    [
+                        'actions' => ['update-passport'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlPassportUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked-passport'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlPassportBlocked'],
+                    ],
+                    [
+                        'actions' => ['active-passport'],
+                        'allow' => true,
+                        'roles' => ['counterpartyFlPassportActive'],
+                    ],
                 ],
             ],
             'verbs' => [

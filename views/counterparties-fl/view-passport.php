@@ -13,17 +13,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ФЛ', 'url
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->last_name . ' ' . $model->first_name . ' ' . $model->middle_name, 30, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Паспорт', 'url' => ['view', 'id' => $model->id, '#' => 'passport/']];
 $this->params['breadcrumbs'][] = $passport->passport_serial . ' ' . $passport->passport_number;
+$disabled_update = (Yii::$app->user->can('counterpartyFlPassportUpdate') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_block = (Yii::$app->user->can('counterpartyFlPassportBlocked') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_active = (Yii::$app->user->can('counterpartyFlPassportActive') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
 $this->params['buttons'] = [
-    'update' => $passport->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-passport', 'id' => $model->id, 'passport' => $passport->id], ['class' => 'btn btn-app']) : false,
+    'update' => $passport->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-passport', 'id' => $model->id, 'passport' => $passport->id], ['class' => 'btn btn-app' . $disabled_update]) : false,
     'block' => $passport->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-passport', 'id' => $model->id, 'passport' => $passport->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app' . $disabled_block,
         'data' => [
             'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $passport->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-passport', 'id' => $model->id, 'passport' => $passport->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app' . $disabled_active,
         'data' => [
             'confirm' => 'Активировать запись?',
             'method' => 'post',

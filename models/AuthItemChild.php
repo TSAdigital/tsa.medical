@@ -208,6 +208,22 @@ class AuthItemChild extends ActiveRecord
     public $counterpartyBlocked;
     public $counterpartyHistory;
 
+    public $counterpartyAddressMenu;
+    public $counterpartyAddressIndex;
+    public $counterpartyAddressCreate;
+    public $counterpartyAddressView;
+    public $counterpartyAddressUpdate;
+    public $counterpartyAddressActive;
+    public $counterpartyAddressBlocked;
+
+    public $counterpartyContactMenu;
+    public $counterpartyContactIndex;
+    public $counterpartyContactCreate;
+    public $counterpartyContactView;
+    public $counterpartyContactUpdate;
+    public $counterpartyContactActive;
+    public $counterpartyContactBlocked;
+
     public $counterpartyFlMenu;
     public $counterpartyFlIndex;
     public $counterpartyFlCreate;
@@ -216,6 +232,23 @@ class AuthItemChild extends ActiveRecord
     public $counterpartyFlActive;
     public $counterpartyFlBlocked;
     public $counterpartyFlHistory;
+
+    public $counterpartyFlPassportMenu;
+    public $counterpartyFlPassportIndex;
+    public $counterpartyFlPassportCreate;
+    public $counterpartyFlPassportView;
+    public $counterpartyFlPassportUpdate;
+    public $counterpartyFlPassportActive;
+    public $counterpartyFlPassportBlocked;
+
+    public $counterpartyFlAddressMenu;
+    public $counterpartyFlAddressIndex;
+    public $counterpartyFlAddressCreate;
+    public $counterpartyFlAddressView;
+    public $counterpartyFlAddressUpdate;
+    public $counterpartyFlAddressActive;
+    public $counterpartyFlAddressBlocked;
+
     /**
      * {@inheritdoc}
      */
@@ -249,7 +282,11 @@ class AuthItemChild extends ActiveRecord
             [['referenceTypeIndex', 'referenceTypeMenu', 'referenceTypeCreate', 'referenceTypeView', 'referenceTypeUpdate', 'referenceTypeActive', 'referenceTypeBlocked', 'referenceTypeHistory'], 'integer'],
             [['vaccineIndex', 'vaccineMenu', 'vaccineCreate', 'vaccineView', 'vaccineUpdate', 'vaccineActive', 'vaccineBlocked', 'vaccineHistory'], 'integer'],
             [['counterpartyIndex', 'counterpartyMenu', 'counterpartyCreate', 'counterpartyView', 'counterpartyUpdate', 'counterpartyActive', 'counterpartyBlocked', 'counterpartyHistory'], 'integer'],
+            [['counterpartyAddressIndex', 'counterpartyAddressMenu', 'counterpartyAddressCreate', 'counterpartyAddressView', 'counterpartyAddressUpdate', 'counterpartyAddressActive', 'counterpartyAddressBlocked'], 'integer'],
+            [['counterpartyContactIndex', 'counterpartyContactMenu', 'counterpartyContactCreate', 'counterpartyContactView', 'counterpartyContactUpdate', 'counterpartyContactActive', 'counterpartyContactBlocked'], 'integer'],
             [['counterpartyFlIndex', 'counterpartyFlMenu', 'counterpartyFlCreate', 'counterpartyFlView', 'counterpartyFlUpdate', 'counterpartyFlActive', 'counterpartyFlBlocked', 'counterpartyFlHistory'], 'integer'],
+            [['counterpartyFlPassportIndex', 'counterpartyFlPassportMenu', 'counterpartyFlPassportCreate', 'counterpartyFlPassportView', 'counterpartyFlPassportUpdate', 'counterpartyFlPassportActive', 'counterpartyFlPassportBlocked'], 'integer'],
+            [['counterpartyFlAddressIndex', 'counterpartyFlAddressMenu', 'counterpartyFlAddressCreate', 'counterpartyFlAddressView', 'counterpartyFlAddressUpdate', 'counterpartyFlAddressActive', 'counterpartyFlAddressBlocked'], 'integer'],
         ];
     }
 

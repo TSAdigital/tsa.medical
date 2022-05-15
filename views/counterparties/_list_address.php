@@ -21,6 +21,6 @@ $model->status === 10 ? $class = 'success' : $class = 'danger';
     <td class="align-middle d-none"><?= $model->building ?></td>
     <td class="text-center align-middle"><?= Html::tag('span', Html::encode($model->getStatusName()), ['class' => 'badge badge-' . $class]) ?></td>
     <td class="text-center align-middle">
-        <?= Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-address', 'id'=> $counterparty->id, 'address' => $model->id]) ?>
+        <?= (Yii::$app->user->can('counterpartyAddressView') or Yii::$app->user->can('admin')) ? Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-address', 'id'=> $counterparty->id, 'address' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-sign-in-alt text-muted"></i>', ['view-address', 'id'=> $counterparty->id, 'address' => $model->id], ['class' => 'btn disabled m-0 p-0']) ?>
     </td>
 </tr>

@@ -13,17 +13,20 @@ $this->params['breadcrumbs'][] = ['label' => 'Контрагенты ЮЛ', 'url
 $this->params['breadcrumbs'][] = ['label' => StringHelper::truncate($model->name, 15, '...'), 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = ['label' => 'Контакты', 'url' => ['view', 'id' => $model->id, '#' => 'contact']];
 $this->params['breadcrumbs'][] = StringHelper::truncate($contact->name, 20, '...');
+$disabled_update = (Yii::$app->user->can('counterpartyContactUpdate') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_block = (Yii::$app->user->can('counterpartyContactBlocked') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
+$disabled_active = (Yii::$app->user->can('counterpartyContactActive') or Yii::$app->user->can('admin')) ? NULL : ' disabled';
 $this->params['buttons'] = [
-    'update' => $contact->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-contact', 'id' => $model->id, 'contact' => $contact->id], ['class' => 'btn btn-app']) : false,
+    'update' => $contact->status == 10 ? Html::a('<i class="fas fa-edit text-primary"></i>Редактировать', ['update-contact', 'id' => $model->id, 'contact' => $contact->id], ['class' => 'btn btn-app' . $disabled_update]) : false,
     'block' => $contact->status == 10 ? Html::a('<i class="fas fa-ban text-danger"></i>Аннулировать', ['blocked-contact', 'id' => $model->id, 'contact' => $contact->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app' . $disabled_block,
         'data' => [
             'confirm' => 'Аннулировать запись?',
             'method' => 'post',
         ],
     ]) : false,
     'active' => $contact->status == 9 ? Html::a('<i class="far fa-check-circle text-success"></i>Активировать', ['active-contact', 'id' => $model->id, 'contact' => $contact->id], [
-        'class' => 'btn btn-app',
+        'class' => 'btn btn-app' . $disabled_active,
         'data' => [
             'confirm' => 'Активировать запись?',
             'method' => 'post',

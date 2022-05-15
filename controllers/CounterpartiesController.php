@@ -34,6 +34,93 @@ class CounterpartiesController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
+                    [
+                        'actions' => ['index'],
+                        'allow' => true,
+                        'roles' => ['counterpartyIndex'],
+                    ],
+                    [
+                        'actions' => ['create'],
+                        'allow' => true,
+                        'roles' => ['counterpartyCreate'],
+                    ],
+                    [
+                        'actions' => ['view'],
+                        'allow' => true,
+                        'roles' => ['counterpartyView'],
+                    ],
+                    [
+                        'actions' => ['update'],
+                        'allow' => true,
+                        'roles' => ['counterpartyUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked'],
+                        'allow' => true,
+                        'roles' => ['counterpartyBlocked'],
+                    ],
+                    [
+                        'actions' => ['active'],
+                        'allow' => true,
+                        'roles' => ['counterpartyActive'],
+                    ],
+                    [
+                        'actions' => ['history'],
+                        'allow' => true,
+                        'roles' => ['counterpartyHistory'],
+                    ],
+
+                    [
+                        'actions' => ['create-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyAddressCreate'],
+                    ],
+                    [
+                        'actions' => ['view-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyAddressView'],
+                    ],
+                    [
+                        'actions' => ['update-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyAddressUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyAddressBlocked'],
+                    ],
+                    [
+                        'actions' => ['active-address'],
+                        'allow' => true,
+                        'roles' => ['counterpartyAddressActive'],
+                    ],
+
+                    [
+                        'actions' => ['create-contact'],
+                        'allow' => true,
+                        'roles' => ['counterpartyContactCreate'],
+                    ],
+                    [
+                        'actions' => ['view-contact'],
+                        'allow' => true,
+                        'roles' => ['counterpartyContactView'],
+                    ],
+                    [
+                        'actions' => ['update-contact'],
+                        'allow' => true,
+                        'roles' => ['counterpartyContactUpdate'],
+                    ],
+                    [
+                        'actions' => ['blocked-contact'],
+                        'allow' => true,
+                        'roles' => ['counterpartyContactBlocked'],
+                    ],
+                    [
+                        'actions' => ['active-contact'],
+                        'allow' => true,
+                        'roles' => ['counterpartyContactActive'],
+                    ],
                 ],
             ],
             'verbs' => [

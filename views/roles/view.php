@@ -211,25 +211,25 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th class="align-middle text-right "><em><small>Адреса</small></em></th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyAddressBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyAddressBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th class="align-middle text-right "><em><small>Контакты</small></em></th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyContactBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyContactBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
@@ -247,25 +247,25 @@ $this->params['buttons'] = [
                                     </tr>
                                     <tr>
                                         <th class="align-middle text-right "><em><small>Паспорт</small></em></th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlPassportBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlPassportBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>
                                     <tr>
                                         <th class="align-middle text-right "><em><small>Адреса</small></em></th>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
-                                        <td class="text-center align-middle">1</td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressMenu', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressMenu', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressIndex', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressIndex', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressCreate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressCreate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressView', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressView', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressUpdate', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressUpdate', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressActive', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressActive', $roleName)])->label('') ?></td>
+                                        <td class="text-center align-middle"><?= $form->field($permissions, 'counterpartyFlAddressBlocked', ['options' => ['tag' => false]])->checkbox(['checked'=> $permissions->checked('counterpartyFlAddressBlocked', $roleName)])->label('') ?></td>
                                         <td class="text-center align-middle"></td>
                                         <td class="text-center align-middle"></td>
                                     </tr>

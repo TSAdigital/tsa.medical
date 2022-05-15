@@ -48,7 +48,7 @@ class ActionHistoryController extends Controller
     {
         $role = ArrayHelper::getColumn(Yii::$app->authManager->getRolesByUser(Yii::$app->user->identity->id), 'name');
         $role = array_shift($role);
-        if($role === 'user'){
+        if($role !== 'admin'){
             $query = ActionHistory::find()
                 ->leftJoin('auth_assignment', 'action_history.user = auth_assignment.user_id')
                 ->where(['auth_assignment.item_name' => $role])->orderBy('created_at DESC');

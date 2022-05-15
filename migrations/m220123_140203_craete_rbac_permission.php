@@ -422,6 +422,62 @@ class m220123_140203_craete_rbac_permission extends Migration
         $counterpartyHistory->description = 'История действий с контрагентом ЮЛ';
         $auth->add($counterpartyHistory);
 
+        $counterpartyAddressMenu = $auth->createPermission('counterpartyAddressMenu');
+        $counterpartyAddressMenu->description = 'Отображать вкладку адреса у контрагента ЮЛ';
+        $auth->add($counterpartyAddressMenu);
+
+        $counterpartyAddressIndex = $auth->createPermission('counterpartyAddressIndex');
+        $counterpartyAddressIndex->description = 'Просмотр списка адресов у контрагента ЮЛ';
+        $auth->add($counterpartyAddressIndex);
+
+        $counterpartyAddressCreate = $auth->createPermission('counterpartyAddressCreate');
+        $counterpartyAddressCreate->description = 'Добавить адрес контрагенту ЮЛ';
+        $auth->add($counterpartyAddressCreate);
+
+        $counterpartyAddressView = $auth->createPermission('counterpartyAddressView');
+        $counterpartyAddressView->description = 'Просмотр адреса у контрагента ЮЛ';
+        $auth->add($counterpartyAddressView);
+
+        $counterpartyAddressUpdate = $auth->createPermission('counterpartyAddressUpdate');
+        $counterpartyAddressUpdate->description = 'Редактирование адреса у контрагента ЮЛ';
+        $auth->add($counterpartyAddressUpdate);
+
+        $counterpartyAddressActive = $auth->createPermission('counterpartyAddressActive');
+        $counterpartyAddressActive->description = 'Активация адреса у контрагента ЮЛ';
+        $auth->add($counterpartyAddressActive);
+
+        $counterpartyAddressBlocked = $auth->createPermission('counterpartyAddressBlocked');
+        $counterpartyAddressBlocked->description = 'Аннулирование адреса у контрагента ЮЛ';
+        $auth->add($counterpartyAddressBlocked);
+
+        $counterpartyContactMenu = $auth->createPermission('counterpartyContactMenu');
+        $counterpartyContactMenu->description = 'Отображать вкладку контакты у контрагента ЮЛ';
+        $auth->add($counterpartyContactMenu);
+
+        $counterpartyContactIndex = $auth->createPermission('counterpartyContactIndex');
+        $counterpartyContactIndex->description = 'Просмотр списка контактов у контрагента ЮЛ';
+        $auth->add($counterpartyContactIndex);
+
+        $counterpartyContactCreate = $auth->createPermission('counterpartyContactCreate');
+        $counterpartyContactCreate->description = 'Добавить контакт контрагенту ЮЛ';
+        $auth->add($counterpartyContactCreate);
+
+        $counterpartyContactView = $auth->createPermission('counterpartyContactView');
+        $counterpartyContactView->description = 'Просмотр контакта у контрагента ЮЛ';
+        $auth->add($counterpartyContactView);
+
+        $counterpartyContactUpdate = $auth->createPermission('counterpartyContactUpdate');
+        $counterpartyContactUpdate->description = 'Редактирование контакта у контрагента ЮЛ';
+        $auth->add($counterpartyContactUpdate);
+
+        $counterpartyContactActive = $auth->createPermission('counterpartyContactActive');
+        $counterpartyContactActive->description = 'Активация контакта у контрагента ЮЛ';
+        $auth->add($counterpartyContactActive);
+
+        $counterpartyContactBlocked = $auth->createPermission('counterpartyContactBlocked');
+        $counterpartyContactBlocked->description = 'Аннулирование контакта у контрагента ЮЛ';
+        $auth->add($counterpartyContactBlocked);
+
         $counterpartyFlMenu = $auth->createPermission('counterpartyFlMenu');
         $counterpartyFlMenu->description = 'Отображать контрагенты ФЛ в меню';
         $auth->add($counterpartyFlMenu);
@@ -453,6 +509,62 @@ class m220123_140203_craete_rbac_permission extends Migration
         $counterpartyFlHistory = $auth->createPermission('counterpartyFlHistory');
         $counterpartyFlHistory->description = 'История действий с контрагентом ФЛ';
         $auth->add($counterpartyFlHistory);
+
+        $counterpartyFlPassportMenu = $auth->createPermission('counterpartyFlPassportMenu');
+        $counterpartyFlPassportMenu->description = 'Отображать вкладку паспорт у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportMenu);
+
+        $counterpartyFlPassportIndex = $auth->createPermission('counterpartyFlPassportIndex');
+        $counterpartyFlPassportIndex->description = 'Просмотр списка паспортов у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportIndex);
+
+        $counterpartyFlPassportCreate = $auth->createPermission('counterpartyFlPassportCreate');
+        $counterpartyFlPassportCreate->description = 'Добавить паспорт контрагенту ФЛ';
+        $auth->add($counterpartyFlPassportCreate);
+
+        $counterpartyFlPassportView = $auth->createPermission('counterpartyFlPassportView');
+        $counterpartyFlPassportView->description = 'Просмотр паспорта у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportView);
+
+        $counterpartyFlPassportUpdate = $auth->createPermission('counterpartyFlPassportUpdate');
+        $counterpartyFlPassportUpdate->description = 'Редактирование паспорта у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportUpdate);
+
+        $counterpartyFlPassportActive = $auth->createPermission('counterpartyFlPassportActive');
+        $counterpartyFlPassportActive->description = 'Активация паспорта у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportActive);
+
+        $counterpartyFlPassportBlocked = $auth->createPermission('counterpartyFlPassportBlocked');
+        $counterpartyFlPassportBlocked->description = 'Аннулирование паспорта у контрагента ФЛ';
+        $auth->add($counterpartyFlPassportBlocked);
+
+        $counterpartyFlAddressMenu = $auth->createPermission('counterpartyFlAddressMenu');
+        $counterpartyFlAddressMenu->description = 'Отображать вкладку адреса у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressMenu);
+
+        $counterpartyFlAddressIndex = $auth->createPermission('counterpartyFlAddressIndex');
+        $counterpartyFlAddressIndex->description = 'Просмотр списка адресов у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressIndex);
+
+        $counterpartyFlAddressCreate = $auth->createPermission('counterpartyFlAddressCreate');
+        $counterpartyFlAddressCreate->description = 'Добавить адрес контрагенту ФЛ';
+        $auth->add($counterpartyFlAddressCreate);
+
+        $counterpartyFlAddressView = $auth->createPermission('counterpartyFlAddressView');
+        $counterpartyFlAddressView->description = 'Просмотр адреса у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressView);
+
+        $counterpartyFlAddressUpdate = $auth->createPermission('counterpartyFlAddressUpdate');
+        $counterpartyFlAddressUpdate->description = 'Редактирование адреса у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressUpdate);
+
+        $counterpartyFlAddressActive = $auth->createPermission('counterpartyFlAddressActive');
+        $counterpartyFlAddressActive->description = 'Активация адреса у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressActive);
+
+        $counterpartyFlAddressBlocked = $auth->createPermission('counterpartyFlAddressBlocked');
+        $counterpartyFlAddressBlocked->description = 'Аннулирование адреса у контрагента ФЛ';
+        $auth->add($counterpartyFlAddressBlocked);
     }
 
     /**

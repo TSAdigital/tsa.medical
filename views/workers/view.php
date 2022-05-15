@@ -108,7 +108,7 @@ $this->params['buttons'] = [
                             <div class="table-responsive">
                                 <?php
                                 if(Yii::$app->user->can('workIndex') or Yii::$app->user->can('admin')) :
-                                $button_add_passport = ($model->status == 10 and (Yii::$app->user->can('workCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
+                                $button_add_work = ($model->status == 10 and (Yii::$app->user->can('workCreate') or Yii::$app->user->can('admin'))) ? Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn m-0 p-0']) : Html::a('<i class="fas fa-plus-circle text-success"></i>', ['create-work', 'id' => $model->id], ['class' => 'btn disabled m-0 p-0']);
                                 $template = '
                                         <table class="table table-bordered table-striped">
                                             <thead>
@@ -118,7 +118,7 @@ $this->params['buttons'] = [
                                                 <th scope="col" class="align-middle">Должность</th>
                                                 <th scope="col" class="text-center align-middle">Ставка</th>
                                                 <th scope="col" class="text-center align-middle">Статус</th>
-                                                <th scope="col" class="text-center align-middle">'. $button_add_passport .'</th>
+                                                <th scope="col" class="text-center align-middle">'. $button_add_work .'</th>
                                             </tr>      
                                             </thead>
                                             <tbody>
